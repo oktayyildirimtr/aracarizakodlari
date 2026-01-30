@@ -4,4 +4,4 @@ dist/
 .env
 .env.*
 *.db
-!.gitkeep
+!data/ariza.db

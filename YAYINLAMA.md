@@ -44,10 +44,10 @@ npm run db:reset
 **Tüm OBD-II kodlarıyla, en çok aranan 30’u sitede göstermek için:**
 
 ```bash
-npm run fetch-dtcmapping    # İsteğe bağlı: daha iyi açıklamalar için
-npm run db:reset
-npm run db:seed-all
-npm run db:set-top-codes
+npm run fetch-dtcmapping    # İsteğe bağlı
+npm run db:prepare          # Veritabanı oluşturur
+git add data/ariza.db
+git commit -m "Veritabanı eklendi (Cloudflare için)"
 ```
 
 ---
@@ -102,9 +102,9 @@ git push -u origin main
 3. GitHub’dan `arizakodlari` reposunu seç.
 4. **Build ayarları:**
    - **Framework preset:** None
-   - **Build command:**
+   - **Build command:** (veritabanı repoda olduğu için sadece build yeterli)
      ```bash
-     npm run db:reset && npm run db:seed-all && npm run db:set-top-codes && npm run build
+     npm run build
      ```
    - **Build output directory:** `dist`
    - **Root directory:** (boş bırak)
@@ -131,10 +131,10 @@ git push -u origin main
 |------|--------|
 | 1 | `cd ~/Desktop/arizakodlariprojem` |
 | 2 | `npm install` |
-| 3 | `npm run db:reset` |
-| 4 | `npm run db:seed-all` |
-| 5 | `npm run db:set-top-codes` |
-| 6 | `npm run build` |
+| 3 | `npm run fetch-dtcmapping` (isteğe bağlı) |
+| 4 | `npm run db:prepare` |
+| 5 | `git add data/ariza.db && git commit -m "Veritabanı eklendi"` |
+| 6 | `npm run build` (yerelde test) |
 | 7 | GitHub’a push |
 | 8 | Cloudflare Pages’e bağla ve deploy et |
 
@@ -142,7 +142,7 @@ git push -u origin main
 
 ## Sorun Çıkarsa
 
-- **"unable to open database file":** Veritabanı yolları `process.cwd()` ile ayarlandı; Cloudflare build ortamıyla uyumlu olmalı. Hata sürerse Cloudflare’de **Root directory** boş bırakıldığından ve **Build command**’ın proje kökünde çalıştığından emin ol.
+- **"unable to open database file":** Veritabanı repoda olmalı. Build command sadece `npm run build` olsun. Yerelde `npm run db:prepare` yapıp `data/ariza.db` commit et. Veritabanı yolları `process.cwd()` ile ayarlandı; Cloudflare build ortamıyla uyumlu olmalı. Hata sürerse Cloudflare’de **Root directory** boş bırakıldığından ve **Build command**’ın proje kökünde çalıştığından emin ol.
 - **Build hatası:** `better-sqlite3` hatası alırsan Node 20 kullandığından emin ol; Cloudflare’de `NODE_VERSION=20` ayarlı olsun.
 - **Sayfa bulunamadı:** `dist` klasörü doğru publish edildiyse sorun olmaz; Cloudflare’de **Build output directory** `dist` olmalı.
 - **Domain açılmıyor:** DNS propagasyonu 24–48 saat sürebilir; Cloudflare durumunu kontrol et.

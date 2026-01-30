@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && node scripts/generate-sitemap.js",
+    "db:prepare": "npm run db:reset && npm run db:seed-all && npm run db:set-top-codes",
     "preview": "astro preview",
     "db:init": "node scripts/db-init.js",
     "db:seed": "node scripts/db-seed.js",
