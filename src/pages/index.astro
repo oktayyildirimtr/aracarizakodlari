@@ -1,0 +1,45 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { getIndexedFaultCodes } from '@lib/db';
+import { faultCodeSlug } from '@lib/slugs';
+import { SITE_NAME, SITE_URL } from '@lib/seo';
+
+const allCodes = getIndexedFaultCodes();
+const codes = allCodes.slice(0, 24);
+---
+
+<Layout
+  title={SITE_NAME}
+  description="OBD-II arıza kodları ne anlama gelir? Hangi araçlarda görülür. Türkiye için tahmini onarım maliyetleri ve uzman görüşleri."
+  canonical={`${SITE_URL}/`}
+>
+  <div class="wrap">
+    <article class="home-hero">
+      <h1 class="home-hero__title">OBD-II Arıza Kodları Rehberi</h1>
+      <p class="home-hero__lead">
+        Motor arıza lambası yandığında okunan OBD-II kodları neye işaret eder, hangi araçlarda görülür?
+        Bu sitede kod bazlı Türkçe açıklamalar ve Türkiye için tahmini onarım maliyetlerini bulabilirsiniz.
+      </p>
+      <p class="home-hero__lead">
+        İçerikler yalnızca bilgilendirme içindir; teşhis ve onarım için mutlaka yetkili servise gidin.
+      </p>
+      <form class="home-search" action="/kodlar" method="get" role="search" aria-label="Arıza kodu ara">
+        <input type="search" name="q" placeholder="Kod veya anahtar kelime (örn. P0171)" />
+        <button type="submit">Ara</button>
+      </form>
+    </article>
+
+    <section class="home-code-list">
+      <h2 class="home-code-list__title">Arıza kodları</h2>
+      <p><a href="/kodlar">Tüm kodları listele ve ara</a> · Aşağıda örnekler:</p>
+      <div class="home-code-list__grid">
+        {codes.map((fc) => (
+          <a href={faultCodeSlug(fc.code)}>{fc.code}</a>
+        ))}
+      </div>
+      {allCodes.length > codes.length && (
+        <p class="home-code-list__more"><a href="/kodlar">+{allCodes.length - codes.length} kod daha → Tüm kodlar</a></p>
+      )}
+    </section>
+  </div>
+</Layout>

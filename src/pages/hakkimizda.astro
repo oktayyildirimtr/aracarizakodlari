@@ -1,0 +1,35 @@
+---
+import Layout from '@layouts/Layout.astro';
+import AuthorBio from '@components/AuthorBio.astro';
+import { SITE_URL } from '@lib/seo';
+---
+
+<Layout
+  title="Hakkımızda"
+  description="OBD-II Arıza Kodları sitesi hakkında. Türkçe arıza kodu rehberi, amaç ve bilgilendirme notları."
+  canonical={`${SITE_URL}/hakkimizda`}
+>
+  <div class="wrap">
+    <article class="static-page">
+      <h1 class="static-page__title">Hakkımızda</h1>
+      <div class="static-page__prose">
+        <p>
+          <strong>OBD-II Arıza Kodları</strong>, teşhis cihazı veya OBD-II okuyucuyla okunan arıza kodlarının Türkçe karşılığını ve kısa açıklamalarını sunan bir rehber sitedir.
+        </p>
+        <h2>Amacımız</h2>
+        <p>
+          Sürücü ve tamirci adaylarının P0xxx vb. yaygın kodların neye işaret ettiğini hızlıca görmesini sağlamak. Metinler yalnızca bilgilendirme içindir; profesyonel teşhis, tamir veya muayenenin yerini almaz.
+        </p>
+        <h2>İçerik</h2>
+        <p>
+          Her kod için anlam, hangi araçlarda görüldüğü ve Türkiye için tahmini onarım maliyeti var. Açıklamalar SAE/ISO uyumlu resmi tanımlarla destekleniyor. Kesin teşhis ve onarım için mutlaka yetkili servise gidin.
+        </p>
+        <h2>İletişim</h2>
+        <p>
+          Öneri, düzeltme veya iş birliği için <a href="/iletisim">İletişim</a> sayfasından bize yazabilirsiniz.
+        </p>
+      </div>
+    </article>
+    <AuthorBio />
+  </div>
+</Layout>

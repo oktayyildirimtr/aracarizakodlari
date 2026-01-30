@@ -1,0 +1,83 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  noindex?: boolean;
+  faq?: { question_tr: string; answer_tr: string }[];
+}
+const { title, description, canonical, noindex = false, faq = [] } = Astro.props;
+import { SITE_URL, SITE_NAME, buildMeta, faqSchema, siteSchema } from '@lib/seo';
+import CookieConsent from '@components/CookieConsent.astro';
+import '../styles/global.css';
+
+const meta = buildMeta({
+  title: title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`,
+  description,
+  canonical: canonical ?? undefined,
+  noindex,
+});
+const schema = faqSchema(faq);
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={meta.canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={meta.canonical} />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    {meta.noindex && <meta name="robots" content="noindex, nofollow" />}
+    <script type="application/ld+json" set:html={JSON.stringify(siteSchema())} />
+    {schema && (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    )}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">İçeriğe atla</a>
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <p class="site-header__title">
+          <a href="/">{SITE_NAME}</a>
+        </p>
+        <nav class="site-header__nav" aria-label="Ana menü">
+          <a href="/">Ana sayfa</a>
+          <a href="/kodlar">Tüm kodlar</a>
+          <a href="/hakkimizda">Hakkımızda</a>
+          <a href="/iletisim">İletişim</a>
+        </nav>
+      </div>
+    </header>
+    <main class="main" id="main-content">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p class="site-footer__copy">
+          OBD-II arıza kodları hakkında bilgilendirme amaçlı içerikler. Profesyonel teşhis yerine geçmez.
+        </p>
+        <nav class="site-footer__nav" aria-label="Alt menü">
+          <a href="/">Ana sayfa</a>
+          <a href="/kodlar">Tüm kodlar</a>
+          <a href="/hakkimizda">Hakkımızda</a>
+          <a href="/gizlilik-politikasi">Gizlilik politikası</a>
+          <a href="/cerez-bildirimi">Çerez bildirimi</a>
+          <a href="/iletisim">İletişim</a>
+        </nav>
+      </div>
+    </footer>
+    <CookieConsent />
+  </body>
+</html>

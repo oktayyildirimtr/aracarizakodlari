@@ -1,0 +1,29 @@
+{
+  "name": "ariza-kodlari",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/generate-sitemap.js",
+    "preview": "astro preview",
+    "db:init": "node scripts/db-init.js",
+    "db:seed": "node scripts/db-seed.js",
+    "db:reset": "node scripts/db-reset.js",
+    "db:migrate": "node scripts/db-migrate.js",
+    "db:seed-all": "node scripts/db-seed-all.js",
+    "db:set-top-codes": "node scripts/db-set-top-codes.js",
+    "fetch-dtcmapping": "node scripts/fetch-dtcmapping.js",
+    "add-fault-code": "node scripts/add-fault-code.js"
+  },
+  "dependencies": {
+    "astro": "^4.16.0",
+    "better-sqlite3": "^11.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

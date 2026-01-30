@@ -1,0 +1,93 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { getIndexedFaultCodes } from '@lib/db';
+import { faultCodeSlug } from '@lib/slugs';
+import { SITE_URL } from '@lib/seo';
+
+const codes = getIndexedFaultCodes();
+const categories = [...new Set(codes.map((c) => c.category).filter(Boolean))].sort();
+---
+
+<Layout
+  title="Tüm arıza kodları"
+  description="OBD-II arıza kodları listesi. Koda veya kategoriye göre arayıp detay sayfasına gidebilirsiniz."
+  canonical={`${SITE_URL}/kodlar`}
+>
+  <div class="wrap">
+    <article class="kodlar-page">
+      <h1 class="kodlar-page__title">Tüm arıza kodları</h1>
+      <p class="kodlar-page__lead">
+        Koda tıklayarak detay sayfasına gidebilir; arama veya kategoriyle filtreleyebilirsiniz.
+      </p>
+
+      <form class="kodlar-filters" id="kodlar-filters" role="search" aria-label="Kod listesini filtrele">
+        <div class="kodlar-filters__group">
+          <label for="kodlar-search">Ara (kod veya başlık)</label>
+          <input type="search" id="kodlar-search" name="q" placeholder="Örn. P0171, MAF…" autocomplete="off" />
+        </div>
+        <div class="kodlar-filters__group">
+          <label for="kodlar-category">Kategori</label>
+          <select id="kodlar-category" name="cat">
+            <option value="">Tümü</option>
+            {categories.map((cat) => (
+              <option value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+      </form>
+
+      <p class="kodlar-page__count" id="kodlar-count">{codes.length} kod listeleniyor.</p>
+
+      <ul class="kodlar-list" id="kodlar-list">
+        {codes.map((fc) => (
+          <li
+            class="kodlar-list__item"
+            data-code={fc.code}
+            data-category={fc.category ?? ''}
+            data-title={fc.title_tr.toLowerCase()}
+          >
+            <a href={faultCodeSlug(fc.code)}>
+              <span class="kodlar-list__code">{fc.code}</span>
+              {fc.category && <span class="kodlar-list__cat">{fc.category}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </article>
+  </div>
+</Layout>
+
+<script>
+  (function () {
+    const form = document.getElementById('kodlar-filters');
+    const search = document.getElementById('kodlar-search');
+    const category = document.getElementById('kodlar-category');
+    const list = document.getElementById('kodlar-list');
+    const countEl = document.getElementById('kodlar-count');
+    const items = list ? list.querySelectorAll('.kodlar-list__item') : [];
+
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q') || '';
+    const cat = params.get('cat') || '';
+    if (q) search.value = q;
+    if (cat) category.value = cat;
+
+    function filter() {
+      const s = (search?.value || '').trim().toLowerCase();
+      const c = (category?.value || '').trim();
+      let visible = 0;
+      items.forEach((el) => {
+        const matchSearch = !s || el.dataset.code.toLowerCase().includes(s) || (el.dataset.title || '').includes(s);
+        const matchCat = !c || (el.dataset.category || '') === c;
+        const show = matchSearch && matchCat;
+        el.hidden = !show;
+        if (show) visible++;
+      });
+      if (countEl) countEl.textContent = visible + ' kod listeleniyor.';
+    }
+
+    form?.addEventListener('input', filter);
+    form?.addEventListener('change', filter);
+    filter();
+  })();
+</script>

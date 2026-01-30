@@ -1,0 +1,38 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL } from '@lib/seo';
+---
+
+<Layout
+  title="İletişim"
+  description="OBD-II Arıza Kodları sitesi iletişim bilgileri. Öneri, düzeltme veya iş birliği için bize ulaşın."
+  canonical={`${SITE_URL}/iletisim`}
+>
+  <div class="wrap">
+    <article class="static-page">
+      <h1 class="static-page__title">İletişim</h1>
+      <div class="static-page__prose">
+        <p>
+          <strong>OBD-II Arıza Kodları</strong> ile ilgili öneri, düzeltme, iş birliği veya sorularınız için aşağıdaki kanalı kullanabilirsiniz.
+        </p>
+        <h2>E-posta</h2>
+        <p>
+          <a href="mailto:iletisim@arizakodlari.com">iletisim@arizakodlari.com</a>
+        </p>
+        <p>
+          Site statik barındırma kullandığı için form yok; doğrudan e-posta atmanız yeterli. Adresi, yayındaki domaine göre güncelleyebilirsiniz.
+        </p>
+        <h2>Ne hakkında yazabilirsiniz?</h2>
+        <ul>
+          <li>Arıza kodu açıklamalarında hata veya eksik</li>
+          <li>Yeni kod eklenmesi, içerik önerisi</li>
+          <li>Gizlilik, çerez veya yasal metinlerle ilgili sorular</li>
+          <li>Reklam, ortaklık veya iş birliği talepleri</li>
+        </ul>
+        <p>
+          Kısa sürede yanıtlamaya çalışıyoruz. Spam veya reklam mailleri yanıtlanmayabilir.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>

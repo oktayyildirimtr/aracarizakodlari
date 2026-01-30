@@ -1,0 +1,19 @@
+---
+interface Props {
+  codes: string[];
+}
+const { codes } = Astro.props;
+---
+
+{codes.length > 0 && (
+  <section class="related-codes" aria-labelledby="related-codes-heading">
+    <h2 id="related-codes-heading" class="related-codes__title">İlgili arıza kodları</h2>
+    <ul class="related-codes__list">
+      {codes.map((code) => (
+        <li>
+          <a href={`/${code.toLowerCase()}-nedir`}>{code}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

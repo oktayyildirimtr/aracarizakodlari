@@ -1,0 +1,79 @@
+---
+import Layout from '@layouts/Layout.astro';
+import FaultCodeContent from '@components/FaultCodeContent.astro';
+import {
+  getIndexedFaultCodes,
+  getAllBrandModelPages,
+  getFaultCodeDetail,
+  getBrandModelDetail,
+  parseBrandModelSlug,
+} from '@lib/db';
+import { faultCodeSlug, brandModelSlug } from '@lib/slugs';
+import { SITE_URL } from '@lib/seo';
+
+export function getStaticPaths() {
+  const faultPaths = getIndexedFaultCodes().map((fc) => ({
+    params: { slug: `${fc.code.toLowerCase()}-nedir` },
+    props: { type: 'fault' as const, code: fc.code },
+  }));
+
+  const brandModelPaths = getAllBrandModelPages().map((row) => ({
+    params: { slug: brandModelSlug(row.brand, row.model, row.code).slice(1) },
+    props: {
+      type: 'brand-model' as const,
+      brand: row.brand,
+      model: row.model,
+      code: row.code,
+    },
+  }));
+
+  return [...faultPaths, ...brandModelPaths];
+}
+
+const { type, code, brand, model } = Astro.props;
+
+let data = null;
+let metaTitle = '';
+let metaDescription = '';
+let canonical = '';
+let noindex = false;
+let faq: { question_tr: string; answer_tr: string }[] = [];
+
+if (type === 'fault') {
+  data = getFaultCodeDetail(code);
+  if (data) {
+    metaTitle = `${data.code} arıza kodu ne anlama gelir?`;
+    metaDescription = `${data.code}: ${data.title_tr}. Türkiye için tahmini onarım maliyeti ve uzman görüşü.`;
+    canonical = `${SITE_URL}${faultCodeSlug(code)}`;
+    noindex = !!data.noindex;
+    faq = data.faq.map((f) => ({ question_tr: f.question_tr, answer_tr: f.answer_tr }));
+  }
+} else if (type === 'brand-model' && brand && model) {
+  data = getBrandModelDetail(brand, model, code);
+  if (data) {
+    metaTitle = `${brand} ${model} ${code} arıza kodu`;
+    metaDescription = `${brand} ${model} modelinde ${code} arıza kodu: anlamı ve tahmini onarım maliyeti.`;
+    canonical = `${SITE_URL}${brandModelSlug(brand, model, code)}`;
+    noindex = !!data.noindex;
+    faq = data.faq.map((f) => ({ question_tr: f.question_tr, answer_tr: f.answer_tr }));
+  }
+}
+
+if (!data) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonical}
+  noindex={noindex}
+  faq={faq}
+>
+  <FaultCodeContent
+    data={data}
+    brand={type === 'brand-model' ? brand : undefined}
+    model={type === 'brand-model' ? model : undefined}
+  />
+</Layout>

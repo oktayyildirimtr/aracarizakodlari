@@ -1,0 +1,44 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL } from '@lib/seo';
+---
+
+<Layout
+  title="Çerez Bildirimi"
+  description="OBD-II Arıza Kodları sitesi çerez politikası. Hangi çerezlerin kullanıldığı ve nasıl yönetebileceğiniz hakkında bilgi."
+  canonical={`${SITE_URL}/cerez-bildirimi`}
+>
+  <div class="wrap">
+    <article class="static-page">
+      <h1 class="static-page__title">Çerez Bildirimi</h1>
+      <p class="static-page__updated">Son güncelleme: Ocak 2025</p>
+      <div class="static-page__prose">
+        <p>
+          <strong>OBD-II Arıza Kodları</strong> sitesinde çerez ve benzeri teknolojiler kullanılıyor olabilir. Bu sayfada hangi çerezlerin kullanıldığını ve tercihlerinizi nasıl yöneteceğinizi kısaca anlatıyoruz.
+        </p>
+        <h2>Çerez nedir?</h2>
+        <p>
+          Çerezler, tarayıcı aracılığıyla cihazınıza kaydedilen küçük metin dosyalarıdır. Ziyaretleri tanımak, tercihleri hatırlamak veya trafik analizi yapmak için kullanılabilir.
+        </p>
+        <h2>Kullandığımız çerez türleri</h2>
+        <ul>
+          <li><strong>Zorunlu:</strong> Sitenin temel işlevleri için gerekli (ör. çerez onay tercihinizi saklamak).</li>
+          <li><strong>İşlevsel:</strong> Dil, tema gibi tercihlerinizi hatırlamak için.</li>
+          <li><strong>Reklam:</strong> Google AdSense kullanılıyorsa, reklam sunmak ve kişiselleştirmek için çerezler kullanılır. <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google reklam çerezleri</a>. <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Reklam tercihlerinizi</a> buradan yönetebilirsiniz.</li>
+        </ul>
+        <h2>Çerez tercihinizi yönetme</h2>
+        <p>
+          İlk ziyarette çıkan çerez çubuğuyla kabul veya reddedebilirsiniz. Tercih <code>localStorage</code> içinde tutulur, sonraki ziyaretlerde uygulanır. Tarayıcıdan çerezleri silebilir veya engelleyebilirsiniz; bazı özellikler bundan etkilenebilir.
+        </p>
+        <h2>Üçüncü taraf çerezleri</h2>
+        <p>
+          Reklam veya analitik sağlayıcıları kendi çerezlerini kullanır; kullanım onların gizlilik ve çerez politikalarına tabidir. İsterseniz tarayıcı eklentileri (uBlock Origin, Privacy Badger vb.) veya ayarlarla üçüncü taraf çerezlerini sınırlayabilirsiniz.
+        </p>
+        <h2>Daha fazla bilgi</h2>
+        <p>
+          Kişisel veri işleme ayrıntıları için <a href="/gizlilik-politikasi">Gizlilik Politikası</a>na bakın. Sorularınızı <a href="/iletisim">İletişim</a> sayfasından iletebilirsiniz.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>

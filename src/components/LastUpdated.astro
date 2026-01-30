@@ -1,0 +1,10 @@
+---
+interface Props {
+  date: string;
+}
+const { date } = Astro.props;
+const d = new Date(date);
+const formatted = d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<time class="last-updated" datetime={d.toISOString()}>Son güncelleme: {formatted}</time>
