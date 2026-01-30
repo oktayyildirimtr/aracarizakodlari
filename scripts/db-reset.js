@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, '..', 'data', 'ariza.db');
+const dbPath = join(process.cwd(), 'data', 'ariza.db');
 
 if (existsSync(dbPath)) {
   unlinkSync(dbPath);

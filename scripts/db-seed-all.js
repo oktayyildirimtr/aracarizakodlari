@@ -4,13 +4,11 @@
  */
 import Database from 'better-sqlite3';
 import { existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 import { getAllObd2Codes } from './fault-codes-data.js';
 import { TOP_30_CODES } from './top-codes.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, '..', 'data', 'ariza.db');
+const dbPath = join(process.cwd(), 'data', 'ariza.db');
 
 const EXPERT = 'Kod tek başına hangi parçanın arızalı olduğunu söylemez; araç ve ölçüm farklı sonuçlar çıkarabilir. OBD-II okuma ve gerekli kontroller için mutlaka yetkili servise gidin.';
 const DRIVE = 'Kısa mesafe, düşük yükle kullanılabilir. Uzun yol ya da ağır yük önerilmez; en kısa sürede teşhis yaptırın.';

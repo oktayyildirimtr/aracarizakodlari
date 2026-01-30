@@ -5,7 +5,8 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const schemaPath = join(__dirname, 'schema.sql');
-const dataDir = join(__dirname, '..', 'data');
+// process.cwd() = proje kökü (Cloudflare build ile uyumlu)
+const dataDir = join(process.cwd(), 'data');
 const dbPath = join(dataDir, 'ariza.db');
 
 mkdirSync(dataDir, { recursive: true });

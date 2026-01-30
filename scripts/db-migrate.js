@@ -3,11 +3,9 @@
  */
 import Database from 'better-sqlite3';
 import { existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, '..', 'data', 'ariza.db');
+const dbPath = join(process.cwd(), 'data', 'ariza.db');
 
 if (!existsSync(dbPath)) {
   console.log('Veritabanı yok; db-migrate atlanıyor.');

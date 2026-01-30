@@ -142,6 +142,7 @@ git push -u origin main
 
 ## Sorun Çıkarsa
 
+- **"unable to open database file":** Veritabanı yolları `process.cwd()` ile ayarlandı; Cloudflare build ortamıyla uyumlu olmalı. Hata sürerse Cloudflare’de **Root directory** boş bırakıldığından ve **Build command**’ın proje kökünde çalıştığından emin ol.
 - **Build hatası:** `better-sqlite3` hatası alırsan Node 20 kullandığından emin ol; Cloudflare’de `NODE_VERSION=20` ayarlı olsun.
 - **Sayfa bulunamadı:** `dist` klasörü doğru publish edildiyse sorun olmaz; Cloudflare’de **Build output directory** `dist` olmalı.
 - **Domain açılmıyor:** DNS propagasyonu 24–48 saat sürebilir; Cloudflare durumunu kontrol et.

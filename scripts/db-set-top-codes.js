@@ -9,8 +9,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { TOP_30_CODES } from './top-codes.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, '..', 'data', 'ariza.db');
+const dbPath = join(process.cwd(), 'data', 'ariza.db');
 
 if (!existsSync(dbPath)) {
   console.error('Veritabanı bulunamadı. Önce npm run db:init && npm run db:seed çalıştırın.');

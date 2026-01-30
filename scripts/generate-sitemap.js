@@ -11,7 +11,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = join(__dirname, '..');
+const root = process.cwd();
 const dist = join(root, 'dist');
 const dbPath = join(root, 'data', 'ariza.db');
 
