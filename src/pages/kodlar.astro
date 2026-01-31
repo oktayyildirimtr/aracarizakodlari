@@ -2,16 +2,21 @@
 import Layout from '@layouts/Layout.astro';
 import { getIndexedFaultCodes } from '@lib/db';
 import { faultCodeSlug } from '@lib/slugs';
-import { SITE_URL } from '@lib/seo';
+import { SITE_URL, breadcrumbSchema } from '@lib/seo';
 
 const codes = getIndexedFaultCodes();
 const categories = [...new Set(codes.map((c) => c.category).filter(Boolean))].sort();
+const breadcrumbSchemaData = breadcrumbSchema([
+  { name: 'Ana sayfa', url: SITE_URL + '/' },
+  { name: 'Tüm arıza kodları', url: SITE_URL + '/kodlar' },
+]);
 ---
 
 <Layout
   title="Tüm arıza kodları"
-  description="OBD-II arıza kodları listesi. Koda veya kategoriye göre arayıp detay sayfasına gidebilirsiniz."
+  description="OBD-II arıza kodları listesi. P0xxx kodlarına göre arayın, kategoriye göre filtreleyin. Detay sayfasına tıklayarak anlam ve maliyet bilgisine ulaşın."
   canonical={`${SITE_URL}/kodlar`}
+  breadcrumbSchema={breadcrumbSchemaData}
 >
   <div class="wrap">
     <article class="kodlar-page">

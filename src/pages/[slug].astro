@@ -9,7 +9,7 @@ import {
   parseBrandModelSlug,
 } from '@lib/db';
 import { faultCodeSlug, brandModelSlug } from '@lib/slugs';
-import { SITE_URL } from '@lib/seo';
+import { SITE_URL, articleSchema, breadcrumbSchema } from '@lib/seo';
 
 export function getStaticPaths() {
   const faultPaths = getIndexedFaultCodes().map((fc) => ({
@@ -38,6 +38,8 @@ let metaDescription = '';
 let canonical = '';
 let noindex = false;
 let faq: { question_tr: string; answer_tr: string }[] = [];
+let articleSchemaData = null;
+let breadcrumbSchemaData = null;
 
 if (type === 'fault') {
   data = getFaultCodeDetail(code);
@@ -47,6 +49,17 @@ if (type === 'fault') {
     canonical = `${SITE_URL}${faultCodeSlug(code)}`;
     noindex = !!data.noindex;
     faq = data.faq.map((f) => ({ question_tr: f.question_tr, answer_tr: f.answer_tr }));
+    articleSchemaData = articleSchema({
+      headline: metaTitle,
+      description: metaDescription,
+      url: canonical,
+      dateModified: data.updated_at,
+    });
+    breadcrumbSchemaData = breadcrumbSchema([
+      { name: 'Ana sayfa', url: SITE_URL + '/' },
+      { name: 'Tüm kodlar', url: SITE_URL + '/kodlar' },
+      { name: data.code, url: canonical },
+    ]);
   }
 } else if (type === 'brand-model' && brand && model) {
   data = getBrandModelDetail(brand, model, code);
@@ -56,6 +69,17 @@ if (type === 'fault') {
     canonical = `${SITE_URL}${brandModelSlug(brand, model, code)}`;
     noindex = !!data.noindex;
     faq = data.faq.map((f) => ({ question_tr: f.question_tr, answer_tr: f.answer_tr }));
+    articleSchemaData = articleSchema({
+      headline: metaTitle,
+      description: metaDescription,
+      url: canonical,
+      dateModified: data.updated_at,
+    });
+    breadcrumbSchemaData = breadcrumbSchema([
+      { name: 'Ana sayfa', url: SITE_URL + '/' },
+      { name: 'Tüm kodlar', url: SITE_URL + '/kodlar' },
+      { name: `${brand} ${model} ${data.code}`, url: canonical },
+    ]);
   }
 }
 
@@ -70,6 +94,8 @@ if (!data) {
   canonical={canonical}
   noindex={noindex}
   faq={faq}
+  articleSchema={articleSchemaData}
+  breadcrumbSchema={breadcrumbSchemaData}
 >
   <FaultCodeContent
     data={data}

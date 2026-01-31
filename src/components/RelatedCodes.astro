@@ -1,4 +1,6 @@
 ---
+import { faultCodeSlug } from '@lib/slugs';
+
 interface Props {
   codes: string[];
 }
@@ -11,7 +13,7 @@ const { codes } = Astro.props;
     <ul class="related-codes__list">
       {codes.map((code) => (
         <li>
-          <a href={`/${code.toLowerCase()}-nedir`}>{code}</a>
+          <a href={faultCodeSlug(code)}>{code}</a>
         </li>
       ))}
     </ul>

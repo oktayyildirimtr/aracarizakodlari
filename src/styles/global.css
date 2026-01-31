@@ -270,7 +270,7 @@ body.cookie-consent-visible .site-footer { padding-bottom: 4rem; }
 .article section + section { margin-top: var(--space-lg); }
 
 /* Author & disclaimer */
-.author-bio, .disclaimer {
+.disclaimer {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -278,7 +278,7 @@ body.cookie-consent-visible .site-footer { padding-bottom: 4rem; }
   margin: var(--space-xl) 0;
   font-size: 0.9375rem;
 }
-.author-bio__title, .disclaimer strong { font-size: 1rem; }
+.disclaimer strong { font-size: 1rem; }
 .last-updated { font-size: 0.875rem; color: var(--color-text-muted); }
 
 /* Related codes */

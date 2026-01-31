@@ -5,9 +5,11 @@ interface Props {
   canonical?: string;
   noindex?: boolean;
   faq?: { question_tr: string; answer_tr: string }[];
+  articleSchema?: object;
+  breadcrumbSchema?: object;
 }
-const { title, description, canonical, noindex = false, faq = [] } = Astro.props;
-import { SITE_URL, SITE_NAME, buildMeta, faqSchema, siteSchema } from '@lib/seo';
+const { title, description, canonical, noindex = false, faq = [], articleSchema, breadcrumbSchema } = Astro.props;
+import { SITE_NAME, buildMeta, faqSchema, siteSchema } from '@lib/seo';
 import CookieConsent from '@components/CookieConsent.astro';
 import '../styles/global.css';
 
@@ -17,7 +19,7 @@ const meta = buildMeta({
   canonical: canonical ?? undefined,
   noindex,
 });
-const schema = faqSchema(faq);
+const faqSchemaData = faqSchema(faq);
 ---
 
 <!doctype html>
@@ -25,6 +27,7 @@ const schema = faqSchema(faq);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fafafa" />
     <meta name="generator" content={Astro.generator} />
     <title>{meta.title}</title>
     <meta name="description" content={meta.description} />
@@ -40,8 +43,14 @@ const schema = faqSchema(faq);
     <meta name="twitter:description" content={meta.description} />
     {meta.noindex && <meta name="robots" content="noindex, nofollow" />}
     <script type="application/ld+json" set:html={JSON.stringify(siteSchema())} />
-    {schema && (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    {faqSchemaData && (
+      <script type="application/ld+json" set:html={JSON.stringify(faqSchemaData)} />
+    )}
+    {articleSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    )}
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>

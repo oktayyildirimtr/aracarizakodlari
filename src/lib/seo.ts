@@ -61,3 +61,36 @@ export function faqSchema(faq: { question_tr: string; answer_tr: string }[]) {
     })),
   };
 }
+
+/** Arıza kodu sayfaları için Article schema */
+export function articleSchema(opts: {
+  headline: string;
+  description: string;
+  url: string;
+  dateModified: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: opts.headline,
+    description: opts.description,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': opts.url },
+    dateModified: opts.dateModified,
+    inLanguage: 'tr-TR',
+  };
+}
+
+/** Breadcrumb schema */
+export function breadcrumbSchema(items: { name: string; url: string }[]) {
+  if (items.length < 2) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
