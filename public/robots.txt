@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://arizakodlari.com/sitemap-index.xml
+Sitemap: https://aracarizakodlari.pages.dev/sitemap-index.xml

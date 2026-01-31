@@ -119,7 +119,7 @@ git push -u origin main
 ## Adım 9: Özel Domain Bağlama (İsteğe Bağlı)
 
 1. Cloudflare Pages projesinde **Custom domains**.
-2. **Set up a custom domain** → domain adını gir (örn. `arizakodlari.com`).
+2. **Set up a custom domain** → domain adını gir (örn. `aracarizakodlari.com.tr`). Varsayılan Cloudflare adresi: `aracarizakodlari.pages.dev`.
 3. Domain sağlayıcında (GoDaddy, Namecheap vb.) Cloudflare’in verdiği nameserver’ları kaydet.
 4. `src/lib/seo.ts` ve `robots.txt` içindeki `SITE_URL` / sitemap adresini bu domain’e güncelle, ardından yeniden build al ve deploy et.
 

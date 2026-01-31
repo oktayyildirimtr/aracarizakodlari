@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 // Sitemap: build sonrası scripts/generate-sitemap.js ile üretiliyor (@astrojs/sitemap _routes reduce hatası nedeniyle)
 export default defineConfig({
-  site: 'https://arizakodlari.com',
+  site: 'https://aracarizakodlari.pages.dev',
   base: '/',
   output: 'static',
   integrations: [],

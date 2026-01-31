@@ -15,7 +15,7 @@ const root = process.cwd();
 const dist = join(root, 'dist');
 const dbPath = join(root, 'data', 'ariza.db');
 
-const SITE = 'https://arizakodlari.com';
+const SITE = 'https://aracarizakodlari.pages.dev';
 const BATCH = process.env.ARIZA_BATCH_LIMIT
   ? parseInt(process.env.ARIZA_BATCH_LIMIT, 10)
   : null;
