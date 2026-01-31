@@ -1,6 +1,4 @@
 ---
-const COOKIE_NAME = 'arizakodlari_consent';
-const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 yıl
 ---
 
 <div id="cookie-consent" class="cookie-consent" role="dialog" aria-label="Çerez bildirimi" hidden>
@@ -15,21 +13,37 @@ const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 yıl
   </div>
 </div>
 
-<script define:vars={{ COOKIE_NAME, COOKIE_MAX_AGE }}>
+<script is:inline>
   (function () {
-    const bar = document.getElementById('cookie-consent');
+    var KEY = 'arizakodlari_consent';
+    var MAX_AGE = 31536000; // 1 yıl
+
+    var bar = document.getElementById('cookie-consent');
     if (!bar) return;
 
     function getConsent() {
-      const match = document.cookie.match(new RegExp('(^| )' + COOKIE_NAME + '=([^;]+)'));
-      return match ? match[2] : null;
+      try {
+        var v = localStorage.getItem(KEY);
+        if (v === 'accepted' || v === 'rejected') return v;
+        v = sessionStorage.getItem(KEY);
+        if (v === 'accepted' || v === 'rejected') return v;
+        var r = new RegExp('(?:^|;)\\s*' + KEY.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)');
+        var m = document.cookie.match(r);
+        return m ? m[1].trim() : null;
+      } catch (e) { return null; }
     }
 
     function setConsent(action) {
-      document.cookie = COOKIE_NAME + '=' + action + ';path=/;max-age=' + COOKIE_MAX_AGE + ';SameSite=Lax';
+      try {
+        localStorage.setItem(KEY, action);
+        sessionStorage.setItem(KEY, action);
+        var parts = [KEY + '=' + action, 'path=/', 'max-age=' + MAX_AGE, 'SameSite=Lax'];
+        if (location.protocol === 'https:') parts.push('Secure');
+        document.cookie = parts.join('; ');
+      } catch (e) {}
     }
 
-    const saved = getConsent();
+    var saved = getConsent();
     if (saved === 'accepted' || saved === 'rejected') return;
 
     bar.hidden = false;
@@ -41,8 +55,8 @@ const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 yıl
       document.body.classList.remove('cookie-consent-visible');
     }
 
-    bar.querySelectorAll('[data-action]').forEach((btn) => {
-      btn.addEventListener('click', () => close(btn.dataset.action));
+    bar.querySelectorAll('[data-action]').forEach(function(btn) {
+      btn.addEventListener('click', function() { close(btn.getAttribute('data-action')); });
     });
   })();
 </script>
