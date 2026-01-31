@@ -147,6 +147,12 @@ body.cookie-consent-visible .site-footer { padding-bottom: 4rem; }
   color: var(--color-text-muted);
 }
 .site-footer__copy { margin-bottom: var(--space-sm); }
+.site-footer__cookies {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+.site-footer__cookies a { color: var(--color-link); }
 .site-footer__nav {
   display: flex;
   flex-wrap: wrap;
@@ -189,7 +195,8 @@ body.cookie-consent-visible .site-footer { padding-bottom: 4rem; }
   box-shadow: 0 -2px 12px rgba(0,0,0,.08);
   padding: var(--space-md) 0;
 }
-.cookie-consent[hidden] { display: none; }
+.cookie-consent[hidden],
+html.cookie-consent-saved #cookie-consent { display: none !important; }
 .cookie-consent__inner {
   display: flex;
   flex-wrap: wrap;

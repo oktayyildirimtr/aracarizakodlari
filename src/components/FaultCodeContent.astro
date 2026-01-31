@@ -3,7 +3,6 @@ import type { FaultCodeDetail } from '@lib/db';
 import Disclaimer from '@components/Disclaimer.astro';
 import LastUpdated from '@components/LastUpdated.astro';
 import RelatedCodes from '@components/RelatedCodes.astro';
-import { brandModelSlug } from '@lib/slugs';
 import { getPartForFaultCode } from '@lib/parts';
 
 interface Props {
@@ -11,9 +10,9 @@ interface Props {
   brand?: string;
   model?: string;
 }
-const { data, brand, model } = Astro.props;
+const { data } = Astro.props;
 const { code, title_tr, description_tr, expert_opinion_tr, drive_safe_tr, updated_at,
-  affected_brands, estimated_cost, faq, related_codes, category, description_en } = data;
+  estimated_cost, faq, related_codes, category, description_en } = data;
 
 const partInfo = getPartForFaultCode(code, description_en);
 ---
@@ -60,25 +59,7 @@ const partInfo = getPartForFaultCode(code, description_en);
       )}
     </section>
 
-    {/* 2. Hangi araçlarda görülür? */}
-    <section>
-      <h2 id="araclar">Hangi araçlarda görülür?</h2>
-      <p>
-        {brand && model
-          ? `${brand} ${model} bu kodda sık geçen modellerden. Aşağıda ${code} için yaygın marka ve model örnekleri var.`
-          : `${code} aşağıdaki marka ve modellerde sık görülür.`
-        }
-      </p>
-      <ul>
-        {affected_brands.map((b) => (
-          <li>
-            <a href={brandModelSlug(b.brand, b.model, code)}>{b.brand} {b.model}</a>
-          </li>
-        ))}
-      </ul>
-    </section>
-
-    {/* 3. Bu şekilde araç kullanılır mı? */}
+    {/* 2. Bu şekilde araç kullanılır mı? */}
     <section>
       <h2 id="kullanim">Bu şekilde araç kullanılır mı?</h2>
       <div class="article__prose">
@@ -88,7 +69,7 @@ const partInfo = getPartForFaultCode(code, description_en);
       </div>
     </section>
 
-    {/* 4. Türkiye için tahmini onarım maliyeti */}
+    {/* 3. Türkiye için tahmini onarım maliyeti */}
     <section>
       <h2 id="maliyet">Türkiye için tahmini onarım maliyeti</h2>
       {estimated_cost ? (
@@ -101,7 +82,7 @@ const partInfo = getPartForFaultCode(code, description_en);
       )}
     </section>
 
-    {/* 5. Uzman görüşü */}
+    {/* 4. Uzman görüşü */}
     <section>
       <h2 id="uzman">Uzman görüşü</h2>
       <div class="article__prose">
@@ -113,7 +94,7 @@ const partInfo = getPartForFaultCode(code, description_en);
 
     <Disclaimer />
 
-    {/* 6. SSS */}
+    {/* 5. SSS */}
     {faq.length > 0 && (
       <section>
         <h2 id="sss">Sık sorulan sorular</h2>
@@ -128,7 +109,7 @@ const partInfo = getPartForFaultCode(code, description_en);
       </section>
     )}
 
-    {/* 7. İlgili arıza kodları */}
+    {/* 6. İlgili arıza kodları */}
     <RelatedCodes codes={related_codes} />
   </div>
 </article>

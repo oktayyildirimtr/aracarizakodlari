@@ -10,7 +10,6 @@ interface Props {
 }
 const { title, description, canonical, noindex = false, faq = [], articleSchema, breadcrumbSchema } = Astro.props;
 import { SITE_NAME, buildMeta, faqSchema, siteSchema } from '@lib/seo';
-import CookieConsent from '@components/CookieConsent.astro';
 import '../styles/global.css';
 
 const meta = buildMeta({
@@ -77,16 +76,14 @@ const faqSchemaData = faqSchema(faq);
         <p class="site-footer__copy">
           OBD-II arıza kodları hakkında bilgilendirme amaçlı içerikler. Profesyonel teşhis yerine geçmez.
         </p>
+        <p class="site-footer__cookies">
+          Sitemizde çerezler kullanılabilir. Detay için <a href="/cerez-bildirimi">Çerez bildirimi</a> ve <a href="/gizlilik-politikasi">Gizlilik politikası</a>.
+        </p>
         <nav class="site-footer__nav" aria-label="Alt menü">
-          <a href="/">Ana sayfa</a>
-          <a href="/kodlar">Tüm kodlar</a>
-          <a href="/hakkimizda">Hakkımızda</a>
           <a href="/gizlilik-politikasi">Gizlilik politikası</a>
           <a href="/cerez-bildirimi">Çerez bildirimi</a>
-          <a href="/iletisim">İletişim</a>
         </nav>
       </div>
     </footer>
-    <CookieConsent />
   </body>
 </html>
