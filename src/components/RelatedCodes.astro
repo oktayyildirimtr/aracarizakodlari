@@ -1,19 +1,23 @@
 ---
-import { faultCodeSlug } from '@lib/slugs';
+import type { Lang } from '@lib/i18n';
+import { faultCodePath } from '@lib/i18n';
+import { UI } from '@lib/i18n';
 
 interface Props {
   codes: string[];
+  lang: Lang;
 }
-const { codes } = Astro.props;
+const { codes, lang } = Astro.props;
+const ui = UI[lang];
 ---
 
 {codes.length > 0 && (
   <section class="related-codes" aria-labelledby="related-codes-heading">
-    <h2 id="related-codes-heading" class="related-codes__title">İlgili arıza kodları</h2>
+    <h2 id="related-codes-heading" class="related-codes__title">{ui.faultCode.related}</h2>
     <ul class="related-codes__list">
       {codes.map((code) => (
         <li>
-          <a href={faultCodeSlug(code)}>{code}</a>
+          <a href={`/${faultCodePath(code, lang)}`}>{code}</a>
         </li>
       ))}
     </ul>

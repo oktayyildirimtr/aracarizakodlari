@@ -1,0 +1,43 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { getIndexedFaultCodes } from '@lib/db';
+import { faultCodePath } from '@lib/i18n';
+import { UI, ROUTES, SITE_URL } from '@lib/i18n';
+
+const lang = 'en';
+const ui = UI[lang];
+const allCodes = getIndexedFaultCodes();
+const codes = allCodes.slice(0, 24);
+---
+
+<Layout
+  lang={lang}
+  title={ui.siteName}
+  description="OBD-II error codes explained. Check engine light codes, definitions, and estimated repair costs for Turkey."
+  canonical={`${SITE_URL}/en`}
+  currentPath="en"
+>
+  <div class="wrap">
+    <article class="home-hero">
+      <h1 class="home-hero__title">{ui.home.title}</h1>
+      <p class="home-hero__lead">{ui.home.lead1}</p>
+      <p class="home-hero__lead">{ui.home.lead2}</p>
+      <form class="home-search" action={`/${ROUTES[lang].codes}`} method="get" role="search" aria-label={ui.home.searchLabel}>
+        <input type="search" name="q" placeholder={ui.home.searchPlaceholder} />
+        <button type="submit">Search</button>
+      </form>
+    </article>
+    <section class="home-code-list">
+      <h2 class="home-code-list__title">{ui.home.codesTitle}</h2>
+      <p><a href={`/${ROUTES[lang].codes}`}>{ui.home.viewAll}</a>. Sample codes below:</p>
+      <div class="home-code-list__grid">
+        {codes.map((fc) => (
+          <a href={`/${faultCodePath(fc.code, lang)}`}>{fc.code}</a>
+        ))}
+      </div>
+      {allCodes.length > codes.length && (
+        <p class="home-code-list__more"><a href={`/${ROUTES[lang].codes}`}>+{allCodes.length - codes.length} {ui.home.moreCodes}</a></p>
+      )}
+    </section>
+  </div>
+</Layout>

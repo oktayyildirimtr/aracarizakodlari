@@ -1,12 +1,17 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/seo';
+import { SITE_URL } from '@lib/i18n';
+
+const lang = 'tr';
+const currentPath = 'tr/iletisim';
 ---
 
 <Layout
+  lang={lang}
   title="İletişim"
   description="OBD-II Arıza Kodları sitesi iletişim bilgileri. Öneri, düzeltme veya iş birliği için bize ulaşın."
-  canonical={`${SITE_URL}/iletisim`}
+  canonical={`${SITE_URL}/${currentPath}`}
+  currentPath={currentPath}
 >
   <div class="wrap">
     <article class="static-page">
@@ -16,12 +21,8 @@ import { SITE_URL } from '@lib/seo';
           <strong>OBD-II Arıza Kodları</strong> ile ilgili öneri, düzeltme, iş birliği veya sorularınız için aşağıdaki kanalı kullanabilirsiniz.
         </p>
         <h2>E-posta</h2>
-        <p>
-          <a href="mailto:iletisim@arizakodlari.com">iletisim@arizakodlari.com</a>
-        </p>
-        <p>
-          Site statik barındırma kullandığı için form yok; doğrudan e-posta atmanız yeterli. Adresi, yayındaki domaine göre güncelleyebilirsiniz.
-        </p>
+        <p><a href="mailto:iletisim@arizakodlari.com">iletisim@arizakodlari.com</a></p>
+        <p>Site statik barındırma kullandığı için form yok; doğrudan e-posta atmanız yeterli.</p>
         <h2>Ne hakkında yazabilirsiniz?</h2>
         <ul>
           <li>Arıza kodu açıklamalarında hata veya eksik</li>
@@ -29,9 +30,7 @@ import { SITE_URL } from '@lib/seo';
           <li>Gizlilik, çerez veya yasal metinlerle ilgili sorular</li>
           <li>Reklam, ortaklık veya iş birliği talepleri</li>
         </ul>
-        <p>
-          Kısa sürede yanıtlamaya çalışıyoruz. Spam veya reklam mailleri yanıtlanmayabilir.
-        </p>
+        <p>Kısa sürede yanıtlamaya çalışıyoruz. Spam veya reklam mailleri yanıtlanmayabilir.</p>
       </div>
     </article>
   </div>

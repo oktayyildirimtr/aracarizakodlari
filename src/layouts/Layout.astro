@@ -1,70 +1,106 @@
 ---
+import type { Lang } from '@lib/i18n';
+import { UI, ROUTES, SITE_URL, getHreflangUrls, getAlternatePath } from '@lib/i18n';
+import '../styles/global.css';
+
 interface Props {
+  lang: Lang;
   title: string;
   description: string;
   canonical?: string;
   noindex?: boolean;
-  faq?: { question_tr: string; answer_tr: string }[];
+  faq?: { question: string; answer: string }[];
   articleSchema?: object;
   breadcrumbSchema?: object;
+  currentPath: string;
 }
-const { title, description, canonical, noindex = false, faq = [], articleSchema, breadcrumbSchema } = Astro.props;
-import { SITE_NAME, buildMeta, faqSchema, siteSchema } from '@lib/seo';
-import '../styles/global.css';
 
-const meta = buildMeta({
-  title: title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`,
-  description,
-  canonical: canonical ?? undefined,
-  noindex,
-});
-const faqSchemaData = faqSchema(faq);
+const { lang, title, description, canonical, noindex = false, faq = [], articleSchema, breadcrumbSchema, currentPath } = Astro.props;
+
+const ui = UI[lang];
+const siteName = ui.siteName;
+const metaTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+const canonicalUrl = canonical ?? `${SITE_URL}/${currentPath}`;
+
+const hreflangUrls = getHreflangUrls(currentPath, lang);
+const altPath = lang === 'tr' ? getAlternatePath(currentPath, 'en') : getAlternatePath(currentPath, 'tr');
+
+const faqSchemaData = faq.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+} : null;
+
+const siteSchemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: siteName,
+      inLanguage: lang === 'tr' ? 'tr-TR' : 'en',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${SITE_URL}/${ROUTES[lang].codes}?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: siteName, url: SITE_URL },
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="tr">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fafafa" />
     <meta name="generator" content={Astro.generator} />
-    <title>{meta.title}</title>
-    <meta name="description" content={meta.description} />
-    <link rel="canonical" href={meta.canonical} />
+    <title>{metaTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {hreflangUrls.map(({ lang: l, url }) => (
+      <link rel="alternate" hreflang={l} href={url} />
+    ))}
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={meta.title} />
-    <meta property="og:description" content={meta.description} />
-    <meta property="og:url" content={meta.canonical} />
-    <meta property="og:locale" content="tr_TR" />
-    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={metaTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={lang === 'tr' ? 'tr_TR' : 'en_US'} />
+    <meta property="og:site_name" content={siteName} />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={meta.title} />
-    <meta name="twitter:description" content={meta.description} />
-    {meta.noindex && <meta name="robots" content="noindex, nofollow" />}
-    <script type="application/ld+json" set:html={JSON.stringify(siteSchema())} />
-    {faqSchemaData && (
-      <script type="application/ld+json" set:html={JSON.stringify(faqSchemaData)} />
-    )}
-    {articleSchema && (
-      <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
-    )}
-    {breadcrumbSchema && (
-      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    )}
+    <meta name="twitter:title" content={metaTitle} />
+    <meta name="twitter:description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <script type="application/ld+json" set:html={JSON.stringify(siteSchemaData)} />
+    {faqSchemaData && <script type="application/ld+json" set:html={JSON.stringify(faqSchemaData)} />}
+    {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+    {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <a href="#main-content" class="skip-link">İçeriğe atla</a>
+    <a href="#main-content" class="skip-link">{lang === 'tr' ? 'İçeriğe atla' : 'Skip to content'}</a>
     <header class="site-header">
       <div class="wrap site-header__inner">
         <p class="site-header__title">
-          <a href="/">{SITE_NAME}</a>
+          <a href={`/${ROUTES[lang].home}`}>{siteName}</a>
         </p>
-        <nav class="site-header__nav" aria-label="Ana menü">
-          <a href="/">Ana sayfa</a>
-          <a href="/kodlar">Tüm kodlar</a>
-          <a href="/hakkimizda">Hakkımızda</a>
-          <a href="/iletisim">İletişim</a>
+        <nav class="site-header__nav" aria-label={lang === 'tr' ? 'Ana menü' : 'Main menu'}>
+          <a href={`/${ROUTES[lang].home}`}>{ui.nav.home}</a>
+          <a href={`/${ROUTES[lang].codes}`}>{ui.nav.codes}</a>
+          <a href={`/${ROUTES[lang].about}`}>{ui.nav.about}</a>
+          <a href={`/${ROUTES[lang].contact}`}>{ui.nav.contact}</a>
+          <span class="lang-switcher" aria-label={lang === 'tr' ? 'Dil seçimi' : 'Language'}>
+            <a href={`/${getAlternatePath(currentPath, 'tr')}`} class="lang-switcher__link" aria-current={lang === 'tr' ? 'page' : undefined}>TR</a>
+            <span class="lang-switcher__sep">|</span>
+            <a href={`/${getAlternatePath(currentPath, 'en')}`} class="lang-switcher__link" aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+          </span>
         </nav>
       </div>
     </header>
@@ -73,15 +109,13 @@ const faqSchemaData = faqSchema(faq);
     </main>
     <footer class="site-footer">
       <div class="wrap">
-        <p class="site-footer__copy">
-          OBD-II arıza kodları hakkında bilgilendirme amaçlı içerikler. Profesyonel teşhis yerine geçmez.
-        </p>
+        <p class="site-footer__copy">{ui.footer.disclaimer}</p>
         <p class="site-footer__cookies">
-          Sitemizde çerezler kullanılabilir. Detay için <a href="/cerez-bildirimi">Çerez bildirimi</a> ve <a href="/gizlilik-politikasi">Gizlilik politikası</a>.
+          {ui.footer.cookies} <a href={`/${ROUTES[lang].cookieNotice}`}>{ui.footer.cookieNotice}</a> · <a href={`/${ROUTES[lang].privacy}`}>{ui.footer.privacy}</a>
         </p>
-        <nav class="site-footer__nav" aria-label="Alt menü">
-          <a href="/gizlilik-politikasi">Gizlilik politikası</a>
-          <a href="/cerez-bildirimi">Çerez bildirimi</a>
+        <nav class="site-footer__nav" aria-label={lang === 'tr' ? 'Alt menü' : 'Footer'}>
+          <a href={`/${ROUTES[lang].privacy}`}>{ui.footer.privacy}</a>
+          <a href={`/${ROUTES[lang].cookieNotice}`}>{ui.footer.cookieNotice}</a>
         </nav>
       </div>
     </footer>

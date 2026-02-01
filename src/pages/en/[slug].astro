@@ -1,0 +1,63 @@
+---
+import Layout from '@layouts/Layout.astro';
+import FaultCodeContent from '@components/FaultCodeContent.astro';
+import { getIndexedFaultCodes, getFaultCodeDetail } from '@lib/db';
+import { faultCodePath } from '@lib/i18n';
+import { SITE_URL } from '@lib/i18n';
+
+export function getStaticPaths() {
+  return getIndexedFaultCodes().map((fc) => ({
+    params: { slug: `${fc.code.toLowerCase()}-meaning` },
+    props: { code: fc.code },
+  }));
+}
+
+const { code } = Astro.props;
+const lang = 'en';
+const data = getFaultCodeDetail(code);
+
+if (!data) {
+  return Astro.redirect('/en/404');
+}
+
+const currentPath = faultCodePath(code, lang);
+const metaTitle = data.title_en || `${data.code} OBD2 Error Code - What does it mean?`;
+const metaDescription = `${data.code} causes, symptoms, fix & repair cost. ${data.description_en || 'OBD2 check engine light code'}. Definition, common causes, how to fix, and estimated USD cost.`;
+const faq: { question: string; answer: string }[] = data.faq
+  .filter((f) => f.question_en && f.answer_en)
+  .map((f) => ({ question: f.question_en!, answer: f.answer_en! }));
+
+const articleSchemaData = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: metaTitle,
+  description: metaDescription,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/${currentPath}` },
+  dateModified: data.updated_at,
+  inLanguage: 'en',
+};
+
+const breadcrumbSchemaData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/en` },
+    { '@type': 'ListItem', position: 2, name: 'All codes', item: `${SITE_URL}/en/codes` },
+    { '@type': 'ListItem', position: 3, name: data.code, item: `${SITE_URL}/${currentPath}` },
+  ],
+};
+---
+
+<Layout
+  lang={lang}
+  title={metaTitle}
+  description={metaDescription}
+  canonical={`${SITE_URL}/${currentPath}`}
+  noindex={!!data.noindex}
+  faq={faq}
+  articleSchema={articleSchemaData}
+  breadcrumbSchema={breadcrumbSchemaData}
+  currentPath={currentPath}
+>
+  <FaultCodeContent data={data} lang={lang} />
+</Layout>

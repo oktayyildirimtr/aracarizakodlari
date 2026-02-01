@@ -1,0 +1,61 @@
+---
+import Layout from '@layouts/Layout.astro';
+import FaultCodeContent from '@components/FaultCodeContent.astro';
+import { getIndexedFaultCodes, getFaultCodeDetail } from '@lib/db';
+import { faultCodePath } from '@lib/i18n';
+import { SITE_URL } from '@lib/i18n';
+
+export function getStaticPaths() {
+  return getIndexedFaultCodes().map((fc) => ({
+    params: { slug: `${fc.code.toLowerCase()}-nedir` },
+    props: { code: fc.code },
+  }));
+}
+
+const { code } = Astro.props;
+const lang = 'tr';
+const data = getFaultCodeDetail(code);
+
+if (!data) {
+  return Astro.redirect('/tr/404');
+}
+
+const currentPath = faultCodePath(code, lang);
+const metaTitle = `${data.code} arıza kodu ne anlama gelir?`;
+const metaDescription = `${data.code}: ${data.title_tr}. Türkiye için tahmini onarım maliyeti ve uzman görüşü.`;
+const faq = data.faq.map((f) => ({ question: f.question_tr, answer: f.answer_tr }));
+
+const articleSchemaData = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: metaTitle,
+  description: metaDescription,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/${currentPath}` },
+  dateModified: data.updated_at,
+  inLanguage: 'tr-TR',
+};
+
+const breadcrumbSchemaData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: `${SITE_URL}/tr` },
+    { '@type': 'ListItem', position: 2, name: 'Tüm kodlar', item: `${SITE_URL}/tr/kodlar` },
+    { '@type': 'ListItem', position: 3, name: data.code, item: `${SITE_URL}/${currentPath}` },
+  ],
+};
+---
+
+<Layout
+  lang={lang}
+  title={metaTitle}
+  description={metaDescription}
+  canonical={`${SITE_URL}/${currentPath}`}
+  noindex={!!data.noindex}
+  faq={faq}
+  articleSchema={articleSchemaData}
+  breadcrumbSchema={breadcrumbSchemaData}
+  currentPath={currentPath}
+>
+  <FaultCodeContent data={data} lang={lang} />
+</Layout>

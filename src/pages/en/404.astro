@@ -1,0 +1,24 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL } from '@lib/i18n';
+
+const lang = 'en';
+const currentPath = 'en';
+---
+
+<Layout
+  lang={lang}
+  title="Page not found"
+  description="The page you are looking for does not exist."
+  canonical={`${SITE_URL}/en`}
+  noindex={true}
+  currentPath={currentPath}
+>
+  <div class="wrap">
+    <article class="article">
+      <h1 class="article__title">Page not found</h1>
+      <p>The content you are looking for may have been removed or moved.</p>
+      <p><a href="/en">Home</a> · <a href="/en/codes">All codes</a></p>
+    </article>
+  </div>
+</Layout>

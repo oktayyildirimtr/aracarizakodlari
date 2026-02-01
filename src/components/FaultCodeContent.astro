@@ -1,40 +1,58 @@
 ---
+import type { Lang } from '@lib/i18n';
 import type { FaultCodeDetail } from '@lib/db';
 import Disclaimer from '@components/Disclaimer.astro';
 import LastUpdated from '@components/LastUpdated.astro';
 import RelatedCodes from '@components/RelatedCodes.astro';
 import { getPartForFaultCode } from '@lib/parts';
+import { UI, getCategoryDisplay } from '@lib/i18n';
 
 interface Props {
   data: FaultCodeDetail;
-  brand?: string;
-  model?: string;
+  lang: Lang;
 }
-const { data } = Astro.props;
-const { code, title_tr, description_tr, expert_opinion_tr, drive_safe_tr, updated_at,
-  estimated_cost, faq, related_codes, category, description_en } = data;
+const { data, lang } = Astro.props;
+
+const ui = UI[lang];
+const { code, title_tr, title_en, description_tr, description_en, expert_opinion_tr, expert_opinion_en, drive_safe_tr, drive_safe_en, updated_at,
+  estimated_cost, faq, related_codes, category, symptoms, causes, solutions } = data;
 
 const partInfo = getPartForFaultCode(code, description_en);
+
+const text = (item: { text_tr: string; text_en: string | null }) => (lang === 'tr' ? item.text_tr : (item.text_en || item.text_tr));
+const symptomItems = symptoms.map(text).filter(Boolean);
+const causeItems = causes.map(text).filter(Boolean);
+const solutionItems = solutions.map(text).filter(Boolean);
+
+const title = lang === 'tr' ? title_tr : (title_en || (description_en ? `${code} OBD2 Error Code - ${description_en.slice(0, 60)}${description_en.length > 60 ? '…' : ''}` : `${code} OBD2 Error Code`));
+const description = lang === 'tr' ? description_tr : (description_en || 'This OBD2 diagnostic trouble code indicates a powertrain-related issue. Have your vehicle diagnosed by a qualified technician to identify the exact cause.');
+const expertText = lang === 'tr' ? expert_opinion_tr : (expert_opinion_en || ui.expertFallbackEn);
+const driveSafeText = lang === 'tr' ? drive_safe_tr : (drive_safe_en || ui.driveSafeFallbackEn);
+const faqItems = lang === 'tr'
+  ? faq.map((f) => ({ q: f.question_tr, a: f.answer_tr }))
+  : faq.filter((f) => f.question_en && f.answer_en).map((f) => ({ q: f.question_en!, a: f.answer_en! }));
+const showFaq = faqItems.length > 0;
 ---
 
 <article class="article">
   <div class="wrap">
-    <h1 class="article__title">{title_tr}</h1>
+    <h1 class="article__title">{title}</h1>
     <div class="article__meta">
-      {category && <><span class="article__category">Kategori: {category}</span> · </>}
-      <LastUpdated date={updated_at} />
+      {category && <><span class="article__category">{lang === 'tr' ? 'Kategori:' : 'Category:'} {getCategoryDisplay(category, lang)}</span> · </>}
+      <LastUpdated date={updated_at} lang={lang} />
     </div>
 
-    {/* 1. Arıza kodu ne anlama gelir? */}
+    <div class="ad-slot ad-slot--top" data-ad-slot="above-content" aria-hidden="true" />
+
     <section>
-      <h2 id="anlam">Arıza kodu ne anlama gelir?</h2>
-      {description_en && (
+      <h2 id="meaning">{ui.faultCode.meaning}</h2>
+      {description_en && lang === 'tr' && (
         <p class="article__official-def">
-          <strong>Resmi tanım (İngilizce, SAE/ISO uyumlu):</strong> <em>{description_en}</em>
+          <strong>{ui.faultCode.officialDef}</strong> <em>{description_en}</em>
         </p>
       )}
       <div class="article__prose">
-        {description_tr.split(/\n\n+/).filter(Boolean).map((p) => (
+        {description.split(/\n\n+/).filter(Boolean).map((p) => (
           <p set:html={p.replace(/\n/g, '<br />')} />
         ))}
       </div>
@@ -51,65 +69,98 @@ const partInfo = getPartForFaultCode(code, description_en);
           />
           <figcaption class="article__part-caption">
             <strong>{partInfo.name_tr}</strong>
-            {partInfo.attribution && (
-              <span class="article__part-attribution"> · {partInfo.attribution}</span>
-            )}
+            {partInfo.attribution && <span class="article__part-attribution"> · {partInfo.attribution}</span>}
           </figcaption>
         </figure>
       )}
     </section>
 
-    {/* 2. Bu şekilde araç kullanılır mı? */}
+    {symptomItems.length > 0 && (
+      <section>
+        <h2 id="symptoms">{ui.faultCode.symptoms}</h2>
+        <ul class="article__list">
+          {symptomItems.map((t) => <li>{t}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {causeItems.length > 0 && (
+      <section>
+        <h2 id="causes">{ui.faultCode.causes}</h2>
+        <ul class="article__list">
+          {causeItems.map((t) => <li>{t}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {solutionItems.length > 0 && (
+      <section>
+        <h2 id="fix">{ui.faultCode.fix}</h2>
+        <ul class="article__list">
+          {solutionItems.map((t) => <li>{t}</li>)}
+        </ul>
+      </section>
+    )}
+
+    <div class="ad-slot ad-slot--mid" data-ad-slot="mid-content" aria-hidden="true" />
+
     <section>
-      <h2 id="kullanim">Bu şekilde araç kullanılır mı?</h2>
+      <h2 id="drive-safe">{ui.faultCode.driveSafe}</h2>
       <div class="article__prose">
-        {drive_safe_tr.split(/\n\n+/).filter(Boolean).map((p) => (
+        {driveSafeText.split(/\n\n+/).filter(Boolean).map((p) => (
           <p set:html={p.replace(/\n/g, '<br />')} />
         ))}
       </div>
     </section>
 
-    {/* 3. Türkiye için tahmini onarım maliyeti */}
     <section>
-      <h2 id="maliyet">Türkiye için tahmini onarım maliyeti</h2>
+      <h2 id="cost">{ui.faultCode.cost}</h2>
       {estimated_cost ? (
         <p>
-          Tahmini maliyet aralığı (işçilik ve parça dahil): <strong>{estimated_cost.min_try.toLocaleString('tr-TR')} – {estimated_cost.max_try.toLocaleString('tr-TR')} TL</strong>.
-          {estimated_cost.notes_tr && ` ${estimated_cost.notes_tr}`}
+          {lang === 'tr' ? (
+            <>Tahmini maliyet aralığı (işçilik ve parça dahil): <strong>{estimated_cost.min_try.toLocaleString('tr-TR')} – {estimated_cost.max_try.toLocaleString('tr-TR')} TL</strong>.{estimated_cost.notes_tr && ` ${estimated_cost.notes_tr}`}</>
+          ) : (
+            <>
+              {estimated_cost.min_usd != null && estimated_cost.max_usd != null ? (
+                <>Estimated cost range (labour and parts): <strong>${estimated_cost.min_usd} – ${estimated_cost.max_usd} USD</strong>.{estimated_cost.notes_en && ` ${estimated_cost.notes_en}`}</>
+              ) : (
+                <>Estimated cost range (labour and parts): <strong>{estimated_cost.min_try.toLocaleString('en-US')} – {estimated_cost.max_try.toLocaleString('en-US')} TL</strong>.{estimated_cost.notes_en && ` ${estimated_cost.notes_en}`}</>
+              )}
+            </>
+          )}
         </p>
       ) : (
-        <p>Bu kod için genel bir maliyet aralığı verilememektedir; sebep ve araca göre değişir. Bir serviste teşhis yaptırmanız önerilir.</p>
+        <p>{ui.faultCode.costNote}</p>
       )}
     </section>
 
-    {/* 4. Uzman görüşü */}
     <section>
-      <h2 id="uzman">Uzman görüşü</h2>
+      <h2 id="uzman">{ui.faultCode.expert}</h2>
       <div class="article__prose">
-        {expert_opinion_tr.split(/\n\n+/).filter(Boolean).map((p) => (
+        {expertText.split(/\n\n+/).filter(Boolean).map((p) => (
           <p set:html={p.replace(/\n/g, '<br />')} />
         ))}
       </div>
     </section>
 
-    <Disclaimer />
+    <div class="ad-slot ad-slot--bottom" data-ad-slot="below-content" aria-hidden="true" />
 
-    {/* 5. SSS */}
-    {faq.length > 0 && (
+    <Disclaimer lang={lang} />
+
+    {showFaq && (
       <section>
-        <h2 id="sss">Sık sorulan sorular</h2>
+        <h2 id="sss">{ui.faultCode.faq}</h2>
         <dl class="faq-list">
-          {faq.map((item) => (
+          {faqItems.map((item) => (
             <>
-              <dt>{item.question_tr}</dt>
-              <dd>{item.answer_tr}</dd>
+              <dt>{item.q}</dt>
+              <dd>{item.a}</dd>
             </>
           ))}
         </dl>
       </section>
     )}
 
-    {/* 6. İlgili arıza kodları */}
-    <RelatedCodes codes={related_codes} />
+    <RelatedCodes codes={related_codes} lang={lang} />
   </div>
 </article>

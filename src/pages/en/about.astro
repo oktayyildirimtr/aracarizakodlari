@@ -1,0 +1,38 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL } from '@lib/i18n';
+
+const lang = 'en';
+const currentPath = 'en/about';
+---
+
+<Layout
+  lang={lang}
+  title="About"
+  description="About OBD-II Error Codes. English guide to check engine light codes, definitions, and repair cost estimates."
+  canonical={`${SITE_URL}/${currentPath}`}
+  currentPath={currentPath}
+>
+  <div class="wrap">
+    <article class="static-page">
+      <h1 class="static-page__title">About</h1>
+      <div class="static-page__prose">
+        <p>
+          <strong>OBD-II Error Codes</strong> is a guide that explains diagnostic trouble codes (DTCs) read by OBD-II scanners and code readers. We provide definitions, explanations, and estimated repair costs for Turkey.
+        </p>
+        <h2>Our goal</h2>
+        <p>
+          To help drivers and mechanics quickly understand what common P0xxx codes mean. Content is for information only—not a substitute for professional diagnosis, repair, or inspection.
+        </p>
+        <h2>Content</h2>
+        <p>
+          Each code includes its meaning and estimated repair cost range for Turkey. Definitions follow SAE/ISO standards. For an accurate diagnosis, always visit a qualified technician.
+        </p>
+        <h2>Contact</h2>
+        <p>
+          For suggestions, corrections, or collaboration, use our <a href="/en/contact">Contact</a> page.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>

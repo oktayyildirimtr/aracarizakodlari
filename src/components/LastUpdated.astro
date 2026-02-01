@@ -1,10 +1,15 @@
 ---
+import type { Lang } from '@lib/i18n';
+
 interface Props {
   date: string;
+  lang?: Lang;
 }
-const { date } = Astro.props;
+const { date, lang = 'tr' } = Astro.props;
 const d = new Date(date);
-const formatted = d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+const locale = lang === 'tr' ? 'tr-TR' : 'en-US';
+const formatted = d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+const label = lang === 'tr' ? 'Son güncelleme:' : 'Last updated:';
 ---
 
-<time class="last-updated" datetime={d.toISOString()}>Son güncelleme: {formatted}</time>
+<time class="last-updated" datetime={d.toISOString()}>{label} {formatted}</time>

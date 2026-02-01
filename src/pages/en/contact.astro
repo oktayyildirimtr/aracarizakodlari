@@ -1,0 +1,37 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL } from '@lib/i18n';
+
+const lang = 'en';
+const currentPath = 'en/contact';
+---
+
+<Layout
+  lang={lang}
+  title="Contact"
+  description="Contact OBD-II Error Codes. Suggestions, corrections, or collaboration inquiries."
+  canonical={`${SITE_URL}/${currentPath}`}
+  currentPath={currentPath}
+>
+  <div class="wrap">
+    <article class="static-page">
+      <h1 class="static-page__title">Contact</h1>
+      <div class="static-page__prose">
+        <p>
+          For suggestions, corrections, collaboration, or questions about <strong>OBD-II Error Codes</strong>, use the channel below.
+        </p>
+        <h2>Email</h2>
+        <p><a href="mailto:iletisim@arizakodlari.com">iletisim@arizakodlari.com</a></p>
+        <p>The site is statically hosted, so there is no contact form. Please send an email directly.</p>
+        <h2>What can you write about?</h2>
+        <ul>
+          <li>Errors or gaps in code explanations</li>
+          <li>Suggestions for new codes or content</li>
+          <li>Privacy, cookie, or legal questions</li>
+          <li>Advertising, partnership, or collaboration requests</li>
+        </ul>
+        <p>We try to respond quickly. Spam or promotional emails may not receive a reply.</p>
+      </div>
+    </article>
+  </div>
+</Layout>

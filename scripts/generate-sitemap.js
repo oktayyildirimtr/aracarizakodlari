@@ -1,16 +1,13 @@
 /**
- * Build sonrası sitemap üretir. Astro @astrojs/sitemap ile _routes reduce hatası
- * alındığı için özel script kullanıyoruz.
+ * Build sonrası sitemap üretir. Multi-language: /tr/ ve /en/
  *
  * Kullanım: npm run build (build komutu bu scripti çalıştırır)
  */
 
 import Database from 'better-sqlite3';
 import { writeFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = process.cwd();
 const dist = join(root, 'dist');
 const dbPath = join(root, 'data', 'ariza.db');
@@ -20,21 +17,26 @@ const BATCH = process.env.ARIZA_BATCH_LIMIT
   ? parseInt(process.env.ARIZA_BATCH_LIMIT, 10)
   : null;
 
-function toSlug(s) {
-  return s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-}
-
 function collectUrls() {
+  const staticUrls = [
+    SITE + '/',
+    SITE + '/tr',
+    SITE + '/en',
+    SITE + '/tr/kodlar',
+    SITE + '/en/codes',
+    SITE + '/tr/hakkimizda',
+    SITE + '/en/about',
+    SITE + '/tr/iletisim',
+    SITE + '/en/contact',
+    SITE + '/tr/gizlilik-politikasi',
+    SITE + '/en/privacy-policy',
+    SITE + '/tr/cerez-bildirimi',
+    SITE + '/en/cookie-policy',
+  ];
+
   if (!existsSync(dbPath)) {
     console.warn('generate-sitemap: data/ariza.db yok, statik sayfalar ekleniyor.');
-    return [
-      SITE + '/',
-      SITE + '/kodlar',
-      SITE + '/hakkimizda',
-      SITE + '/gizlilik-politikasi',
-      SITE + '/cerez-bildirimi',
-      SITE + '/iletisim',
-    ];
+    return staticUrls;
   }
 
   const db = new Database(dbPath, { readonly: true });
@@ -43,38 +45,14 @@ function collectUrls() {
     ? 'SELECT code FROM fault_codes WHERE noindex = 0 AND sitemap_include = 1 ORDER BY code LIMIT ?'
     : 'SELECT code FROM fault_codes WHERE noindex = 0 AND sitemap_include = 1 ORDER BY code';
   const codes = (limit ? db.prepare(fcSql).all(limit) : db.prepare(fcSql).all()).map((r) => r.code);
-
-  const urls = [
-    SITE + '/',
-    SITE + '/kodlar',
-    SITE + '/hakkimizda',
-    SITE + '/gizlilik-politikasi',
-    SITE + '/cerez-bildirimi',
-    SITE + '/iletisim',
-  ];
-
-  for (const code of codes) {
-    urls.push(SITE + '/' + code.toLowerCase() + '-nedir');
-  }
-
-  if (codes.length === 0) {
-    db.close();
-    return [...new Set(urls)];
-  }
-
-  const ph = codes.map(() => '?').join(',');
-  const rows = db.prepare(
-    `SELECT ab.brand, ab.model, fc.code FROM affected_brands ab
-     JOIN fault_codes fc ON fc.id = ab.fault_code_id
-     WHERE fc.noindex = 0 AND fc.sitemap_include = 1 AND fc.code IN (${ph})
-     ORDER BY ab.brand, ab.model, fc.code`
-  ).all(...codes);
-
-  for (const r of rows) {
-    urls.push(SITE + '/' + toSlug(r.brand) + '-' + toSlug(r.model) + '-' + r.code.toLowerCase());
-  }
-
   db.close();
+
+  const urls = [...staticUrls];
+  for (const code of codes) {
+    urls.push(SITE + '/tr/' + code.toLowerCase() + '-nedir');
+    urls.push(SITE + '/en/' + code.toLowerCase() + '-meaning');
+  }
+
   return [...new Set(urls)];
 }
 

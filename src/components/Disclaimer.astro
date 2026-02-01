@@ -1,7 +1,17 @@
 ---
-// "Bilgilendirme amaçlıdır" uyarısı – E-E-A-T & AdSense
+import type { Lang } from '@lib/i18n';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'tr' } = Astro.props;
+
 ---
 
 <p class="disclaimer" role="note">
-  <strong>Bilgilendirme amaçlıdır.</strong> Bu sitedeki içerikler genel bilgi sağlamak içindir; profesyonel teşhis veya onarım yerine geçmez. Araçınızla ilgili karar vermeden önce mutlaka yetkili bir servise danışınız.
+  {lang === 'tr' ? (
+    <><strong>Bilgilendirme amaçlıdır.</strong> Bu sitedeki içerikler genel bilgi sağlamak içindir; profesyonel teşhis veya onarım yerine geçmez. Araçınızla ilgili karar vermeden önce mutlaka yetkili bir servise danışınız.</>
+  ) : (
+    <><strong>For information only.</strong> Content on this site is for general guidance; it does not replace professional diagnosis or repair. Always consult a qualified technician before making decisions about your vehicle.</>
+  )}
 </p>

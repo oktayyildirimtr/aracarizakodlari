@@ -1,0 +1,41 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL } from '@lib/i18n';
+
+const lang = 'tr';
+const currentPath = 'tr/gizlilik-politikasi';
+---
+
+<Layout
+  lang={lang}
+  title="Gizlilik Politikası"
+  description="OBD-II Arıza Kodları sitesi gizlilik politikası. Kişisel verilerin işlenmesi ve çerez kullanımı hakkında bilgi."
+  canonical={`${SITE_URL}/${currentPath}`}
+  currentPath={currentPath}
+>
+  <div class="wrap">
+    <article class="static-page">
+      <h1 class="static-page__title">Gizlilik Politikası</h1>
+      <p class="static-page__updated">Son güncelleme: Ocak 2025</p>
+      <div class="static-page__prose">
+        <p>Bu metin, <strong>OBD-II Arıza Kodları</strong> sitesinde hangi bilgilerin toplandığını, nasıl kullanıldığını ve sizin haklarınızı özetler.</p>
+        <h2>Veri sorumlusu</h2>
+        <p>Site sahibi, kişisel veri işleme faaliyetlerinde veri sorumlusudur. İletişim bilgileri <a href="/tr/iletisim">İletişim</a> sayfasında.</p>
+        <h2>Toplanan bilgiler</h2>
+        <p>Site ağırlıklı olarak statik içerik sunar. Ziyaret sırasında şu tür veriler toplanabilir:</p>
+        <ul>
+          <li><strong>Teknik veriler:</strong> IP, tarayıcı, cihaz, ziyaret edilen sayfalar.</li>
+          <li><strong>Çerezler:</strong> İşlevsellik veya tercihleriniz için kullanılan çerezler. Detay için <a href="/tr/cerez-bildirimi">Çerez Bildirimi</a>ne bakın.</li>
+        </ul>
+        <h2>İşleme amaçları</h2>
+        <p>Veriler sitenin sunulması, güvenlik, trafik analizi ve yasal yükümlülükler için işlenebilir.</p>
+        <h2>Üçüncü taraflar ve reklamlar</h2>
+        <p>Sitede Google AdSense gibi reklam hizmetleri kullanılabilir. Bu sağlayıcılar kendi çerezlerini kullanır. <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">Google Reklam Ortakları</a>. <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Reklam Ayarları</a>.</p>
+        <h2>Haklarınız</h2>
+        <p>KVKK ve GDPR kapsamında erişim, düzeltme, silme haklarınız var. <a href="/tr/iletisim">İletişim</a> sayfasından bize yazın.</p>
+        <h2>Değişiklikler</h2>
+        <p>Politika güncellendiğinde bu sayfada yayımlanır.</p>
+      </div>
+    </article>
+  </div>
+</Layout>

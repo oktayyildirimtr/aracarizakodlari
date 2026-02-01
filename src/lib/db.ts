@@ -18,31 +18,37 @@ export interface FaultCode {
   id: number;
   code: string;
   title_tr: string;
+  title_en: string | null;
   description_tr: string;
+  description_en: string | null;
   expert_opinion_tr: string;
+  expert_opinion_en: string | null;
   drive_safe_tr: string;
+  drive_safe_en: string | null;
   noindex: number;
   sitemap_include: number;
   category: string | null;
-  description_en: string | null;
   updated_at: string;
 }
 
 export interface Symptom {
   id: number;
   text_tr: string;
+  text_en: string | null;
   sort_order: number;
 }
 
 export interface Cause {
   id: number;
   text_tr: string;
+  text_en: string | null;
   sort_order: number;
 }
 
 export interface Solution {
   id: number;
   text_tr: string;
+  text_en: string | null;
   sort_order: number;
 }
 
@@ -56,13 +62,18 @@ export interface AffectedBrand {
 export interface EstimatedCost {
   min_try: number;
   max_try: number;
+  min_usd: number | null;
+  max_usd: number | null;
   notes_tr: string | null;
+  notes_en: string | null;
 }
 
 export interface FaqItem {
   id: number;
   question_tr: string;
+  question_en: string | null;
   answer_tr: string;
+  answer_en: string | null;
   sort_order: number;
 }
 
@@ -110,22 +121,22 @@ export function getFaultCodeDetail(code: string): FaultCodeDetail | null {
 
   const database = getDb();
   const symptoms = database
-    .prepare('SELECT id, text_tr, sort_order FROM symptoms WHERE fault_code_id = ? ORDER BY sort_order, id')
+    .prepare('SELECT id, text_tr, text_en, sort_order FROM symptoms WHERE fault_code_id = ? ORDER BY sort_order, id')
     .all(fc.id) as Symptom[];
   const causes = database
-    .prepare('SELECT id, text_tr, sort_order FROM causes WHERE fault_code_id = ? ORDER BY sort_order, id')
+    .prepare('SELECT id, text_tr, text_en, sort_order FROM causes WHERE fault_code_id = ? ORDER BY sort_order, id')
     .all(fc.id) as Cause[];
   const solutions = database
-    .prepare('SELECT id, text_tr, sort_order FROM solutions WHERE fault_code_id = ? ORDER BY sort_order, id')
+    .prepare('SELECT id, text_tr, text_en, sort_order FROM solutions WHERE fault_code_id = ? ORDER BY sort_order, id')
     .all(fc.id) as Solution[];
   const affected_brands = database
     .prepare('SELECT id, brand, model, sort_order FROM affected_brands WHERE fault_code_id = ? ORDER BY sort_order, brand, model')
     .all(fc.id) as AffectedBrand[];
   const costRow = database
-    .prepare('SELECT min_try, max_try, notes_tr FROM estimated_costs WHERE fault_code_id = ?')
-    .get(fc.id) as { min_try: number; max_try: number; notes_tr: string | null } | undefined;
+    .prepare('SELECT min_try, max_try, min_usd, max_usd, notes_tr, notes_en FROM estimated_costs WHERE fault_code_id = ?')
+    .get(fc.id) as { min_try: number; max_try: number; min_usd: number | null; max_usd: number | null; notes_tr: string | null; notes_en: string | null } | undefined;
   const faq = database
-    .prepare('SELECT id, question_tr, answer_tr, sort_order FROM faq WHERE fault_code_id = ? ORDER BY sort_order, id')
+    .prepare('SELECT id, question_tr, question_en, answer_tr, answer_en, sort_order FROM faq WHERE fault_code_id = ? ORDER BY sort_order, id')
     .all(fc.id) as FaqItem[];
 
   const relatedRows = database
@@ -142,7 +153,7 @@ export function getFaultCodeDetail(code: string): FaultCodeDetail | null {
     causes,
     solutions,
     affected_brands,
-    estimated_cost: costRow ? { min_try: costRow.min_try, max_try: costRow.max_try, notes_tr: costRow.notes_tr } : null,
+    estimated_cost: costRow ? { min_try: costRow.min_try, max_try: costRow.max_try, min_usd: costRow.min_usd, max_usd: costRow.max_usd, notes_tr: costRow.notes_tr, notes_en: costRow.notes_en } : null,
     faq,
     related_codes,
   };
