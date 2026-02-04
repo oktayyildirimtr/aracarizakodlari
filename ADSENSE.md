@@ -12,11 +12,11 @@ Bu dokümanda sitenin AdSense onayı için yapılması gerekenler ve projede zat
 - **İletişim** – Kullanıcıların ulaşabileceği iletişim sayfası
 - **ads.txt** – `public/ads.txt` mevcut; onay sonrası Google satırı eklenir
 - **Reklam alanları** – Onay sonrası FaultCodeContent içine 3 reklam yuvası (above, mid, below) eklenecek; şu an kaldırıldı
-- **HTTPS** – Site `https://www.obdfaultcode.com` üzerinden servis edilmeli
+- **HTTPS** – Site `https://obdfaultcode.com` üzerinden servis edilmeli
 
 ## AdSense Başvurusu Öncesi Kontrol Listesi
 
-1. [ ] **Site yayında mı?** – www.obdfaultcode.com canlı ve HTTPS ile erişilebilir olmalı
+1. [ ] **Site yayında mı?** – obdfaultcode.com canlı ve HTTPS ile erişilebilir olmalı
 2. [ ] **İçerik yeterli mi?** – En az 15–20 kaliteli sayfa (mevcut: 30+ arıza kodu sayfası)
 3. [ ] **Orijinal içerik mi?** – Tüm metinler özgün, kopyalanmış değil
 4. [ ] **Navigasyon net mi?** – Ana sayfa, Hakkımızda, İletişim, Gizlilik, Çerez linkleri görünür
@@ -30,7 +30,7 @@ Bu dokümanda sitenin AdSense onayı için yapılması gerekenler ve projede zat
    - Örnek: `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`
 
 2. **Site doğrulama**
-   - AdSense başvurusunda site URL’i: `https://www.obdfaultcode.com`
+   - AdSense başvurusunda site URL’i: `https://obdfaultcode.com`
    - Gerekirse `Layout.astro` head içine verilen meta etiketini ekle
 
 3. **Reklam kodlarını ekle**
@@ -43,38 +43,38 @@ Bu dokümanda sitenin AdSense onayı için yapılması gerekenler ve projede zat
 User-agent: *
 Allow: /
 
-Sitemap: https://www.obdfaultcode.com/sitemap.xml
+Sitemap: https://obdfaultcode.com/sitemap.xml
 ```
 
 Bu yapı AdSense için uygundur; özel engelleme gerekmez.
 
 ## Google Search Console – Sitemap (Adım Adım)
 
-Siten **www.obdfaultcode.com**, **http://obdfaultcode.com** ve **https://www.obdfaultcode.com** olarak açılıyor. GSC ve sitemap’in geçerli olması için **tek canonical adres** kullan: **https://www.obdfaultcode.com**. Proje zaten buna göre ayarlı.
+Siten **obdfaultcode.com**, **http://obdfaultcode.com** ve **https://obdfaultcode.com** olarak açılıyor. GSC ve sitemap’in geçerli olması için **tek canonical adres** kullan: **https://obdfaultcode.com**. Proje zaten buna göre ayarlı.
 
 ### 1. Yönlendirmeleri kur (önemli)
 
 Diğer adresler canonical’e yönlensin ki Google tek adresi görsün:
 
 - **Cloudflare kullanıyorsan:** Dashboard → **Rules** → **Redirect Rules** → **Create rule**
-  - **Name:** `Bare domain → www`
-  - **When:** `(http.host eq "obdfaultcode.com")` (sadece www’siz alan adı)
-  - **Then:** Dynamic redirect → URL: `https://www.obdfaultcode.com${uri.path}` → Status: **301**.  
+  - **Name:** `www → canonical`
+  - **When:** `(http.host eq "www.obdfaultcode.com")` (www’li istekler → canonical’e yönlendir)
+  - **Then:** Dynamic redirect → URL: `https://obdfaultcode.com${uri.path}` → Status: **301**.  
   Ayrıca **SSL/TLS** → **Edge Certificates** içinde **“Always Use HTTPS”** açık olsun (http → https).
-- **Netlify:** Domain settings → Add domain alias `obdfaultcode.com` → “Redirect to https://www.obdfaultcode.com” ve “Force HTTPS” açık olsun.
+- **Netlify:** Domain settings → Add domain alias `obdfaultcode.com` → “Redirect to https://obdfaultcode.com” ve “Force HTTPS” açık olsun.
 
 ### 2. GSC’de tek mülk kullan
 
-- **Mülk ekle:** Search Console → **Mülk ekle** → **URL öneki** → tam olarak: **`https://www.obdfaultcode.com`**  
+- **Mülk ekle:** Search Console → **Mülk ekle** → **URL öneki** → tam olarak: **`https://obdfaultcode.com`**  
   (Sonunda `/` veya yol olmasın; `http://` yazma.)
 - **Doğrula:** HTML etiket, HTML dosyası veya DNS ile doğrula.
 - **Sitemap ekle:** Sol menü **Sitemaps** → “Yeni sitemap ekle” alanına sadece **`sitemap.xml`** yaz → **Gönder**.  
-  Tam URL: `https://www.obdfaultcode.com/sitemap.xml`
+  Tam URL: `https://obdfaultcode.com/sitemap.xml`
 
 ### 3. “Geçersiz” devam ederse
 
-- GSC’de **başka mülk ekleme** (http://obdfaultcode.com veya https://obdfaultcode.com). Sitemap yalnızca **https://www.obdfaultcode.com** mülküne eklenir.
-- Tarayıcıda **https://www.obdfaultcode.com/sitemap.xml** açılıyor mu kontrol et; XML listesi görünmeli.
+- GSC’de **başka mülk ekleme** (http://obdfaultcode.com veya https://obdfaultcode.com). Sitemap yalnızca **https://obdfaultcode.com** mülküne eklenir.
+- Tarayıcıda **https://obdfaultcode.com/sitemap.xml** açılıyor mu kontrol et; XML listesi görünmeli.
 - Yönlendirmeleri kurduktan sonra birkaç dakika bekle, sonra GSC’de “Sitemap’i test et” / “Yeniden getir” dene.
 
 ## Yapılmaması Gerekenler

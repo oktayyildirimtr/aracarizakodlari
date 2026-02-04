@@ -3,7 +3,7 @@
  * Languages: tr (default), en
  */
 
-export const SITE_URL = 'https://www.obdfaultcode.com';
+export const SITE_URL = 'https://obdfaultcode.com';
 
 /** Contact email displayed on site and used in schema */
 export const CONTACT_EMAIL = 'contact@obdfaultcode.com';

@@ -229,7 +229,7 @@ Ardından `dist/` içeriğini FTP/SFTP veya host panelindeki “Dosya yükle” 
 ## 11. Domain ve `robots.txt` / sitemap
 
 - **Domain:** Cloudflare / Netlify / Vercel’de custom domain ekleyebilirsin.  
-- Projede `site: 'https://www.obdfaultcode.com'` varsa, yayında kullandığın domain’e göre `astro.config.mjs` içindeki `site` ve `src/lib/seo.ts` içindeki `SITE_URL` değerlerini güncelle.  
+- Projede `site: 'https://obdfaultcode.com'` varsa, yayında kullandığın domain’e göre `astro.config.mjs` içindeki `site` ve `src/lib/seo.ts` içindeki `SITE_URL` değerlerini güncelle.  
 - `robots.txt` ve sitemap build sırasında otomatik üretilir; `dist` ile birlikte yayına gider.
 
 ---
