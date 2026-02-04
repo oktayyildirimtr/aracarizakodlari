@@ -1,37 +1,95 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
+import { SITE_URL, CONTACT_EMAIL, ROUTES } from '@lib/i18n';
 
 const lang = 'en';
 const currentPath = 'en/contact';
+const formAction = import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '';
 ---
 
 <Layout
   lang={lang}
-  title="Contact"
-  description="Contact OBD-II Error Codes. Suggestions, corrections, or collaboration inquiries."
+  title="Contact Us"
+  description="Contact OBD Fault Codes. Send questions, suggestions, or feedback about our OBD-II error code guide. We respond to genuine inquiries."
   canonical={`${SITE_URL}/${currentPath}`}
   currentPath={currentPath}
 >
-  <div class="wrap">
-    <article class="static-page">
-      <h1 class="static-page__title">Contact</h1>
-      <div class="static-page__prose">
+  <article class="static-page wrap">
+    <header class="static-page__header">
+      <h1 class="static-page__title">Contact Us</h1>
+      <p class="static-page__updated">We aim to reply within a few business days.</p>
+    </header>
+    <div class="static-page__prose">
+      <p>
+        We welcome your questions, suggestions, and feedback about <strong>OBD Fault Codes</strong>. Whether you’ve spotted an error in a code explanation, want to suggest a new code or topic, or need help with something else, you can reach us using the options below.
+      </p>
+
+      <section class="contact-email" aria-labelledby="email-heading">
+        <h2 id="email-heading">Email address</h2>
         <p>
-          For suggestions, corrections, collaboration, or questions about <strong>OBD-II Error Codes</strong>, use the channel below.
+          You can write to us directly at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. We use this address for all contact and do not publish a separate support or sales email. Please use a clear subject line (e.g. “P0171 code suggestion” or “Privacy question”) so we can prioritise your message.
         </p>
-        <h2>Email</h2>
-        <p><a href="mailto:iletisim@arizakodlari.com">iletisim@arizakodlari.com</a></p>
-        <p>The site is statically hosted, so there is no contact form. Please send an email directly.</p>
-        <h2>What can you write about?</h2>
+        <p>
+          We do not respond to unsolicited commercial offers, link-exchange requests, or bulk marketing. Genuine user questions, content corrections, and partnership inquiries related to automotive diagnostics are welcome.
+        </p>
+      </section>
+
+      <section class="contact-form-section" aria-labelledby="form-heading">
+        <h2 id="form-heading">Contact form</h2>
+        <p>
+          You can also send a message using the form below. All fields are required so we can respond appropriately.
+        </p>
+
+        {formAction ? (
+          <form class="contact-form" action={formAction} method="POST" name="contact">
+            <label for="contact-name">Your name</label>
+            <input id="contact-name" type="text" name="name" required autocomplete="name" />
+            <label for="contact-email">Your email</label>
+            <input id="contact-email" type="email" name="email" required autocomplete="email" />
+            <label for="contact-subject">Subject</label>
+            <input id="contact-subject" type="text" name="_subject" value="Contact from obdfaultcode.com" required />
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="5" required></textarea>
+            <button type="submit">Send message</button>
+          </form>
+        ) : (
+          <form class="contact-form" id="contact-form-mailto" method="get" name="contact">
+            <label for="contact-name">Your name</label>
+            <input id="contact-name" type="text" name="name" required autocomplete="name" />
+            <label for="contact-email">Your email</label>
+            <input id="contact-email" type="email" name="email" required autocomplete="email" />
+            <label for="contact-subject">Subject</label>
+            <input id="contact-subject" type="text" name="subject" required />
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="body" rows="5" required></textarea>
+            <button type="submit">Open email client to send</button>
+          </form>
+          <script define:vars={{ contactEmail: CONTACT_EMAIL }}>
+            document.getElementById('contact-form-mailto')?.addEventListener('submit', function (e) {
+              e.preventDefault();
+              const form = e.target;
+              const name = encodeURIComponent(form.name?.value || '');
+              const email = encodeURIComponent(form.email?.value || '');
+              const subject = encodeURIComponent(form.subject?.value || '');
+              const body = encodeURIComponent((form.body?.value || '').replace(/\n/g, '%0D%0A'));
+              window.location.href = `mailto:${contactEmail}?subject=${subject}&body=From: ${name} (${email})%0D%0A%0D%0A${body}`;
+            });
+          </script>
+        )}
+      </section>
+
+      <section aria-labelledby="topics-heading">
+        <h2 id="topics-heading">What you can write about</h2>
         <ul>
-          <li>Errors or gaps in code explanations</li>
-          <li>Suggestions for new codes or content</li>
-          <li>Privacy, cookie, or legal questions</li>
-          <li>Advertising, partnership, or collaboration requests</li>
+          <li><strong>Content corrections:</strong> If you find a mistake in a code definition, symptom list, or cost estimate, tell us and we’ll review it.</li>
+          <li><strong>Suggestions:</strong> Ideas for new codes to cover, clearer explanations, or additional categories.</li>
+          <li><strong>Legal and privacy:</strong> Questions about our <a href={`/${ROUTES.en.privacy}`}>Privacy Policy</a>, <a href={`/${ROUTES.en.cookieNotice}`}>Cookie Policy</a>, or <a href={`/${ROUTES.en.terms}`}>Terms of Service</a>.</li>
+          <li><strong>Partnerships:</strong> Proposals for collaboration, advertising, or licensing, as long as they align with our editorial standards.</li>
         </ul>
-        <p>We try to respond quickly. Spam or promotional emails may not receive a reply.</p>
-      </div>
-    </article>
-  </div>
+        <p>
+          This site is run by a small team. We read every message but cannot guarantee a reply to every email. We do not provide personalised vehicle diagnosis or repair advice by email; for that, please consult a qualified mechanic or workshop.
+        </p>
+      </section>
+    </div>
+  </article>
 </Layout>

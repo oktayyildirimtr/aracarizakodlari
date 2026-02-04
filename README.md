@@ -15,7 +15,9 @@ Türkçe OBD-II arıza kodu sayfaları üreten, AdSense uyumlu, statik programat
 - **Top 30:** Şimdilik sadece en çok aranan 30 arıza kodu sayfada gösterilir; diğerleri DB'de tutulur (`npm run db:set-top-codes`)
 - **Tüm kodlar:** `/kodlar` sayfasında liste, arama ve kategori filtresi
 - **Kategori:** Her kod için `category` (örn. Motor ve hava-yakıt, Egzoz ve emisyon)
-- **Kurumsal / yasal:** Hakkımızda (`/hakkimizda`), Gizlilik politikası (`/gizlilik-politikasi`), Çerez bildirimi (`/cerez-bildirimi`), İletişim (`/iletisim`); çerez onay banner’ı
+- **Kurumsal / yasal:** Hakkımızda, Gizlilik politikası, Çerez bildirimi, Kullanım koşulları (TR/EN), İletişim (e-posta + form); çerez onay banner’ı
+- **Domain:** obdfaultcode.com (SITE_URL, sitemap, robots.txt)
+- **İletişim formu:** Formspree kullanmak için `.env` içinde `PUBLIC_CONTACT_FORM_ACTION=https://formspree.io/f/YOUR_ID` tanımlayın; yoksa form mailto ile açılır.
 
 ## Proje Yapısı
 

@@ -1,6 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
+import { SITE_URL, CONTACT_EMAIL, ROUTES } from '@lib/i18n';
 
 const lang = 'en';
 const currentPath = 'en/cookie-policy';
@@ -8,27 +8,63 @@ const currentPath = 'en/cookie-policy';
 
 <Layout
   lang={lang}
-  title="Cookie Notice"
-  description="OBD-II Error Codes cookie policy. What cookies we use and how to manage them."
+  title="Cookie Policy"
+  description="Cookie Policy for OBD Fault Codes. What cookies we use, why, and how you can manage them. AdSense and GDPR compliant."
   canonical={`${SITE_URL}/${currentPath}`}
   currentPath={currentPath}
 >
-  <div class="wrap">
-    <article class="static-page">
-      <h1 class="static-page__title">Cookie Notice</h1>
-      <p class="static-page__updated">Last updated: January 2025</p>
-      <div class="static-page__prose">
-        <p><strong>OBD-II Error Codes</strong> may use cookies and similar technologies.</p>
-        <h2>What are cookies?</h2>
-        <p>Cookies are small text files stored on your device via the browser.</p>
-        <h2>Types of cookies we use</h2>
-        <ul>
-          <li><strong>Essential:</strong> Required for basic site functions.</li>
-          <li><strong>Advertising:</strong> Google AdSense advertising cookies (including DoubleClick DART) are used to personalize ads and measure effectiveness. To opt out of personalized ads, use <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Ad Settings</a>.</li>
-        </ul>
-        <h2>More information</h2>
-        <p>See our <a href="/en/privacy-policy">Privacy Policy</a>. Questions? Use the <a href="/en/contact">Contact</a> page.</p>
-      </div>
-    </article>
-  </div>
+  <article class="static-page wrap">
+    <header class="static-page__header">
+      <h1 class="static-page__title">Cookie Policy</h1>
+      <p class="static-page__updated">Last updated: February 2025</p>
+    </header>
+    <div class="static-page__prose">
+      <p>
+        This Cookie Policy explains how <strong>OBD Fault Codes</strong> (obdfaultcode.com) uses cookies and similar technologies when you visit our website. It should be read together with our <a href={`/${ROUTES.en.privacy}`}>Privacy Policy</a>, which describes how we collect, use, and protect your data in general. By using the site, you consent to the use of cookies as described below, unless you have changed your browser or device settings to refuse or limit them.
+      </p>
+
+      <h2 id="what-are-cookies">What Are Cookies?</h2>
+      <p>
+        Cookies are small text files that are stored on your device (computer, tablet, or mobile phone) when you visit a website. They are widely used to make websites work more efficiently, to remember your preferences, and to provide information to the site owner or third parties (e.g. analytics or advertising services). Cookies can be “first-party” (set by our site) or “third-party” (set by a service we use, such as Google). Similar technologies include local storage, session storage, and pixels or tags that may be used for similar purposes.
+      </p>
+
+      <h2 id="why-we-use">Why We Use Cookies</h2>
+      <p>
+        We use cookies and similar technologies for the following purposes: (1) <strong>Essential operation:</strong> to enable basic functions such as navigation, load balancing, and remembering your cookie consent choice; (2) <strong>Analytics and performance:</strong> to understand how visitors use the site (e.g. which pages are viewed, how long people stay) so we can improve content and performance; (3) <strong>Advertising:</strong> if we display ads (e.g. via Google AdSense), our advertising partners may use cookies to show relevant ads, limit how often you see an ad, and measure the effectiveness of campaigns. These purposes may involve first-party and third-party cookies.
+      </p>
+
+      <h2 id="types">Types of Cookies We Use</h2>
+      <ul>
+        <li><strong>Strictly necessary cookies:</strong> These are required for the site to function. They may include session or security-related cookies. They generally do not store personally identifiable information in a way that identifies you. You cannot opt out of these if you want to use the site.</li>
+        <li><strong>Functional cookies:</strong> These remember choices you make (e.g. language preference or cookie consent) to give you a better experience. You can usually control these via your browser or our cookie banner.</li>
+        <li><strong>Analytics cookies:</strong> These help us count visits, see how users move around the site, and identify trends. The data is often aggregated and anonymised. We may use first-party or third-party analytics services.</li>
+        <li><strong>Advertising cookies:</strong> If we use advertising networks (such as Google AdSense), they may set cookies to deliver ads, measure ad performance, and build interest-based advertising profiles. Google may use cookies including the DoubleClick cookie. You can manage or opt out of personalised advertising via <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Ad Settings</a> and at <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener noreferrer">Your Online Choices</a> (EU). For more details, see <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">How Google uses cookies in advertising</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>.</li>
+      </ul>
+
+      <h2 id="duration">Cookie Duration</h2>
+      <p>
+        Cookies can be “session” cookies (deleted when you close your browser) or “persistent” cookies (they remain for a set period or until you delete them). The exact duration depends on the cookie and the service. Advertising and analytics cookies are often persistent so that preferences and statistics can be maintained across visits.
+      </p>
+
+      <h2 id="manage">How to Manage Cookies</h2>
+      <p>
+        You can control or delete cookies through your browser settings. Most browsers allow you to: view which cookies are stored; block all cookies; block third-party cookies only; or delete cookies when you close the browser. Note that blocking or deleting cookies may affect how the site works (e.g. you may need to set preferences again, or some features may not function). For more information, see your browser’s help section or visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer">aboutcookies.org</a>. If we show a cookie consent banner, you can also accept or reject non-essential cookies there.
+      </p>
+
+      <h2 id="gdpr">Your Rights (GDPR)</h2>
+      <p>
+        If you are in the European Economic Area or another jurisdiction that grants similar rights, you may have the right to withdraw consent for non-essential cookies, to object to certain processing, and to request access, rectification, or erasure of your data. For more information and how to exercise these rights, see our <a href={`/${ROUTES.en.privacy}`}>Privacy Policy</a> and contact us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> or via our <a href={`/${ROUTES.en.contact}`}>Contact</a> page.
+      </p>
+
+      <h2 id="changes">Changes</h2>
+      <p>
+        We may update this Cookie Policy from time to time to reflect changes in our practices or in law. The “Last updated” date at the top of this page will be revised accordingly. We encourage you to review this page periodically.
+      </p>
+
+      <h2 id="contact">Contact</h2>
+      <p>
+        For questions about our use of cookies, please contact us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> or via our <a href={`/${ROUTES.en.contact}`}>Contact</a> page.
+      </p>
+    </div>
+  </article>
 </Layout>

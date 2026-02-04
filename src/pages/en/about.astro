@@ -1,6 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
+import { SITE_URL, CONTACT_EMAIL, ROUTES } from '@lib/i18n';
 
 const lang = 'en';
 const currentPath = 'en/about';
@@ -8,31 +8,50 @@ const currentPath = 'en/about';
 
 <Layout
   lang={lang}
-  title="About"
-  description="About OBD-II Error Codes. English guide to check engine light codes, definitions, and repair cost estimates."
+  title="About Us"
+  description="About OBD Fault Codes. Our mission is to explain check engine light codes clearly and help drivers and mechanics understand OBD-II diagnostics."
   canonical={`${SITE_URL}/${currentPath}`}
   currentPath={currentPath}
 >
-  <div class="wrap">
-    <article class="static-page">
-      <h1 class="static-page__title">About</h1>
-      <div class="static-page__prose">
-        <p>
-          <strong>OBD-II Error Codes</strong> is a guide that explains diagnostic trouble codes (DTCs) read by OBD-II scanners and code readers. We provide definitions, explanations, and estimated repair costs for Turkey.
-        </p>
-        <h2>Our goal</h2>
-        <p>
-          To help drivers and mechanics quickly understand what common P0xxx codes mean. Content is for information only—not a substitute for professional diagnosis, repair, or inspection.
-        </p>
-        <h2>Content</h2>
-        <p>
-          Each code includes its meaning and estimated repair cost range for Turkey. Definitions follow SAE/ISO standards. For an accurate diagnosis, always visit a qualified technician.
-        </p>
-        <h2>Contact</h2>
-        <p>
-          For suggestions, corrections, or collaboration, use our <a href="/en/contact">Contact</a> page.
-        </p>
-      </div>
-    </article>
-  </div>
+  <article class="static-page wrap">
+    <header class="static-page__header">
+      <h1 class="static-page__title">About Us</h1>
+      <p class="static-page__updated">Last updated: February 2025</p>
+    </header>
+    <div class="static-page__prose">
+      <p>
+        <strong>OBD Fault Codes</strong> (obdfaultcode.com) is an independent, content-driven website focused on automotive On-Board Diagnostic (OBD-II) trouble codes. When the check engine light turns on, the vehicle’s computer stores one or more diagnostic trouble codes (DTCs). Our goal is to explain these codes in plain language, with definitions, common causes, symptoms, and general repair cost guidance so that drivers and mechanics can quickly understand what might be wrong—and what to do next.
+      </p>
+
+      <h2 id="who-we-are">Who We Are</h2>
+      <p>
+        We are a small team of automotive and content specialists who built this site because we found that many drivers and DIY mechanics struggle to make sense of OBD-II code readers and scan tool results. Code definitions in repair manuals and some websites are often technical, brief, or scattered. We wanted a single, reliable place where you can look up a code (for example, P0171 or P0300), read a clear explanation, and get a sense of possible causes and typical repair cost ranges. We are not affiliated with any vehicle manufacturer, parts brand, or repair chain. Our content is written for education and reference only.
+      </p>
+
+      <h2 id="mission">Our Mission</h2>
+      <p>
+        Our mission is to make OBD-II diagnostics more accessible. We believe that understanding what a code means helps you communicate better with your mechanic, avoid unnecessary repairs, and make informed decisions about when to fix an issue and when to seek a second opinion. We focus on the most common powertrain codes (especially P0xxx series) and explain them in a way that is accurate, easy to read, and free of unnecessary jargon. We also provide estimated repair cost ranges where possible, so you have a rough idea of what to expect—though actual costs always depend on your vehicle, location, and the root cause found by a technician.
+      </p>
+
+      <h2 id="what-we-offer">What We Offer</h2>
+      <p>
+        The site offers code-specific pages: each page covers one DTC (e.g. P0171 – System Too Lean Bank 1) and includes an official or standard definition where applicable (aligned with SAE J2012 and similar standards), a plain-language explanation, common symptoms, possible causes, and suggested steps for resolution. We also include guidance on whether it is safe to drive with the code, and estimated repair cost ranges where we have enough data to give a useful range. We do not sell parts, book repairs, or provide personalised diagnosis. We are a reference resource only.
+      </p>
+
+      <h2 id="content-standards">Content Standards</h2>
+      <p>
+        We take accuracy seriously. Our code explanations are based on publicly available standards, technical documentation, and established automotive knowledge. We avoid speculation and clearly state when information is general rather than vehicle-specific. We update pages when we receive corrections or when new information becomes available. If you spot an error or have a suggestion, we encourage you to contact us via our <a href={`/${ROUTES.en.contact}`}>Contact</a> page or at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. We cannot guarantee a reply to every message, but we do read and consider all feedback.
+      </p>
+
+      <h2 id="disclaimer">Important Disclaimer</h2>
+      <p>
+        The information on this site is for general guidance only. It is not a substitute for professional automotive diagnosis, repair, or inspection. Vehicle systems vary by make, model, and year; only a qualified technician with access to your vehicle can accurately identify the root cause of a fault and recommend the right fix. Do not ignore a lit check engine light—it can indicate issues that affect safety, emissions, or performance. Always have your vehicle diagnosed and repaired by a qualified professional when in doubt.
+      </p>
+
+      <h2 id="contact">Get in Touch</h2>
+      <p>
+        For questions about our content, suggestions for new codes or improvements, or feedback on the site, please use our <a href={`/${ROUTES.en.contact}`}>Contact</a> page or email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. For legal information, see our <a href={`/${ROUTES.en.privacy}`}>Privacy Policy</a>, <a href={`/${ROUTES.en.cookieNotice}`}>Cookie Policy</a>, and <a href={`/${ROUTES.en.terms}`}>Terms of Service</a>.
+      </p>
+    </div>
+  </article>
 </Layout>

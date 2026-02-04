@@ -5,6 +5,9 @@
 
 export const SITE_URL = 'https://obdfaultcode.com';
 
+/** Contact email displayed on site and used in schema */
+export const CONTACT_EMAIL = 'contact@obdfaultcode.com';
+
 export type Lang = 'tr' | 'en';
 
 export const LANGUAGES: Lang[] = ['tr', 'en'];
@@ -38,7 +41,7 @@ export const UI: Record<
   {
     siteName: string;
     nav: { home: string; codes: string; about: string; contact: string };
-    footer: { disclaimer: string; cookies: string; privacy: string; cookieNotice: string };
+    footer: { disclaimer: string; cookies: string; privacy: string; cookieNotice: string; terms: string };
     home: { title: string; lead1: string; lead2: string; searchLabel: string; searchPlaceholder: string; codesTitle: string; viewAll: string; moreCodes: string };
     codes: { title: string; lead: string; searchLabel: string; categoryLabel: string; all: string; count: string };
     faultCode: { meaning: string; officialDef: string; driveSafe: string; cost: string; costNote: string; expert: string; faq: string; related: string };
@@ -56,6 +59,7 @@ export const UI: Record<
       cookies: 'Sitemizde çerezler kullanılabilir.',
       privacy: 'Gizlilik politikası',
       cookieNotice: 'Çerez bildirimi',
+      terms: 'Kullanım koşulları',
     },
     home: {
       title: 'OBD-II Arıza Kodları Rehberi',
@@ -101,6 +105,7 @@ export const UI: Record<
       cookies: 'This site may use cookies.',
       privacy: 'Privacy policy',
       cookieNotice: 'Cookie notice',
+      terms: 'Terms of service',
     },
     home: {
       title: 'OBD-II Error Codes Guide',
@@ -141,9 +146,9 @@ export const UI: Record<
 };
 
 /** Route paths per language (without leading slash) */
-export const ROUTES: Record<Lang, { home: string; codes: string; about: string; contact: string; privacy: string; cookieNotice: string }> = {
-  tr: { home: 'tr', codes: 'tr/kodlar', about: 'tr/hakkimizda', contact: 'tr/iletisim', privacy: 'tr/gizlilik-politikasi', cookieNotice: 'tr/cerez-bildirimi' },
-  en: { home: 'en', codes: 'en/codes', about: 'en/about', contact: 'en/contact', privacy: 'en/privacy-policy', cookieNotice: 'en/cookie-policy' },
+export const ROUTES: Record<Lang, { home: string; codes: string; about: string; contact: string; privacy: string; cookieNotice: string; terms: string }> = {
+  tr: { home: 'tr', codes: 'tr/kodlar', about: 'tr/hakkimizda', contact: 'tr/iletisim', privacy: 'tr/gizlilik-politikasi', cookieNotice: 'tr/cerez-bildirimi', terms: 'tr/kullanim-kosullari' },
+  en: { home: 'en', codes: 'en/codes', about: 'en/about', contact: 'en/contact', privacy: 'en/privacy-policy', cookieNotice: 'en/cookie-policy', terms: 'en/terms-of-service' },
 };
 
 /** Fault code slug suffix per language */
@@ -189,6 +194,8 @@ export function getAlternatePath(currentPath: string, targetLang: Lang): string 
     'privacy-policy': targetLang === 'tr' ? 'tr/gizlilik-politikasi' : 'en/privacy-policy',
     'cerez-bildirimi': targetLang === 'tr' ? 'tr/cerez-bildirimi' : 'en/cookie-policy',
     'cookie-policy': targetLang === 'tr' ? 'tr/cerez-bildirimi' : 'en/cookie-policy',
+    'kullanim-kosullari': targetLang === 'tr' ? 'tr/kullanim-kosullari' : 'en/terms-of-service',
+    'terms-of-service': targetLang === 'tr' ? 'tr/kullanim-kosullari' : 'en/terms-of-service',
   };
 
   const page = parts[1] || '';

@@ -32,6 +32,8 @@ function collectUrls() {
     SITE + '/en/privacy-policy',
     SITE + '/tr/cerez-bildirimi',
     SITE + '/en/cookie-policy',
+    SITE + '/tr/kullanim-kosullari',
+    SITE + '/en/terms-of-service',
   ];
 
   if (!existsSync(dbPath)) {

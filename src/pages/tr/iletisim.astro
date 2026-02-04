@@ -1,37 +1,95 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
+import { SITE_URL, CONTACT_EMAIL, ROUTES } from '@lib/i18n';
 
 const lang = 'tr';
 const currentPath = 'tr/iletisim';
+const formAction = import.meta.env.PUBLIC_CONTACT_FORM_ACTION || '';
 ---
 
 <Layout
   lang={lang}
   title="İletişim"
-  description="OBD-II Arıza Kodları sitesi iletişim bilgileri. Öneri, düzeltme veya iş birliği için bize ulaşın."
+  description="OBD Arıza Kodları iletişim. Soru, öneri veya geri bildirim için bize ulaşın. E-posta ve iletişim formu."
   canonical={`${SITE_URL}/${currentPath}`}
   currentPath={currentPath}
 >
-  <div class="wrap">
-    <article class="static-page">
+  <article class="static-page wrap">
+    <header class="static-page__header">
       <h1 class="static-page__title">İletişim</h1>
-      <div class="static-page__prose">
+      <p class="static-page__updated">Birkaç iş günü içinde yanıtlamayı hedefliyoruz.</p>
+    </header>
+    <div class="static-page__prose">
+      <p>
+        <strong>OBD Arıza Kodları</strong> hakkındaki sorularınızı, önerilerinizi ve geri bildirimlerinizi bekliyoruz. Kod açıklamasında hata gördüyseniz, yeni bir kod veya konu önermek istiyorsanız veya başka bir konuda yardıma ihtiyacınız varsa aşağıdaki seçeneklerle bize ulaşabilirsiniz.
+      </p>
+
+      <section class="contact-email" aria-labelledby="email-heading">
+        <h2 id="email-heading">E-posta adresi</h2>
         <p>
-          <strong>OBD-II Arıza Kodları</strong> ile ilgili öneri, düzeltme, iş birliği veya sorularınız için aşağıdaki kanalı kullanabilirsiniz.
+          Doğrudan <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> adresine yazabilirsiniz. Tüm iletişim için bu adresi kullanıyoruz; ayrı bir destek veya satış e-postası yayınlamıyoruz. Lütfen konu satırını net yazın (örn. "P0171 kodu önerisi" veya "Gizlilik sorusu") ki mesajınızı önceliklendirebilelim.
         </p>
-        <h2>E-posta</h2>
-        <p><a href="mailto:iletisim@arizakodlari.com">iletisim@arizakodlari.com</a></p>
-        <p>Site statik barındırma kullandığı için form yok; doğrudan e-posta atmanız yeterli.</p>
-        <h2>Ne hakkında yazabilirsiniz?</h2>
+        <p>
+          İstenmeyen ticari teklifler, link değişim talepleri veya toplu pazarlama maillerine yanıt vermiyoruz. Gerçek kullanıcı soruları, içerik düzeltmeleri ve otomotiv teşhisiyle ilgili iş birliği talepleri kabul ediyoruz.
+        </p>
+      </section>
+
+      <section class="contact-form-section" aria-labelledby="form-heading">
+        <h2 id="form-heading">İletişim formu</h2>
+        <p>
+          Aşağıdaki formu kullanarak da mesaj gönderebilirsiniz. Uygun şekilde yanıt verebilmemiz için tüm alanlar zorunludur.
+        </p>
+
+        {formAction ? (
+          <form class="contact-form" action={formAction} method="POST" name="contact">
+            <label for="contact-name">Adınız</label>
+            <input id="contact-name" type="text" name="name" required autocomplete="name" />
+            <label for="contact-email">E-postanız</label>
+            <input id="contact-email" type="email" name="email" required autocomplete="email" />
+            <label for="contact-subject">Konu</label>
+            <input id="contact-subject" type="text" name="_subject" value="obdfaultcode.com iletişim" required />
+            <label for="contact-message">Mesaj</label>
+            <textarea id="contact-message" name="message" rows="5" required></textarea>
+            <button type="submit">Gönder</button>
+          </form>
+        ) : (
+          <form class="contact-form" id="contact-form-mailto-tr" method="get" name="contact">
+            <label for="contact-name">Adınız</label>
+            <input id="contact-name" type="text" name="name" required autocomplete="name" />
+            <label for="contact-email">E-postanız</label>
+            <input id="contact-email" type="email" name="email" required autocomplete="email" />
+            <label for="contact-subject">Konu</label>
+            <input id="contact-subject" type="text" name="subject" required />
+            <label for="contact-message">Mesaj</label>
+            <textarea id="contact-message" name="body" rows="5" required></textarea>
+            <button type="submit">E-posta istemcisiyle gönder</button>
+          </form>
+          <script define:vars={{ contactEmail: CONTACT_EMAIL }}>
+            document.getElementById('contact-form-mailto-tr')?.addEventListener('submit', function (e) {
+              e.preventDefault();
+              const form = e.target;
+              const name = encodeURIComponent(form.name?.value || '');
+              const email = encodeURIComponent(form.email?.value || '');
+              const subject = encodeURIComponent(form.subject?.value || '');
+              const body = encodeURIComponent((form.body?.value || '').replace(/\n/g, '%0D%0A'));
+              window.location.href = `mailto:${contactEmail}?subject=${subject}&body=Gönderen: ${name} (${email})%0D%0A%0D%0A${body}`;
+            });
+          </script>
+        )}
+      </section>
+
+      <section aria-labelledby="topics-heading">
+        <h2 id="topics-heading">Ne hakkında yazabilirsiniz?</h2>
         <ul>
-          <li>Arıza kodu açıklamalarında hata veya eksik</li>
-          <li>Yeni kod eklenmesi, içerik önerisi</li>
-          <li>Gizlilik, çerez veya yasal metinlerle ilgili sorular</li>
-          <li>Reklam, ortaklık veya iş birliği talepleri</li>
+          <li><strong>İçerik düzeltmeleri:</strong> Kod tanımı, belirti listesi veya maliyet tahmininde hata bulursanız bize yazın; inceleyeceğiz.</li>
+          <li><strong>Öneriler:</strong> Yeni kod fikirleri, daha anlaşılır açıklamalar veya ek kategoriler.</li>
+          <li><strong>Yasal ve gizlilik:</strong> <a href={`/${ROUTES.tr.privacy}`}>Gizlilik Politikamız</a>, <a href={`/${ROUTES.tr.cookieNotice}`}>Çerez Bildirimi</a> veya <a href={`/${ROUTES.tr.terms}`}>Kullanım Koşulları</a> hakkında sorular.</li>
+          <li><strong>İş birlikleri:</strong> Editöryal standartlarımıza uygun iş birliği, reklam veya lisans teklifleri.</li>
         </ul>
-        <p>Kısa sürede yanıtlamaya çalışıyoruz. Spam veya reklam mailleri yanıtlanmayabilir.</p>
-      </div>
-    </article>
-  </div>
+        <p>
+          Site küçük bir ekip tarafından yürütülmektedir. Her mesajı okuyoruz ancak her e-postaya yanıt garantisi veremiyoruz. E-posta ile kişiselleştirilmiş araç teşhisi veya onarım tavsiyesi vermiyoruz; bunun için lütfen yetkili bir teknisyene veya servise danışın.
+        </p>
+      </section>
+    </div>
+  </article>
 </Layout>

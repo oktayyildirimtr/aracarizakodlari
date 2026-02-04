@@ -3,7 +3,7 @@ import Layout from '@layouts/Layout.astro';
 import FaultCodeContent from '@components/FaultCodeContent.astro';
 import { getIndexedFaultCodes, getFaultCodeDetail } from '@lib/db';
 import { faultCodePath } from '@lib/i18n';
-import { SITE_URL } from '@lib/i18n';
+import { SITE_URL, CONTACT_EMAIL } from '@lib/i18n';
 
 export function getStaticPaths() {
   return getIndexedFaultCodes().map((fc) => ({
@@ -35,6 +35,8 @@ const articleSchemaData = {
   mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/${currentPath}` },
   dateModified: data.updated_at,
   inLanguage: 'en',
+  author: { '@type': 'Organization', name: 'OBD Fault Codes', url: SITE_URL },
+  publisher: { '@type': 'Organization', name: 'OBD Fault Codes', url: SITE_URL },
 };
 
 const breadcrumbSchemaData = {
