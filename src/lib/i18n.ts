@@ -44,7 +44,7 @@ export const UI: Record<
     footer: { disclaimer: string; cookies: string; privacy: string; cookieNotice: string; terms: string };
     home: { title: string; lead1: string; lead2: string; searchLabel: string; searchPlaceholder: string; codesTitle: string; viewAll: string; moreCodes: string };
     codes: { title: string; lead: string; searchLabel: string; categoryLabel: string; all: string; count: string };
-    faultCode: { meaning: string; officialDef: string; driveSafe: string; cost: string; costNote: string; expert: string; faq: string; related: string };
+    faultCode: { meaning: string; symptoms: string; causes: string; fix: string; officialDef: string; driveSafe: string; cost: string; costNote: string; expert: string; faq: string; related: string };
     disclaimer: string;
     expertFallbackEn: string;
     driveSafeFallbackEn: string;
@@ -55,7 +55,7 @@ export const UI: Record<
     siteName: 'OBD-II Arıza Kodları',
     nav: { home: 'Ana sayfa', codes: 'Tüm kodlar', about: 'Hakkımızda', contact: 'İletişim' },
     footer: {
-      disclaimer: 'OBD-II arıza kodları hakkında bilgilendirme amaçlı içerikler. Profesyonel teşhis yerine geçmez.',
+      disclaimer: 'OBD-II arıza kodları hakkında bilgilendirme amaçlı içerikler bulunmaktadır. Sorunun gerçek çözümü için mutlaka yetkili servise gidiniz.',
       cookies: 'Sitemizde çerezler kullanılabilir.',
       privacy: 'Gizlilik politikası',
       cookieNotice: 'Çerez bildirimi',
@@ -63,8 +63,8 @@ export const UI: Record<
     },
     home: {
       title: 'OBD-II Arıza Kodları Rehberi',
-      lead1: 'Motor arıza lambası yandığında okunan OBD-II kodları neye işaret eder? Bu sitede kod bazlı Türkçe açıklamalar ve Türkiye için tahmini onarım maliyetlerini bulabilirsiniz.',
-      lead2: 'İçerikler yalnızca bilgilendirme içindir; teşhis ve onarım için mutlaka yetkili servise gidin.',
+      lead1: 'Motor arıza lambası yandığında okunan OBD-II kodları neye işaret eder? Bu sitede, karşılaşılan hata kodlarına göre açıklamalar ve sorunun çözümü için tahmini onarım maliyetlerini bulabilirsiniz.',
+      lead2: 'İçerikler yalnızca bilgilendirme içindir; teşhis ve onarım için mutlaka yetkili servise gidiniz.',
       searchLabel: 'Arıza kodu ara',
       searchPlaceholder: 'Kod veya anahtar kelime (örn. P0171)',
       codesTitle: 'Arıza kodları',
@@ -81,13 +81,13 @@ export const UI: Record<
     },
     faultCode: {
       meaning: 'Arıza kodu ne anlama gelir?',
-      symptoms: 'Yaygın belirtiler',
+      symptoms: 'En sık görülen belirtiler',
       causes: 'Olası nedenler',
       fix: 'Nasıl giderilir?',
       officialDef: 'Resmi tanım (İngilizce, SAE/ISO uyumlu):',
       driveSafe: 'Bu şekilde araç kullanılır mı?',
-      cost: 'Türkiye için tahmini onarım maliyeti',
-      costNote: 'Bu kod için genel bir maliyet aralığı verilememektedir; sebep ve araca göre değişir. Bir serviste teşhis yaptırmanız önerilir.',
+      cost: 'Tahmini onarım maliyeti',
+      costNote: 'İşçilik maliyetleri ve yedek parça fiyatları, başvurduğunuz servise göre değişebilir.',
       expert: 'Uzman görüşü',
       faq: 'Sık sorulan sorular',
       related: 'İlgili arıza kodları',
