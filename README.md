@@ -16,7 +16,7 @@ Türkçe OBD-II arıza kodu sayfaları üreten, AdSense uyumlu, statik programat
 - **Tüm kodlar:** `/kodlar` sayfasında liste, arama ve kategori filtresi
 - **Kategori:** Her kod için `category` (örn. Motor ve hava-yakıt, Egzoz ve emisyon)
 - **Kurumsal / yasal:** Hakkımızda, Gizlilik politikası, Çerez bildirimi, Kullanım koşulları (TR/EN), İletişim (e-posta + form); çerez onay banner’ı
-- **Domain:** obdfaultcode.com (SITE_URL, sitemap, robots.txt)
+- **Domain:** www.obdfaultcode.com (SITE_URL, sitemap, robots.txt)
 - **İletişim formu:** Formspree kullanmak için `.env` içinde `PUBLIC_CONTACT_FORM_ACTION=https://formspree.io/f/YOUR_ID` tanımlayın; yoksa form mailto ile açılır.
 
 ## Proje Yapısı
@@ -177,7 +177,7 @@ ARIZA_BATCH_LIMIT=50 npm run build
 - `fault_codes.noindex = 1` olan kodlar için sayfa üretilmez.
 - `sitemap_include = 0` olanlar da sayfa üretimine alınmaz.
 - Sitemap build sonrası `scripts/generate-sitemap.js` ile oluşturulur (`dist/sitemap-index.xml`, `dist/sitemap-0.xml`).
-- `public/robots.txt` içinde `Sitemap: https://obdfaultcode.com/sitemap-index.xml` tanımlıdır.
+- `public/robots.txt` içinde `Sitemap: https://www.obdfaultcode.com/sitemap.xml` tanımlıdır.
 
 ## AdSense
 

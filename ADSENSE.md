@@ -12,11 +12,11 @@ Bu dokümanda sitenin AdSense onayı için yapılması gerekenler ve projede zat
 - **İletişim** – Kullanıcıların ulaşabileceği iletişim sayfası
 - **ads.txt** – `public/ads.txt` mevcut; onay sonrası Google satırı eklenir
 - **Reklam alanları** – Onay sonrası FaultCodeContent içine 3 reklam yuvası (above, mid, below) eklenecek; şu an kaldırıldı
-- **HTTPS** – Site `https://obdfaultcode.com` üzerinden servis edilmeli
+- **HTTPS** – Site `https://www.obdfaultcode.com` üzerinden servis edilmeli
 
 ## AdSense Başvurusu Öncesi Kontrol Listesi
 
-1. [ ] **Site yayında mı?** – obdfaultcode.com canlı ve HTTPS ile erişilebilir olmalı
+1. [ ] **Site yayında mı?** – www.obdfaultcode.com canlı ve HTTPS ile erişilebilir olmalı
 2. [ ] **İçerik yeterli mi?** – En az 15–20 kaliteli sayfa (mevcut: 30+ arıza kodu sayfası)
 3. [ ] **Orijinal içerik mi?** – Tüm metinler özgün, kopyalanmış değil
 4. [ ] **Navigasyon net mi?** – Ana sayfa, Hakkımızda, İletişim, Gizlilik, Çerez linkleri görünür
@@ -30,7 +30,7 @@ Bu dokümanda sitenin AdSense onayı için yapılması gerekenler ve projede zat
    - Örnek: `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`
 
 2. **Site doğrulama**
-   - AdSense başvurusunda site URL’i: `https://obdfaultcode.com`
+   - AdSense başvurusunda site URL’i: `https://www.obdfaultcode.com`
    - Gerekirse `Layout.astro` head içine verilen meta etiketini ekle
 
 3. **Reklam kodlarını ekle**
@@ -43,7 +43,7 @@ Bu dokümanda sitenin AdSense onayı için yapılması gerekenler ve projede zat
 User-agent: *
 Allow: /
 
-Sitemap: https://obdfaultcode.com/sitemap-index.xml
+Sitemap: https://www.obdfaultcode.com/sitemap-index.xml
 ```
 
 Bu yapı AdSense için uygundur; özel engelleme gerekmez.
