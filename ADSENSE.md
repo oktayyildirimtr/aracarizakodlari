@@ -5,7 +5,7 @@ Bu dokümanda sitenin AdSense onayı için yapılması gerekenler ve projede zat
 ## Projede Mevcut Olanlar ✓
 
 - **robots.txt** – `public/robots.txt` mevcut; tüm botlara izin verir, sitemap linki içerir
-- **Sitemap** – Build sonrası `dist/sitemap.xml` (index), `dist/sitemap-0.xml` oluşturulur; her URL’de `lastmod` vardır
+- **Sitemap** – Build sonrası yalnızca `dist/sitemap.xml` oluşturulur (tüm URL’ler tek dosyada, `lastmod` dahil)
 - **Gizlilik Politikası** – TR ve EN, AdSense / DoubleClick / opt-out linkleri ile güncellendi
 - **Çerez Bildirimi** – TR ve EN, reklam çerezleri açıklaması mevcut
 - **Hakkımızda** – Site amacı ve içerik açıklaması
@@ -55,7 +55,7 @@ Sitemap “geçersiz” uyarısı alıyorsan:
 1. **Gönderilecek adres:** Taraf özelliğin `https://www.obdfaultcode.com` ise sadece **`sitemap.xml`** yaz (veya tam adres: `https://www.obdfaultcode.com/sitemap.xml`). `sitemap-index.xml` veya `sitemap-0.xml` değil.
 2. **Site canlı mı?** Tarayıcıda `https://www.obdfaultcode.com/sitemap.xml` açılıyor ve XML görünüyorsa sitemap yayında demektir.
 3. **Domain eşleşmesi:** Search Console’daki mülk (property) adresi, sitemap’teki adreslerle aynı olmalı (ikisi de www’li veya ikisi de www’siz).
-4. **Yeniden deploy:** Kodu güncelledikten sonra `npm run build` çalıştırıp `dist` klasörünü tekrar yayına al; böylece güncel `sitemap.xml` ve `sitemap-0.xml` sunulur.
+4. **Yeniden deploy:** Kodu güncelledikten sonra `npm run build` çalıştırıp `dist` klasörünü tekrar yayına al; böylece güncel `sitemap.xml` sunulur.
 
 ## Yapılmaması Gerekenler
 

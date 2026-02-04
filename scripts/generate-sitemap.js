@@ -5,7 +5,7 @@
  */
 
 import Database from 'better-sqlite3';
-import { writeFileSync, existsSync } from 'fs';
+import { writeFileSync, existsSync, unlinkSync } from 'fs';
 import { join } from 'path';
 
 const root = process.cwd();
@@ -80,25 +80,18 @@ function writeSitemap() {
     .map((loc) => `  <url><loc>${escapeXml(loc)}</loc><lastmod>${lastmod}</lastmod></url>`)
     .join('\n');
 
-  const sitemap0 = `<?xml version="1.0" encoding="UTF-8"?>
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlset}
 </urlset>
 `;
 
-  const index = `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>${escapeXml(SITE + '/sitemap-0.xml')}</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>
-</sitemapindex>
-`;
-
-  writeFileSync(join(dist, 'sitemap-0.xml'), sitemap0, 'utf8');
-  writeFileSync(join(dist, 'sitemap-index.xml'), index, 'utf8');
-  writeFileSync(join(dist, 'sitemap.xml'), index, 'utf8');
-  console.log('Sitemap yazıldı: dist/sitemap.xml, dist/sitemap-index.xml, dist/sitemap-0.xml (' + urls.length + ' URL)');
+  writeFileSync(join(dist, 'sitemap.xml'), sitemap, 'utf8');
+  [ 'sitemap-index.xml', 'sitemap-0.xml' ].forEach((f) => {
+    const p = join(dist, f);
+    if (existsSync(p)) unlinkSync(p);
+  });
+  console.log('Sitemap yazıldı: dist/sitemap.xml (' + urls.length + ' URL)');
 }
 
 writeSitemap();
