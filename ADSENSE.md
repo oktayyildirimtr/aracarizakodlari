@@ -48,14 +48,34 @@ Sitemap: https://www.obdfaultcode.com/sitemap.xml
 
 Bu yapı AdSense için uygundur; özel engelleme gerekmez.
 
-## Google Search Console – Sitemap
+## Google Search Console – Sitemap (Adım Adım)
 
-Sitemap “geçersiz” uyarısı alıyorsan:
+Siten **www.obdfaultcode.com**, **http://obdfaultcode.com** ve **https://www.obdfaultcode.com** olarak açılıyor. GSC ve sitemap’in geçerli olması için **tek canonical adres** kullan: **https://www.obdfaultcode.com**. Proje zaten buna göre ayarlı.
 
-1. **Gönderilecek adres:** Taraf özelliğin `https://www.obdfaultcode.com` ise sadece **`sitemap.xml`** yaz (veya tam adres: `https://www.obdfaultcode.com/sitemap.xml`). `sitemap-index.xml` veya `sitemap-0.xml` değil.
-2. **Site canlı mı?** Tarayıcıda `https://www.obdfaultcode.com/sitemap.xml` açılıyor ve XML görünüyorsa sitemap yayında demektir.
-3. **Domain eşleşmesi:** Search Console’daki mülk (property) adresi, sitemap’teki adreslerle aynı olmalı (ikisi de www’li veya ikisi de www’siz).
-4. **Yeniden deploy:** Kodu güncelledikten sonra `npm run build` çalıştırıp `dist` klasörünü tekrar yayına al; böylece güncel `sitemap.xml` sunulur.
+### 1. Yönlendirmeleri kur (önemli)
+
+Diğer adresler canonical’e yönlensin ki Google tek adresi görsün:
+
+- **Cloudflare kullanıyorsan:** Dashboard → **Rules** → **Redirect Rules** → **Create rule**
+  - **Name:** `Bare domain → www`
+  - **When:** `(http.host eq "obdfaultcode.com")` (sadece www’siz alan adı)
+  - **Then:** Dynamic redirect → URL: `https://www.obdfaultcode.com${uri.path}` → Status: **301**.  
+  Ayrıca **SSL/TLS** → **Edge Certificates** içinde **“Always Use HTTPS”** açık olsun (http → https).
+- **Netlify:** Domain settings → Add domain alias `obdfaultcode.com` → “Redirect to https://www.obdfaultcode.com” ve “Force HTTPS” açık olsun.
+
+### 2. GSC’de tek mülk kullan
+
+- **Mülk ekle:** Search Console → **Mülk ekle** → **URL öneki** → tam olarak: **`https://www.obdfaultcode.com`**  
+  (Sonunda `/` veya yol olmasın; `http://` yazma.)
+- **Doğrula:** HTML etiket, HTML dosyası veya DNS ile doğrula.
+- **Sitemap ekle:** Sol menü **Sitemaps** → “Yeni sitemap ekle” alanına sadece **`sitemap.xml`** yaz → **Gönder**.  
+  Tam URL: `https://www.obdfaultcode.com/sitemap.xml`
+
+### 3. “Geçersiz” devam ederse
+
+- GSC’de **başka mülk ekleme** (http://obdfaultcode.com veya https://obdfaultcode.com). Sitemap yalnızca **https://www.obdfaultcode.com** mülküne eklenir.
+- Tarayıcıda **https://www.obdfaultcode.com/sitemap.xml** açılıyor mu kontrol et; XML listesi görünmeli.
+- Yönlendirmeleri kurduktan sonra birkaç dakika bekle, sonra GSC’de “Sitemap’i test et” / “Yeniden getir” dene.
 
 ## Yapılmaması Gerekenler
 
