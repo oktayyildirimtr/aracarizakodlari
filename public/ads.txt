@@ -1,0 +1,4 @@
+# ads.txt for obdfaultcode.com
+# Add your Google AdSense line after approval.
+# Get it from: AdSense > Account > Ads.txt
+# Format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

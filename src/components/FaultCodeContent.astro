@@ -42,8 +42,6 @@ const showFaq = faqItems.length > 0;
       <LastUpdated date={updated_at} lang={lang} />
     </div>
 
-    <div class="ad-slot ad-slot--top" data-ad-slot="above-content" aria-hidden="true" />
-
     <section>
       <h2 id="meaning">{ui.faultCode.meaning}</h2>
       {description_en && lang === 'tr' && (
@@ -102,8 +100,6 @@ const showFaq = faqItems.length > 0;
       </section>
     )}
 
-    <div class="ad-slot ad-slot--mid" data-ad-slot="mid-content" aria-hidden="true" />
-
     <section>
       <h2 id="drive-safe">{ui.faultCode.driveSafe}</h2>
       <div class="article__prose">
@@ -142,8 +138,6 @@ const showFaq = faqItems.length > 0;
         ))}
       </div>
     </section>
-
-    <div class="ad-slot ad-slot--bottom" data-ad-slot="below-content" aria-hidden="true" />
 
     <Disclaimer lang={lang} />
 

@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '@lib/i18n';
-import { UI, ROUTES, SITE_URL, getHreflangUrls, getAlternatePath } from '@lib/i18n';
+import { UI, ROUTES, SITE_URL, getHreflangUrls, getAlternatePath, LANG_NAMES } from '@lib/i18n';
 import '../styles/global.css';
 
 interface Props {
@@ -97,9 +97,20 @@ const siteSchemaData = {
           <a href={`/${ROUTES[lang].about}`}>{ui.nav.about}</a>
           <a href={`/${ROUTES[lang].contact}`}>{ui.nav.contact}</a>
           <span class="lang-switcher" aria-label={lang === 'tr' ? 'Dil seçimi' : 'Language'}>
-            <a href={`/${getAlternatePath(currentPath, 'tr')}`} class="lang-switcher__link" aria-current={lang === 'tr' ? 'page' : undefined}>TR</a>
-            <span class="lang-switcher__sep">|</span>
-            <a href={`/${getAlternatePath(currentPath, 'en')}`} class="lang-switcher__link" aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+            <span class="lang-switcher__label">{lang === 'tr' ? 'Dil:' : 'Language:'}</span>
+            {lang === 'tr' ? (
+              <>
+                <span class="lang-switcher__current" aria-current="page">{LANG_NAMES.tr}</span>
+                <span class="lang-switcher__sep" aria-hidden="true">|</span>
+                <a href={`/${getAlternatePath(currentPath, 'en')}`} class="lang-switcher__link" title="Switch to English">{LANG_NAMES.en}</a>
+              </>
+            ) : (
+              <>
+                <a href={`/${getAlternatePath(currentPath, 'tr')}`} class="lang-switcher__link" title="Türkçe'ye geç">{LANG_NAMES.tr}</a>
+                <span class="lang-switcher__sep" aria-hidden="true">|</span>
+                <span class="lang-switcher__current" aria-current="page">{LANG_NAMES.en}</span>
+              </>
+            )}
           </span>
         </nav>
       </div>
