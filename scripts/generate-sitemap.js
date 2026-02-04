@@ -95,7 +95,8 @@ ${urlset}
 
   writeFileSync(join(dist, 'sitemap-0.xml'), sitemap0, 'utf8');
   writeFileSync(join(dist, 'sitemap-index.xml'), index, 'utf8');
-  console.log('Sitemap yazıldı: dist/sitemap-index.xml, dist/sitemap-0.xml (' + urls.length + ' URL)');
+  writeFileSync(join(dist, 'sitemap.xml'), index, 'utf8');
+  console.log('Sitemap yazıldı: dist/sitemap.xml, dist/sitemap-index.xml, dist/sitemap-0.xml (' + urls.length + ' URL)');
 }
 
 writeSitemap();
