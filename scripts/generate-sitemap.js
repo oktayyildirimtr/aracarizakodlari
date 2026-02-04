@@ -75,8 +75,9 @@ function writeSitemap() {
   }
 
   const urls = collectUrls();
+  const lastmod = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
   const urlset = urls
-    .map((loc) => `  <url><loc>${escapeXml(loc)}</loc></url>`)
+    .map((loc) => `  <url><loc>${escapeXml(loc)}</loc><lastmod>${lastmod}</lastmod></url>`)
     .join('\n');
 
   const sitemap0 = `<?xml version="1.0" encoding="UTF-8"?>
@@ -89,6 +90,7 @@ ${urlset}
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>${escapeXml(SITE + '/sitemap-0.xml')}</loc>
+    <lastmod>${lastmod}</lastmod>
   </sitemap>
 </sitemapindex>
 `;
