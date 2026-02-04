@@ -3,7 +3,7 @@
  * Languages: tr (default), en
  */
 
-export const SITE_URL = 'https://aracarizakodlari.pages.dev';
+export const SITE_URL = 'https://obdfaultcode.com';
 
 export type Lang = 'tr' | 'en';
 

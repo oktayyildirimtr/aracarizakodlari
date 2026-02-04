@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://aracarizakodlari.pages.dev';
+export const SITE_URL = 'https://obdfaultcode.com';
 export const SITE_NAME = 'OBD-II Arıza Kodları';
 
 export interface MetaInput {

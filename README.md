@@ -175,7 +175,7 @@ ARIZA_BATCH_LIMIT=50 npm run build
 - `fault_codes.noindex = 1` olan kodlar için sayfa üretilmez.
 - `sitemap_include = 0` olanlar da sayfa üretimine alınmaz.
 - Sitemap build sonrası `scripts/generate-sitemap.js` ile oluşturulur (`dist/sitemap-index.xml`, `dist/sitemap-0.xml`).
-- `public/robots.txt` içinde `Sitemap: https://aracarizakodlari.pages.dev/sitemap-index.xml` tanımlıdır.
+- `public/robots.txt` içinde `Sitemap: https://obdfaultcode.com/sitemap-index.xml` tanımlıdır.
 
 ## AdSense
 
