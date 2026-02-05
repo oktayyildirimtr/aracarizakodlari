@@ -1,4 +1,23 @@
 ---
-// Root: redirect to default language
-return Astro.redirect('/tr/');
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL } from '@lib/i18n';
+
+// Root: redirect to default language with canonical URL
+const canonicalUrl = `${SITE_URL}/`;
 ---
+<Layout
+  lang="tr"
+  title="OBD-II Arıza Kodları"
+  description="OBD-II arıza kodları Türkçe rehberi. P0xxx kodlarının anlamı, hangi araçlarda görüldüğü ve tahmini onarım maliyetleri."
+  canonical={canonicalUrl}
+  currentPath="tr"
+>
+  <script>
+    // Client-side redirect to maintain SEO canonical
+    window.location.replace('/tr/');
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=/tr/" />
+  </noscript>
+  <p>Yönlendiriliyorsunuz... <a href="/tr/">Buraya tıklayın</a></p>
+</Layout>
