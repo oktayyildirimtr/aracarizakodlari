@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '@lib/i18n';
 import { UI, ROUTES, SITE_URL, CONTACT_EMAIL, getHreflangUrls, getAlternatePath, LANG_NAMES } from '@lib/i18n';
+import CookieBanner from '@components/CookieBanner.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -94,6 +95,10 @@ const siteSchemaData = {
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
     {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      var c = localStorage.getItem('obdfaultcode_cookie_consent');
+      if (c === 'accepted' || c === 'rejected') document.documentElement.classList.add('cookie-consent-accepted');
+    </script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">{lang === 'tr' ? 'İçeriğe atla' : 'Skip to content'}</a>
@@ -107,6 +112,7 @@ const siteSchemaData = {
           <a href={`/${ROUTES[lang].codes}`}>{ui.nav.codes}</a>
           <a href={`/${ROUTES[lang].about}`}>{ui.nav.about}</a>
           <a href={`/${ROUTES[lang].contact}`}>{ui.nav.contact}</a>
+          <a href={`/${ROUTES[lang].terms}`}>{ui.nav.terms}</a>
           <span class="lang-switcher" aria-label={lang === 'tr' ? 'Dil seçimi' : 'Language'}>
             <span class="lang-switcher__label">{lang === 'tr' ? 'Dil:' : 'Language:'}</span>
             {lang === 'tr' ? (
@@ -133,17 +139,27 @@ const siteSchemaData = {
       <div class="wrap">
         <p class="site-footer__copy">{ui.footer.disclaimer}</p>
         <p class="site-footer__cookies">
-          {ui.footer.cookies} <a href={`/${ROUTES[lang].cookieNotice}`}>{ui.footer.cookieNotice}</a> · <a href={`/${ROUTES[lang].privacy}`}>{ui.footer.privacy}</a> · <a href={`/${ROUTES[lang].terms}`}>{ui.footer.terms}</a>
+          {ui.footer.cookies} <a href={`/${ROUTES[lang].about}`}>{ui.nav.about}</a> · <a href={`/${ROUTES[lang].contact}`}>{ui.nav.contact}</a> · <a href={`/${ROUTES[lang].cookieNotice}`}>{ui.footer.cookieNotice}</a> · <a href={`/${ROUTES[lang].privacy}`}>{ui.footer.privacy}</a> · <a href={`/${ROUTES[lang].terms}`}>{ui.footer.terms}</a>
         </p>
         <p class="site-footer__contact">
           {lang === 'tr' ? 'E-posta:' : 'Email:'} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
         </p>
         <nav class="site-footer__nav" aria-label={lang === 'tr' ? 'Alt menü' : 'Footer'}>
+          <a href={`/${ROUTES[lang].about}`}>{ui.nav.about}</a>
+          <a href={`/${ROUTES[lang].contact}`}>{ui.nav.contact}</a>
           <a href={`/${ROUTES[lang].privacy}`}>{ui.footer.privacy}</a>
           <a href={`/${ROUTES[lang].cookieNotice}`}>{ui.footer.cookieNotice}</a>
           <a href={`/${ROUTES[lang].terms}`}>{ui.footer.terms}</a>
         </nav>
       </div>
     </footer>
+    <CookieBanner
+      title={ui.cookieBanner.title}
+      message={ui.cookieBanner.message}
+      acceptLabel={ui.cookieBanner.accept}
+      rejectLabel={ui.cookieBanner.reject}
+      learnMoreLabel={ui.cookieBanner.learnMore}
+      cookieNoticePath={`/${ROUTES[lang].cookieNotice}`}
+    />
   </body>
 </html>

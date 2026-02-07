@@ -1,2 +1,2 @@
-# Root -> default language
-/ /tr/ 302
+# Root: language chosen by client-side script (Accept-Language)
+# No server redirect so index.astro can run and redirect to /tr/ or /en/

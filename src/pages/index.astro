@@ -2,7 +2,7 @@
 import Layout from '@layouts/Layout.astro';
 import { SITE_URL } from '@lib/i18n';
 
-// Root: redirect to default language with canonical URL
+// Root: redirect by region (Turkey → tr, rest → en)
 const canonicalUrl = `${SITE_URL}/`;
 ---
 <Layout
@@ -13,11 +13,46 @@ const canonicalUrl = `${SITE_URL}/`;
   currentPath="tr"
 >
   <script>
-    // Client-side redirect to maintain SEO canonical
-    window.location.replace('/tr/');
+    (function () {
+      var CACHE_KEY = 'obdfaultcode_region';
+      var CACHE_HOURS = 24;
+      var lang = 'en';
+
+      function setAndRedirect(l) {
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ lang: l, at: Date.now() }));
+        } catch (e) {}
+        window.location.replace('/' + l + '/');
+      }
+
+      try {
+        var raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          var cached = JSON.parse(raw);
+          if (cached && cached.lang && (Date.now() - (cached.at || 0)) < CACHE_HOURS * 3600 * 1000) {
+            setAndRedirect(cached.lang);
+            return;
+          }
+        }
+      } catch (e) {}
+
+      var controller = new AbortController();
+      var timeout = setTimeout(function () { controller.abort(); }, 4000);
+      fetch('https://ip-api.com/json/?fields=countryCode', { signal: controller.signal })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          clearTimeout(timeout);
+          lang = (data && data.countryCode === 'TR') ? 'tr' : 'en';
+          setAndRedirect(lang);
+        })
+        .catch(function () {
+          clearTimeout(timeout);
+          setAndRedirect('en');
+        });
+    })();
   </script>
   <noscript>
-    <meta http-equiv="refresh" content="0; url=/tr/" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
   </noscript>
-  <p>Yönlendiriliyorsunuz... <a href="/tr/">Buraya tıklayın</a></p>
+  <p>Yönlendiriliyorsunuz… <a href="/tr/">Türkçe</a> · <a href="/en/">English</a></p>
 </Layout>

@@ -40,8 +40,9 @@ export const UI: Record<
   Lang,
   {
     siteName: string;
-    nav: { home: string; codes: string; about: string; contact: string };
+    nav: { home: string; codes: string; about: string; contact: string; terms: string };
     footer: { disclaimer: string; cookies: string; privacy: string; cookieNotice: string; terms: string };
+    cookieBanner: { title: string; message: string; accept: string; reject: string; learnMore: string };
     home: { title: string; lead1: string; lead2: string; searchLabel: string; searchPlaceholder: string; codesTitle: string; viewAll: string; moreCodes: string };
     codes: { title: string; lead: string; searchLabel: string; categoryLabel: string; all: string; count: string };
     faultCode: { meaning: string; symptoms: string; causes: string; fix: string; officialDef: string; driveSafe: string; cost: string; costNote: string; expert: string; faq: string; related: string };
@@ -53,13 +54,20 @@ export const UI: Record<
 > = {
   tr: {
     siteName: 'OBD-II Arıza Kodları',
-    nav: { home: 'Ana sayfa', codes: 'Tüm kodlar', about: 'Hakkımızda', contact: 'İletişim' },
+    nav: { home: 'Ana sayfa', codes: 'Tüm kodlar', about: 'Hakkımızda', contact: 'İletişim', terms: 'Kullanım koşulları' },
     footer: {
       disclaimer: 'OBD-II arıza kodları hakkında bilgilendirme amaçlı içerikler bulunmaktadır. Sorunun gerçek çözümü için mutlaka yetkili servise gidiniz.',
       cookies: 'Sitemizde çerezler kullanılabilir.',
       privacy: 'Gizlilik politikası',
       cookieNotice: 'Çerez bildirimi',
       terms: 'Kullanım koşulları',
+    },
+    cookieBanner: {
+      title: 'Çerezler',
+      message: 'Sitemiz deneyiminizi iyileştirmek ve trafik analizi için çerezler kullanabilir.',
+      accept: 'Kabul et',
+      reject: 'Reddet',
+      learnMore: 'Çerez bildirimi',
     },
     home: {
       title: 'OBD-II Arıza Kodları Rehberi',
@@ -99,7 +107,7 @@ export const UI: Record<
   },
   en: {
     siteName: 'OBD-II Error Codes',
-    nav: { home: 'Home', codes: 'All codes', about: 'About', contact: 'Contact' },
+    nav: { home: 'Home', codes: 'All codes', about: 'About', contact: 'Contact', terms: 'Terms of service' },
     footer: {
       disclaimer: 'OBD-II error code content is for information only. Not a substitute for professional diagnosis.',
       cookies: 'This site may use cookies.',
@@ -107,9 +115,16 @@ export const UI: Record<
       cookieNotice: 'Cookie notice',
       terms: 'Terms of service',
     },
+    cookieBanner: {
+      title: 'Cookies',
+      message: 'This site may use cookies to improve your experience and for analytics.',
+      accept: 'Accept',
+      reject: 'Reject',
+      learnMore: 'Cookie notice',
+    },
     home: {
       title: 'OBD-II Error Codes Guide',
-      lead1: 'When your check engine light comes on, OBD-II codes tell you what the issue might be. Find code definitions, explanations, and repair cost estimates for Turkey.',
+      lead1: 'When your check engine light comes on, OBD-II codes tell you what the issue might be. Find code definitions, explanations, and repair cost estimates.',
       lead2: 'Content is for information only. Always have your vehicle diagnosed by a qualified technician.',
       searchLabel: 'Search error codes',
       searchPlaceholder: 'Code or keyword (e.g. P0171)',

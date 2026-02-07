@@ -1,0 +1,69 @@
+---
+interface Props {
+  title: string;
+  message: string;
+  acceptLabel: string;
+  rejectLabel: string;
+  learnMoreLabel: string;
+  cookieNoticePath: string;
+}
+const { title, message, acceptLabel, rejectLabel, learnMoreLabel, cookieNoticePath } = Astro.props;
+---
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label={title} aria-describedby="cookie-banner-desc">
+  <div class="cookie-banner__inner wrap">
+    <div class="cookie-banner__content">
+      <p id="cookie-banner-desc" class="cookie-banner__message">
+        <strong class="cookie-banner__title">{title}</strong> — {message}
+        <a href={cookieNoticePath} class="cookie-banner__link">{learnMoreLabel}</a>
+      </p>
+    </div>
+    <div class="cookie-banner__actions">
+      <button type="button" id="cookie-banner-reject" class="cookie-banner__btn cookie-banner__btn--secondary">
+        {rejectLabel}
+      </button>
+      <button type="button" id="cookie-banner-accept" class="cookie-banner__btn">
+        {acceptLabel}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ cookieNoticePath }}>
+  (function () {
+    const STORAGE_KEY = 'obdfaultcode_cookie_consent';
+    const banner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('cookie-banner-accept');
+    const rejectBtn = document.getElementById('cookie-banner-reject');
+    if (!banner || !acceptBtn || !rejectBtn) return;
+
+    function hideBanner() {
+      banner.hidden = true;
+      document.documentElement.classList.add('cookie-consent-accepted');
+    }
+
+    function accept() {
+      try {
+        localStorage.setItem(STORAGE_KEY, 'accepted');
+      } catch (e) {}
+      hideBanner();
+    }
+
+    function reject() {
+      try {
+        localStorage.setItem(STORAGE_KEY, 'rejected');
+      } catch (e) {}
+      hideBanner();
+    }
+
+    const consent = localStorage.getItem(STORAGE_KEY);
+    if (consent === 'accepted' || consent === 'rejected') {
+      document.documentElement.classList.add('cookie-consent-accepted');
+      hideBanner();
+      return;
+    }
+
+    acceptBtn.addEventListener('click', accept);
+    rejectBtn.addEventListener('click', reject);
+  })();
+</script>

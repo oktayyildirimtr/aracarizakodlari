@@ -1,0 +1,71 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL, CONTACT_EMAIL, ROUTES } from '@lib/i18n';
+
+const lang = 'tr';
+const currentPath = 'tr/kullanim-kosullari';
+---
+
+<Layout
+  lang={lang}
+  title="Kullanım Koşulları"
+  description="OBD-II Arıza Kodları kullanım koşulları. Site yalnızca bilgilendirme amaçlıdır; profesyonel teşhis veya onarım tavsiyesi değildir."
+  canonical={`${SITE_URL}/${currentPath}`}
+  currentPath={currentPath}
+>
+  <div class="wrap">
+    <article class="static-page">
+      <h1 class="static-page__title">Kullanım Koşulları</h1>
+      <p class="static-page__updated">Son güncelleme: Şubat 2025</p>
+      <div class="static-page__prose">
+        <p>
+          <strong>OBD-II Arıza Kodları</strong> (obdfaultcode.com) sitesine hoş geldiniz. Bu Kullanım Koşulları (“Koşullar”), sitemizi kullanım kurallarını açıklar. Siteye erişerek veya kullanarak bu Koşulları kabul etmiş olursunuz. Kabul etmiyorsanız lütfen siteyi kullanmayın.
+        </p>
+        <h2 id="sadece-bilgi">Yalnızca Bilgilendirme Amaçlı</h2>
+        <p>
+          Bu site, araç OBD-II arıza kodları, genel anlamları, yaygın belirtiler, olası nedenler ve genel rehberlik hakkında bilgi sunar. Tüm içerik <strong>yalnızca bilgilendirme ve eğitim amaçlıdır</strong>. Profesyonel mekanik, teşhis veya onarım tavsiyesi olarak kullanılmamalıdır.
+        </p>
+        <h2 id="profesyonel-tavsiye-degil">Profesyonel Tavsiye Değildir</h2>
+        <p>
+          Sitedeki bilgiler profesyonel otomotiv teşhisi veya onarımının yerini tutmaz. Araçlarınıza özel mekanik, elektrik veya teknik tavsiye vermiyoruz. Arıza kodları ve yorumları araç markası, model, yıl ve motor tipine göre değişebilir. Yalnızca aracınıza ve uygun teşhis ekipmanına erişimi olan yetkili bir teknisyen, arızanın asıl nedenini doğru şekilde tespit edebilir ve güvenli bir onarım önerebilir.
+        </p>
+        <h2 id="teşhis-uyarisi">Teşhis Uyarısı</h2>
+        <p>
+          OBD-II kodları tek başına <strong>tam teşhis için yeterli değildir</strong>. Kodlar hangi sistem veya devrenin sorun bildirdiğini gösterir; her zaman arızalı parçayı net göstermez veya belirli bir çözümü garanti etmez. Herhangi bir onarım kararı vermeden önce <strong>yetkili bir teknisyen</strong> veya <strong>yetkili servis</strong> ile görüşmenizi şiddetle tavsiye ederiz. Onarım yapmak, kodu silmek veya arıza lambasını görmezden gelmek için yalnızca bu sitedeki bilgilere güvenmeyin. Yanan arıza lambası güvenlik, emisyon veya performansı etkileyen sorunlara işaret edebilir.
+        </p>
+        <h2 id="sorumluluk">Sizin Sorumluluğunuz</h2>
+        <p>
+          Bu sitedeki bilgiyi nasıl kullandığınızdan yalnızca siz sorumlusunuz. Aracınızla ilgili vereceğiniz kararlar—aracı kullanmak, onarım denemek veya profesyonel yardım almak dahil—kendi riskinizdedir. Buradaki bilginin aracınızdaki sorunu çözeceğini veya önerilen adımların sizin durumunuz için uygun olduğunu garanti etmiyoruz.
+        </p>
+        <h2 id="sorumluluk-reddi">Sorumluluk Sınırı</h2>
+        <p>
+          Yürürlükteki yasaların izin verdiği ölçüde, bu sitenin işletmecisi ve katkıda bulunanlar, sitenin kullanımından veya içeriğine güveninizden doğan doğrudan, dolaylı, arızi, sonuç olarak ortaya çıkan veya özel zararlardan <strong>sorumlu değildir</strong>. Bu, araç onarımları, başarısız onarımlar, yanlış teşhis, kişisel yaralanma, maddi hasar veya mali kayıpla ilgili zararları içerir. Site “olduğu gibi” sunulur; açık veya zımni hiçbir garanti verilmez.
+        </p>
+        <h2 id="dogruluk">İçerik Doğruluğu</h2>
+        <p>
+          İçeriğimizi doğru ve güncel tutmaya çalışıyoruz ancak bilginin eksiksiz, doğru veya güncel olduğunu garanti etmiyoruz. Otomotiv standartları ve kod tanımları değişebilir. İçerik hata içerebilir veya aracınıza uygulanmayabilir. Önemli bilgileri resmi kaynaklar veya yetkili bir profesyonelle doğrulayın.
+        </p>
+        <h2 id="harici-linkler">Harici Bağlantılar</h2>
+        <p>
+          Bu site üçüncü taraf web sitelerine (ör. standart kurumları, cihaz üreticileri) bağlantılar içerebilir. Bu sitelerin içeriğinden, gizlilik uygulamalarından veya erişilebilirliğinden sorumlu değiliz. Bağlantı vermek onay anlamına gelmez. Harici bağlantıları kendi riskinize kullanın.
+        </p>
+        <h2 id="fikri-mulkiyet">Fikri Mülkiyet ve İçerik Kullanımı</h2>
+        <p>
+          Sitedeki içerik—metin, yapı ve düzen dahil—site işletmecisine aittir veya lisansla kullanılmaktadır. İçeriği kişisel, ticari olmayan referans için okuyup kullanabilirsiniz. Ticari amaçlarla kopyalama, toplu çekme, yeniden yayımlama veya dağıtma yapamazsınız. İçeriği, bilginin niteliği hakkında yanıltıcı olacak şekilde (ör. profesyonel teşhis tavsiyesi gibi sunarak) kullanamazsınız.
+        </p>
+        <h2 id="yaniltici-iddia-yok">Yanıltıcı veya Güvensiz İddia Yok</h2>
+        <p>
+          Arıza kodu çözümleri veya onarım sonuçları hakkında yanıltıcı iddialarda bulunmuyoruz. Bu sitedeki genel rehberliği izleyerek herhangi bir kodun çözüleceğini vaat etmiyoruz. Güvensiz onarımları, uyarı lambalarını görmezden gelmeyi veya gerekli profesyonel teşhisi geciktirmeyi teşvik etmiyoruz. Aracınızın durumundan emin değilseniz yetkili bir teknisyene başvurun.
+        </p>
+        <h2 id="degisiklikler">Koşullarda Değişiklik</h2>
+        <p>
+          Bu Koşulları her zaman güncelleme veya değiştirme hakkımızı saklı tutarız. Değişiklikler bu sayfada yayımlandığında, güncel “Son güncelleme” tarihiyle yürürlüğe girer. Değişikliklerden sonra siteyi kullanmaya devam etmeniz güncel Koşulları kabul ettiğiniz anlamına gelir. Bu sayfayı düzenli incelemenizi öneririz.
+        </p>
+        <h2 id="iletisim">İletişim</h2>
+        <p>
+          Bu Kullanım Koşulları hakkında sorularınız için <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> veya <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamız üzerinden bize ulaşın. Gizlilik ile ilgili sorular için <a href={`/${ROUTES.tr.privacy}`}>Gizlilik Politikamız</a> ve <a href={`/${ROUTES.tr.cookieNotice}`}>Çerez Bildirimi</a>ne bakın.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>

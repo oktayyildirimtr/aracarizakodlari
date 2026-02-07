@@ -1,0 +1,82 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { SITE_URL, CONTACT_EMAIL, ROUTES } from '@lib/i18n';
+
+const lang = 'en';
+const currentPath = 'en/terms-of-service';
+---
+
+<Layout
+  lang={lang}
+  title="Terms of Service"
+  description="Terms of Service for OBD Fault Codes. Use of this site is for informational purposes only. Not professional diagnostic or repair advice."
+  canonical={`${SITE_URL}/${currentPath}`}
+  currentPath={currentPath}
+>
+  <article class="static-page wrap">
+    <header class="static-page__header">
+      <h1 class="static-page__title">Terms of Service</h1>
+      <p class="static-page__updated">Last updated: February 2025</p>
+    </header>
+    <div class="static-page__prose">
+      <p>
+        Welcome to <strong>OBD Fault Codes</strong> (obdfaultcode.com). These Terms of Service (“Terms”) describe the rules for using our website. By accessing or using this site, you agree to these Terms. If you do not agree, please do not use the site.
+      </p>
+
+      <h2 id="informational-only">Informational Purposes Only</h2>
+      <p>
+        This website provides general information about vehicle On-Board Diagnostic (OBD-II) fault codes, their typical meanings, common symptoms, possible causes, and general guidance. All content is for <strong>informational and educational purposes only</strong>. It is not intended to be, and must not be used as, professional mechanical, diagnostic, or repair advice.
+      </p>
+
+      <h2 id="not-professional-advice">Not Professional Advice</h2>
+      <p>
+        The information on this site is not a substitute for professional automotive diagnosis or repair. We do not provide mechanical, electrical, or technical advice specific to your vehicle. Fault codes and their interpretations can vary by vehicle manufacturer, model, year, and engine type. Only a qualified technician with access to your vehicle and appropriate diagnostic equipment can accurately identify the root cause of a fault and recommend a safe, effective repair.
+      </p>
+
+      <h2 id="diagnostics-disclaimer">Automotive Diagnostics Disclaimer</h2>
+      <p>
+        OBD-II codes alone are <strong>not sufficient</strong> for a complete diagnosis. Codes indicate which system or circuit has reported an issue; they do not always pinpoint the exact faulty part or guarantee a specific fix. We strongly encourage you to consult a <strong>certified mechanic</strong> or an <strong>authorized service center</strong> before making any repair decisions. Do not rely solely on the information on this site to perform repairs, clear codes, or ignore a check engine light. A lit check engine light can indicate issues that affect safety, emissions, or vehicle performance.
+      </p>
+
+      <h2 id="your-responsibility">Your Responsibility</h2>
+      <p>
+        You are solely responsible for how you use the information on this site. Any decisions you make regarding your vehicle—including whether to drive it, attempt repairs, or seek professional help—are made at your own risk. We do not guarantee that the information here will resolve your vehicle’s issue or that any suggested steps are appropriate for your specific situation.
+      </p>
+
+      <h2 id="no-liability">Limitation of Liability</h2>
+      <p>
+        To the fullest extent permitted by law, the operator of this website and any contributors are <strong>not liable</strong> for any direct, indirect, incidental, consequential, or special damages arising from your use of this site or reliance on its content. This includes, but is not limited to, damages related to vehicle repairs, failed repairs, misdiagnosis, personal injury, property damage, or financial loss. The site is provided “as is” without warranties of any kind, express or implied.
+      </p>
+
+      <h2 id="accuracy">Content Accuracy</h2>
+      <p>
+        We strive to keep our content accurate and up to date, but we do not guarantee the completeness, correctness, or timeliness of the information. Automotive standards, code definitions, and best practices may change. Content may contain errors or may not apply to your vehicle. Always verify important information with official sources or a qualified professional.
+      </p>
+
+      <h2 id="external-links">External Links</h2>
+      <p>
+        This site may contain links to third-party websites (e.g. standards bodies, tool manufacturers, or other resources). We are not responsible for the content, privacy practices, or availability of those sites. Linking does not imply endorsement. Use external links at your own risk.
+      </p>
+
+      <h2 id="intellectual-property">Intellectual Property and Content Usage</h2>
+      <p>
+        The content on this site—including text, structure, and layout—is owned by the site operator or used under license. You may read and use the content for personal, non-commercial reference. You may not copy, scrape, republish, or redistribute the content for commercial purposes without prior written permission. You may not use the content in a way that suggests professional endorsement or that could mislead others about the nature of the information (e.g. presenting it as professional diagnostic advice).
+      </p>
+
+      <h2 id="no-unsafe-claims">No Misleading or Unsafe Claims</h2>
+      <p>
+        We do not make misleading claims about fault code fixes or repair outcomes. We do not promise that any code will be resolved by following general guidance on this site. We do not encourage unsafe vehicle repairs, ignoring warning lights, or delaying necessary professional diagnosis. If you are unsure about your vehicle’s condition, seek help from a qualified technician.
+      </p>
+
+      <h2 id="changes">Changes to These Terms</h2>
+      <p>
+        We reserve the right to update or modify these Terms at any time. Changes will be effective when posted on this page, with an updated “Last updated” date. Your continued use of the site after changes constitutes acceptance of the revised Terms. We encourage you to review this page periodically.
+      </p>
+
+      <h2 id="contact">Contact</h2>
+      <p>
+        For questions about these Terms of Service, please contact us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> or through our <a href={`/${ROUTES.en.contact}`}>Contact</a> page. For privacy-related questions, see our <a href={`/${ROUTES.en.privacy}`}>Privacy Policy</a> and <a href={`/${ROUTES.en.cookieNotice}`}>Cookie Policy</a>.
+      </p>
+    </div>
+  </article>
+</Layout>
