@@ -32,6 +32,20 @@ const faqItems = lang === 'tr'
   ? faq.map((f) => ({ q: f.question_tr, a: f.answer_tr }))
   : faq.filter((f) => f.question_en && f.answer_en).map((f) => ({ q: f.question_en!, a: f.answer_en! }));
 const showFaq = faqItems.length > 0;
+
+const totalContentLength = [
+  description,
+  driveSafeText,
+  expertText,
+  ...symptomItems,
+  ...causeItems,
+  ...solutionItems,
+  ...faqItems.flatMap((i) => [i.q, i.a]),
+].join(' ').length;
+const isThinPage = totalContentLength < 1200;
+
+const thinPageParagraphEn = 'P0xxx diagnostic trouble codes (DTCs) are standardized OBD-II powertrain codes. While this page summarizes the meaning, symptoms, and possible fixes for this code, a definitive diagnosis often requires reading live data, checking wiring, and testing components. We recommend having your vehicle checked by a qualified technician or workshop when the check engine light is on, especially if you notice drivability issues.';
+const thinPageParagraphTr = 'P0xxx tanılı arıza kodları (DTC), standart OBD-II güç aktarım kodlarıdır. Bu sayfa kodun anlamı, belirtileri ve olası onarımlarını özetlese de kesin teşhis çoğu zaman canlı veri okuma, kablo kontrolü ve parça testi gerektirir. Motor arıza lambanız yanıyorsa, özellikle sürüşle ilgili sorun fark ediyorsanız, aracınızın yetkili bir teknisyen veya servis tarafından kontrol edilmesini öneririz.';
 ---
 
 <article class="article">
@@ -138,6 +152,14 @@ const showFaq = faqItems.length > 0;
         ))}
       </div>
     </section>
+
+    {isThinPage && (
+      <section>
+        <div class="article__prose">
+          <p>{lang === 'tr' ? thinPageParagraphTr : thinPageParagraphEn}</p>
+        </div>
+      </section>
+    )}
 
     <Disclaimer lang={lang} />
 

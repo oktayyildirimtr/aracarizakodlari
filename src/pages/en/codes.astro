@@ -55,7 +55,7 @@ const breadcrumbSchemaData = {
       <ul class="kodlar-list" id="kodlar-list">
         {codes.map((fc) => (
           <li class="kodlar-list__item" data-code={fc.code} data-category={fc.category ?? ''} data-title={(fc.title_tr + ' ' + (fc.description_en || '')).toLowerCase()}>
-            <a href={`/${faultCodePath(fc.code, lang)}`}>
+            <a href={`/${faultCodePath(fc.code, lang)}/`}>
               <span class="kodlar-list__code">{fc.code}</span>
               {fc.category && <span class="kodlar-list__cat">{getCategoryDisplay(fc.category, lang)}</span>}
             </a>

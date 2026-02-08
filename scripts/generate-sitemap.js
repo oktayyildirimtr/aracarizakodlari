@@ -17,23 +17,28 @@ const BATCH = process.env.ARIZA_BATCH_LIMIT
   ? parseInt(process.env.ARIZA_BATCH_LIMIT, 10)
   : null;
 
+/** Ensure URL has trailing slash to match canonical (sitemap must match canonical exactly). */
+function withTrailingSlash(url) {
+  return url.endsWith('/') ? url : url + '/';
+}
+
 function collectUrls() {
   const staticUrls = [
     SITE + '/',
-    SITE + '/tr',
-    SITE + '/en',
-    SITE + '/tr/kodlar',
-    SITE + '/en/codes',
-    SITE + '/tr/hakkimizda',
-    SITE + '/en/about',
-    SITE + '/tr/iletisim',
-    SITE + '/en/contact',
-    SITE + '/tr/gizlilik-politikasi',
-    SITE + '/en/privacy-policy',
-    SITE + '/tr/cerez-bildirimi',
-    SITE + '/en/cookie-policy',
-    SITE + '/tr/kullanim-kosullari',
-    SITE + '/en/terms-of-service',
+    withTrailingSlash(SITE + '/tr'),
+    withTrailingSlash(SITE + '/en'),
+    withTrailingSlash(SITE + '/tr/kodlar'),
+    withTrailingSlash(SITE + '/en/codes'),
+    withTrailingSlash(SITE + '/tr/hakkimizda'),
+    withTrailingSlash(SITE + '/en/about'),
+    withTrailingSlash(SITE + '/tr/iletisim'),
+    withTrailingSlash(SITE + '/en/contact'),
+    withTrailingSlash(SITE + '/tr/gizlilik-politikasi'),
+    withTrailingSlash(SITE + '/en/privacy-policy'),
+    withTrailingSlash(SITE + '/tr/cerez-bildirimi'),
+    withTrailingSlash(SITE + '/en/cookie-policy'),
+    withTrailingSlash(SITE + '/tr/kullanim-kosullari'),
+    withTrailingSlash(SITE + '/en/terms-of-service'),
   ];
 
   if (!existsSync(dbPath)) {
@@ -51,8 +56,8 @@ function collectUrls() {
 
   const urls = [...staticUrls];
   for (const code of codes) {
-    urls.push(SITE + '/tr/' + code.toLowerCase() + '-nedir');
-    urls.push(SITE + '/en/' + code.toLowerCase() + '-meaning');
+    urls.push(withTrailingSlash(SITE + '/tr/' + code.toLowerCase() + '-nedir'));
+    urls.push(withTrailingSlash(SITE + '/en/' + code.toLowerCase() + '-meaning'));
   }
 
   return [...new Set(urls)];
