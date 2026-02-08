@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '@lib/i18n';
-import { UI, ROUTES, SITE_URL, CONTACT_EMAIL, getHreflangUrls, getAlternatePath } from '@lib/i18n';
+import { UI, ROUTES, SITE_URL, CONTACT_EMAIL, getHreflangUrls, getAlternatePath, getCanonicalUrl, normalizeRoutePath } from '@lib/i18n';
 import CookieBanner from '@components/CookieBanner.astro';
 import '../styles/global.css';
 
@@ -8,23 +8,41 @@ interface Props {
   lang: Lang;
   title: string;
   description: string;
-  canonical?: string;
   noindex?: boolean;
   faq?: { question: string; answer: string }[];
   articleSchema?: object;
   breadcrumbSchema?: object;
-  currentPath: string;
+  /** Optional: current page path (fallback when pathname unavailable). Must be the exact route of this page — never alternate language, parent, or listing. */
+  currentPath?: string;
 }
 
-const { lang, title, description, canonical, noindex = false, faq = [], articleSchema, breadcrumbSchema, currentPath } = Astro.props;
+const { lang, title, description, noindex = false, faq = [], articleSchema, breadcrumbSchema, currentPath: currentPathProp } = Astro.props;
+
+// — Canonical: single authoritative layer. Runs once per page. No other layer may emit <link rel="canonical">.
+// 1. Resolve path: route pathname (or currentPath fallback). Normalize first (strip leading/trailing slashes).
+// 2. Build canonical URL from normalized path only; getCanonicalUrl always returns trailing-slash form.
+// 3. Emit exactly one unconditional <link rel="canonical"> below. No conditional rendering — prevents duplicates.
+const pathFromRoute = typeof Astro.url !== 'undefined' && Astro.url?.pathname != null
+  ? normalizeRoutePath(Astro.url.pathname)
+  : null;
+const resolvedPath = pathFromRoute ?? (currentPathProp ?? '');
+if (pathFromRoute != null && currentPathProp != null && currentPathProp !== '') {
+  const normProp = normalizeRoutePath(currentPathProp);
+  if (pathFromRoute !== normProp) {
+    throw new Error(`[Layout] Canonical must be self-referencing. Route pathname "${pathFromRoute}" does not match currentPath "${currentPathProp}". Do not canonicalize to alternate language, parent, or listing.`);
+  }
+}
+const canonicalUrl = getCanonicalUrl(resolvedPath);
+if (!canonicalUrl.startsWith('https://') || canonicalUrl.includes('www.') || !canonicalUrl.endsWith('/')) {
+  throw new Error(`[Layout] Canonical must be https, no www, and end with /. Got: ${canonicalUrl}`);
+}
 
 const ui = UI[lang];
 const siteName = ui.siteName;
 const metaTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
-const canonicalUrl = canonical ?? `${SITE_URL}/${currentPath}`;
 
-const hreflangUrls = getHreflangUrls(currentPath, lang);
-const altPath = lang === 'tr' ? getAlternatePath(currentPath, 'en') : getAlternatePath(currentPath, 'tr');
+const hreflangUrls = getHreflangUrls(resolvedPath, lang);
+const altPath = lang === 'tr' ? getAlternatePath(resolvedPath, 'en') : getAlternatePath(resolvedPath, 'tr');
 
 const faqSchemaData = faq.length > 0 ? {
   '@context': 'https://schema.org',
@@ -47,7 +65,7 @@ const siteSchemaData = {
       inLanguage: lang === 'tr' ? 'tr-TR' : 'en',
       potentialAction: {
         '@type': 'SearchAction',
-        target: `${SITE_URL}/${ROUTES[lang].codes}?q={search_term_string}`,
+        target: `${getCanonicalUrl(ROUTES[lang].codes)}?q={search_term_string}`,
         'query-input': 'required name=search_term_string',
       },
     },
@@ -76,6 +94,7 @@ const siteSchemaData = {
     <meta name="generator" content={Astro.generator} />
     <title>{metaTitle}</title>
     <meta name="description" content={description} />
+    <!-- Canonical: only output here. Normalized to trailing-slash in getCanonicalUrl. Pages/components must NOT inject canonical. -->
     <link rel="canonical" href={canonicalUrl} />
     {hreflangUrls.map(({ lang: l, url }) => (
       <link rel="alternate" hreflang={l} href={url} />
@@ -118,11 +137,11 @@ const siteSchemaData = {
               <>
                 <span class="lang-switcher__current" aria-current="page">TR</span>
                 <span class="lang-switcher__sep" aria-hidden="true">|</span>
-                <a href={`/${getAlternatePath(currentPath, 'en')}`} class="lang-switcher__link" title="English">EN</a>
+                <a href={`/${getAlternatePath(resolvedPath, 'en')}`} class="lang-switcher__link" title="English">EN</a>
               </>
             ) : (
               <>
-                <a href={`/${getAlternatePath(currentPath, 'tr')}`} class="lang-switcher__link" title="Türkçe">TR</a>
+                <a href={`/${getAlternatePath(resolvedPath, 'tr')}`} class="lang-switcher__link" title="Türkçe">TR</a>
                 <span class="lang-switcher__sep" aria-hidden="true">|</span>
                 <span class="lang-switcher__current" aria-current="page">EN</span>
               </>

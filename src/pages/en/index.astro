@@ -2,7 +2,7 @@
 import Layout from '@layouts/Layout.astro';
 import { getIndexedFaultCodes } from '@lib/db';
 import { faultCodePath } from '@lib/i18n';
-import { UI, ROUTES, SITE_URL } from '@lib/i18n';
+import { UI, ROUTES } from '@lib/i18n';
 
 const lang = 'en';
 const ui = UI[lang];
@@ -14,7 +14,6 @@ const codes = allCodes.slice(0, 24);
   lang={lang}
   title={ui.siteName}
   description="OBD-II error codes explained in plain English. Look up check engine light codes, definitions, symptoms, causes, and repair cost estimates. Free automotive diagnostics reference."
-  canonical={`${SITE_URL}/en`}
   currentPath="en"
 >
   <div class="wrap">

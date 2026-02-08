@@ -1,12 +1,12 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import FaultCodeContent from '@components/FaultCodeContent.astro';
-import { getIndexedFaultCodes, getFaultCodeDetail } from '@lib/db';
-import { faultCodePath } from '@lib/i18n';
-import { SITE_URL, CONTACT_EMAIL } from '@lib/i18n';
+import { getAllFaultCodes, getFaultCodeDetail } from '@lib/db';
+import { faultCodePath, getCanonicalUrl, SITE_URL, CONTACT_EMAIL } from '@lib/i18n';
 
+/** Tüm hata kodları için sayfa üretilir (canonical/layout kuralları hepsi için aynı). Liste/sitemap getIndexedFaultCodes ile ayrı. */
 export function getStaticPaths() {
-  return getIndexedFaultCodes().map((fc) => ({
+  return getAllFaultCodes().map((fc) => ({
     params: { slug: `${fc.code.toLowerCase()}-meaning` },
     props: { code: fc.code },
   }));
@@ -32,7 +32,7 @@ const articleSchemaData = {
   '@type': 'TechArticle',
   headline: metaTitle,
   description: metaDescription,
-  mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/${currentPath}` },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': getCanonicalUrl(currentPath) },
   dateModified: data.updated_at,
   inLanguage: 'en',
   author: { '@type': 'Organization', name: 'OBD Fault Codes', url: SITE_URL },
@@ -43,9 +43,9 @@ const breadcrumbSchemaData = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/en` },
-    { '@type': 'ListItem', position: 2, name: 'All codes', item: `${SITE_URL}/en/codes` },
-    { '@type': 'ListItem', position: 3, name: data.code, item: `${SITE_URL}/${currentPath}` },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('en') },
+    { '@type': 'ListItem', position: 2, name: 'All codes', item: getCanonicalUrl('en/codes') },
+    { '@type': 'ListItem', position: 3, name: data.code, item: getCanonicalUrl(currentPath) },
   ],
 };
 ---
@@ -54,7 +54,6 @@ const breadcrumbSchemaData = {
   lang={lang}
   title={metaTitle}
   description={metaDescription}
-  canonical={`${SITE_URL}/${currentPath}`}
   noindex={!!data.noindex}
   faq={faq}
   articleSchema={articleSchemaData}

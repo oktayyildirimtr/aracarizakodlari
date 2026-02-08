@@ -2,7 +2,7 @@
 import Layout from '@layouts/Layout.astro';
 import { getIndexedFaultCodes } from '@lib/db';
 import { faultCodePath } from '@lib/i18n';
-import { UI, ROUTES, SITE_URL } from '@lib/i18n';
+import { UI, ROUTES, getCanonicalUrl } from '@lib/i18n';
 
 const lang = 'tr';
 const ui = UI[lang];
@@ -13,8 +13,8 @@ const breadcrumbSchemaData = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: `${SITE_URL}/tr` },
-    { '@type': 'ListItem', position: 2, name: 'Tüm arıza kodları', item: `${SITE_URL}/tr/kodlar` },
+    { '@type': 'ListItem', position: 1, name: 'Ana sayfa', item: getCanonicalUrl('tr') },
+    { '@type': 'ListItem', position: 2, name: 'Tüm arıza kodları', item: getCanonicalUrl('tr/kodlar') },
   ],
 };
 ---
@@ -23,7 +23,6 @@ const breadcrumbSchemaData = {
   lang={lang}
   title={ui.codes.title}
   description="OBD-II arıza kodları listesi. P0xxx kodlarına göre arayın, kategoriye göre filtreleyin. Detay sayfasına tıklayarak anlam ve maliyet bilgisine ulaşın."
-  canonical={`${SITE_URL}/tr/kodlar`}
   currentPath="tr/kodlar"
   breadcrumbSchema={breadcrumbSchemaData}
 >

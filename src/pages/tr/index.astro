@@ -2,7 +2,7 @@
 import Layout from '@layouts/Layout.astro';
 import { getIndexedFaultCodes } from '@lib/db';
 import { faultCodePath } from '@lib/i18n';
-import { UI, ROUTES, SITE_URL } from '@lib/i18n';
+import { UI, ROUTES } from '@lib/i18n';
 
 const lang = 'tr';
 const ui = UI[lang];
@@ -14,7 +14,6 @@ const codes = allCodes.slice(0, 24);
   lang={lang}
   title={ui.siteName}
   description="OBD-II arıza kodları ne anlama gelir? Hangi araçlarda görülür. Türkiye için tahmini onarım maliyetleri ve uzman görüşleri."
-  canonical={`${SITE_URL}/tr`}
   currentPath="tr"
 >
   <div class="wrap">

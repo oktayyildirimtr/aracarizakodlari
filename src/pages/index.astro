@@ -1,16 +1,13 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
 
-// Root: redirect by region (Turkey → tr, rest → en)
-const canonicalUrl = `${SITE_URL}/`;
+// Root: redirect by region (Turkey → tr, rest → en). Canonical is site root.
 ---
 <Layout
   lang="tr"
   title="OBD-II Arıza Kodları"
   description="OBD-II arıza kodları Türkçe rehberi. P0xxx kodlarının anlamı, hangi araçlarda görüldüğü ve tahmini onarım maliyetleri."
-  canonical={canonicalUrl}
-  currentPath="tr"
+  currentPath=""
 >
   <script>
     (function () {

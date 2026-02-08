@@ -5,6 +5,41 @@
 
 export const SITE_URL = 'https://obdfaultcode.com';
 
+/**
+ * Fixed base domain for canonical URLs only. Must NEVER be derived from:
+ * - request.url.origin
+ * - Astro.url.origin
+ * - headers().get("host") or any request headers
+ * - environment variables or runtime host detection
+ * Canonical host is always this literal; path is computed from route/pathname only.
+ */
+export const CANONICAL_BASE = 'https://obdfaultcode.com';
+
+/**
+ * Normalizes a route path (pathname only) to a stable form without leading/trailing slashes.
+ * No query or hash. Use only the path segment of the URL, never the host.
+ */
+export function normalizeRoutePath(pathname: string): string {
+  return pathname.replace(/^\//, '').trim().replace(/\/+$/, '');
+}
+
+/**
+ * Builds the canonical URL for a page. Single source of truth for canonical output.
+ * Trailing-slash normalization is applied here: path is normalized (no leading/trailing slashes),
+ * then the result is always output with exactly one trailing slash. Call this only for the
+ * current page path; only Layout.astro may emit <link rel="canonical">.
+ * - Host: always CANONICAL_BASE (fixed; never from request/headers/env).
+ * - Always https, never www, exactly one trailing slash in output.
+ * - path: current page's exact route path only (e.g. "tr/p0141-nedir", "en/p0174-meaning"). No query or hash.
+ */
+export function getCanonicalUrl(path: string): string {
+  const p = normalizeRoutePath(path);
+  const base = CANONICAL_BASE.replace(/\/+$/, '');
+  const url = p === '' ? `${base}/` : `${base}/${p}/`;
+  if (!url.endsWith('/')) throw new Error('[getCanonicalUrl] Output must have trailing slash.');
+  return url;
+}
+
 /** Contact email displayed on site and used in schema */
 export const CONTACT_EMAIL = 'contact@obdfaultcode.com';
 
@@ -174,9 +209,9 @@ export function faultCodePath(code: string, lang: Lang): string {
   return `${lang}/${code.toLowerCase()}${FAULT_SLUG[lang]}`;
 }
 
-/** Build full fault code URL */
+/** Build full fault code URL (canonical form with trailing slash) */
 export function faultCodeUrl(code: string, lang: Lang): string {
-  return `${SITE_URL}/${faultCodePath(code, lang)}`;
+  return getCanonicalUrl(faultCodePath(code, lang));
 }
 
 /** Parse fault code from slug. Returns code or null. */
@@ -217,13 +252,13 @@ export function getAlternatePath(currentPath: string, targetLang: Lang): string 
   return routeMap[page] ?? ROUTES[targetLang].home;
 }
 
-/** Build hreflang alternate URLs for a page */
+/** Build hreflang alternate URLs for a page (canonical form with trailing slash) */
 export function getHreflangUrls(path: string, lang: Lang): { lang: string; url: string }[] {
   const trPath = lang === 'tr' ? path : getAlternatePath(path, 'tr');
   const enPath = lang === 'en' ? path : getAlternatePath(path, 'en');
   return [
-    { lang: 'tr', url: `${SITE_URL}/${trPath}` },
-    { lang: 'en', url: `${SITE_URL}/${enPath}` },
-    { lang: 'x-default', url: `${SITE_URL}/${trPath}` },
+    { lang: 'tr', url: getCanonicalUrl(trPath) },
+    { lang: 'en', url: getCanonicalUrl(enPath) },
+    { lang: 'x-default', url: getCanonicalUrl(trPath) },
   ];
 }
