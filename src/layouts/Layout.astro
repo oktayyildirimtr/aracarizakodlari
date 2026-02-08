@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '@lib/i18n';
-import { UI, ROUTES, SITE_URL, CONTACT_EMAIL, getHreflangUrls, getAlternatePath, LANG_NAMES } from '@lib/i18n';
+import { UI, ROUTES, SITE_URL, CONTACT_EMAIL, getHreflangUrls, getAlternatePath } from '@lib/i18n';
 import CookieBanner from '@components/CookieBanner.astro';
 import '../styles/global.css';
 
@@ -114,18 +114,17 @@ const siteSchemaData = {
           <a href={`/${ROUTES[lang].contact}`}>{ui.nav.contact}</a>
           <a href={`/${ROUTES[lang].terms}`}>{ui.nav.terms}</a>
           <span class="lang-switcher" aria-label={lang === 'tr' ? 'Dil seçimi' : 'Language'}>
-            <span class="lang-switcher__label">{lang === 'tr' ? 'Dil:' : 'Language:'}</span>
             {lang === 'tr' ? (
               <>
-                <span class="lang-switcher__current" aria-current="page">{LANG_NAMES.tr}</span>
+                <span class="lang-switcher__current" aria-current="page">TR</span>
                 <span class="lang-switcher__sep" aria-hidden="true">|</span>
-                <a href={`/${getAlternatePath(currentPath, 'en')}`} class="lang-switcher__link" title="Switch to English">{LANG_NAMES.en}</a>
+                <a href={`/${getAlternatePath(currentPath, 'en')}`} class="lang-switcher__link" title="English">EN</a>
               </>
             ) : (
               <>
-                <a href={`/${getAlternatePath(currentPath, 'tr')}`} class="lang-switcher__link" title="Türkçe'ye geç">{LANG_NAMES.tr}</a>
+                <a href={`/${getAlternatePath(currentPath, 'tr')}`} class="lang-switcher__link" title="Türkçe">TR</a>
                 <span class="lang-switcher__sep" aria-hidden="true">|</span>
-                <span class="lang-switcher__current" aria-current="page">{LANG_NAMES.en}</span>
+                <span class="lang-switcher__current" aria-current="page">EN</span>
               </>
             )}
           </span>

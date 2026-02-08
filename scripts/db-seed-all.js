@@ -6,7 +6,6 @@ import Database from 'better-sqlite3';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { getAllObd2Codes } from './fault-codes-data.js';
-import { TOP_30_CODES } from './top-codes.js';
 
 const dbPath = join(process.cwd(), 'data', 'ariza.db');
 
@@ -21,7 +20,6 @@ if (!existsSync(dbPath)) {
 }
 
 const db = new Database(dbPath);
-const topSet = new Set(TOP_30_CODES);
 const insert = db.prepare(
   `INSERT INTO fault_codes (code, title_tr, title_en, description_tr, description_en, expert_opinion_tr, expert_opinion_en, drive_safe_tr, drive_safe_en, noindex, sitemap_include, category, updated_at)
    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, datetime('now'))`
@@ -49,7 +47,7 @@ for (const row of codes) {
     updated++;
     continue;
   }
-  const sitemapInclude = topSet.has(row.code) ? 1 : 0;
+  const sitemapInclude = 1;
   insert.run(
     row.code,
     row.title_tr,
