@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Allow: /en
+Allow: /tr
 
 Sitemap: https://obdfaultcode.com/sitemap.xml

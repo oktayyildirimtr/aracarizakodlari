@@ -252,13 +252,24 @@ export function getAlternatePath(currentPath: string, targetLang: Lang): string 
   return routeMap[page] ?? ROUTES[targetLang].home;
 }
 
-/** Build hreflang alternate URLs for a page (canonical form, no trailing slash per trailingSlash: never) */
+/**
+ * Build hreflang alternate URLs for a page. Canonical form, no trailing slash.
+ * x-default always points to the EN URL (default language for SEO).
+ * Root path ('') is special: alternates are /en and /tr only.
+ */
 export function getHreflangUrls(path: string, lang: Lang): { lang: string; url: string }[] {
+  if (path === '') {
+    return [
+      { lang: 'en', url: getCanonicalUrl('en') },
+      { lang: 'tr', url: getCanonicalUrl('tr') },
+      { lang: 'x-default', url: getCanonicalUrl('en') },
+    ];
+  }
   const trPath = lang === 'tr' ? path : getAlternatePath(path, 'tr');
   const enPath = lang === 'en' ? path : getAlternatePath(path, 'en');
   return [
-    { lang: 'tr', url: getCanonicalUrl(trPath) },
     { lang: 'en', url: getCanonicalUrl(enPath) },
-    { lang: 'x-default', url: getCanonicalUrl(trPath) },
+    { lang: 'tr', url: getCanonicalUrl(trPath) },
+    { lang: 'x-default', url: getCanonicalUrl(enPath) },
   ];
 }

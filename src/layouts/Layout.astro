@@ -28,7 +28,8 @@ const pathFromRoute = typeof Astro.url !== 'undefined' && Astro.url?.pathname !=
 // Use pathFromRoute (actual route) as primary source, fallback to currentPathProp
 // Always prefer the actual route pathname over the prop to ensure canonical matches the URL
 const resolvedPath = pathFromRoute ?? (currentPathProp ?? '');
-const canonicalUrl = getCanonicalUrl(resolvedPath);
+// Root (/) canonical targets /en (default language) to avoid duplicate content with /en and /tr
+const canonicalUrl = resolvedPath === '' ? getCanonicalUrl('en') : getCanonicalUrl(resolvedPath);
 // Validate canonical URL format (https, no www; non-root URLs have no trailing slash per trailingSlash: never)
 if (!canonicalUrl.startsWith('https://') || canonicalUrl.includes('www.')) {
   console.warn(`[Layout] Invalid canonical URL format: ${canonicalUrl}. Expected https://, no www.`);
