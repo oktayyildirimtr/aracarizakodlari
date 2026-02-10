@@ -17,28 +17,28 @@ const BATCH = process.env.ARIZA_BATCH_LIMIT
   ? parseInt(process.env.ARIZA_BATCH_LIMIT, 10)
   : null;
 
-/** Ensure URL has trailing slash to match canonical (sitemap must match canonical exactly). */
-function withTrailingSlash(url) {
-  return url.endsWith('/') ? url : url + '/';
+/** Ensure URL has no trailing slash (trailingSlash: never; sitemap must match canonical). */
+function withoutTrailingSlash(url) {
+  return url.replace(/\/+$/, '') || url;
 }
 
 function collectUrls() {
   const staticUrls = [
     SITE + '/',
-    withTrailingSlash(SITE + '/tr'),
-    withTrailingSlash(SITE + '/en'),
-    withTrailingSlash(SITE + '/tr/kodlar'),
-    withTrailingSlash(SITE + '/en/codes'),
-    withTrailingSlash(SITE + '/tr/hakkimizda'),
-    withTrailingSlash(SITE + '/en/about'),
-    withTrailingSlash(SITE + '/tr/iletisim'),
-    withTrailingSlash(SITE + '/en/contact'),
-    withTrailingSlash(SITE + '/tr/gizlilik-politikasi'),
-    withTrailingSlash(SITE + '/en/privacy-policy'),
-    withTrailingSlash(SITE + '/tr/cerez-bildirimi'),
-    withTrailingSlash(SITE + '/en/cookie-policy'),
-    withTrailingSlash(SITE + '/tr/kullanim-kosullari'),
-    withTrailingSlash(SITE + '/en/terms-of-service'),
+    withoutTrailingSlash(SITE + '/tr'),
+    withoutTrailingSlash(SITE + '/en'),
+    withoutTrailingSlash(SITE + '/tr/kodlar'),
+    withoutTrailingSlash(SITE + '/en/codes'),
+    withoutTrailingSlash(SITE + '/tr/hakkimizda'),
+    withoutTrailingSlash(SITE + '/en/about'),
+    withoutTrailingSlash(SITE + '/tr/iletisim'),
+    withoutTrailingSlash(SITE + '/en/contact'),
+    withoutTrailingSlash(SITE + '/tr/gizlilik-politikasi'),
+    withoutTrailingSlash(SITE + '/en/privacy-policy'),
+    withoutTrailingSlash(SITE + '/tr/cerez-bildirimi'),
+    withoutTrailingSlash(SITE + '/en/cookie-policy'),
+    withoutTrailingSlash(SITE + '/tr/kullanim-kosullari'),
+    withoutTrailingSlash(SITE + '/en/terms-of-service'),
   ];
 
   if (!existsSync(dbPath)) {
@@ -56,8 +56,8 @@ function collectUrls() {
 
   const urls = [...staticUrls];
   for (const code of codes) {
-    urls.push(withTrailingSlash(SITE + '/tr/' + code.toLowerCase() + '-nedir'));
-    urls.push(withTrailingSlash(SITE + '/en/' + code.toLowerCase() + '-meaning'));
+    urls.push(withoutTrailingSlash(SITE + '/tr/' + code.toLowerCase() + '-nedir'));
+    urls.push(withoutTrailingSlash(SITE + '/en/' + code.toLowerCase() + '-meaning'));
   }
 
   return [...new Set(urls)];

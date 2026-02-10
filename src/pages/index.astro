@@ -19,7 +19,7 @@ import Layout from '@layouts/Layout.astro';
         try {
           localStorage.setItem(CACHE_KEY, JSON.stringify({ lang: l, at: Date.now() }));
         } catch (e) {}
-        window.location.replace('/' + l + '/');
+        window.location.replace('/' + l);
       }
 
       try {
@@ -49,7 +49,7 @@ import Layout from '@layouts/Layout.astro';
     })();
   </script>
   <noscript>
-    <meta http-equiv="refresh" content="0; url=/en/" />
+    <meta http-equiv="refresh" content="0; url=/en" />
   </noscript>
-  <p>Yönlendiriliyorsunuz… <a href="/tr/">Türkçe</a> · <a href="/en/">English</a></p>
+  <p>Yönlendiriliyorsunuz… <a href="/tr">Türkçe</a> · <a href="/en">English</a></p>
 </Layout>

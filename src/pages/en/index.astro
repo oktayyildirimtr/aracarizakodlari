@@ -21,7 +21,7 @@ const codes = allCodes.slice(0, 36);
       <h1 class="home-hero__title">{ui.home.title}</h1>
       <p class="home-hero__lead">{ui.home.lead1}</p>
       <p class="home-hero__lead">{ui.home.lead2}</p>
-      <form class="home-search" action={`/${ROUTES[lang].codes}/`} method="get" role="search" aria-label={ui.home.searchLabel}>
+      <form class="home-search" action={`/${ROUTES[lang].codes}`} method="get" role="search" aria-label={ui.home.searchLabel}>
         <input type="search" name="q" placeholder={ui.home.searchPlaceholder} />
         <button type="submit">Search</button>
       </form>
@@ -34,24 +34,24 @@ const codes = allCodes.slice(0, 36);
           When your check engine light turns on, the vehicle’s onboard computer stores one or more diagnostic trouble codes (DTCs). These codes follow standards such as SAE J2012 and are read using an OBD-II scanner or code reader. <strong>OBD Fault Codes</strong> explains the most common powertrain codes (P0xxx series) in plain language: what the code means, typical symptoms, possible causes, and what you can expect in terms of repair. Our content is written for drivers and mechanics who want a quick, reliable reference—not a replacement for professional diagnosis. Always have your vehicle checked by a qualified technician to identify and fix the root cause.
         </p>
         <p>
-          Use the search box above to find a specific code, or browse our <a href={`/${ROUTES[lang].codes}/`}>full list of error codes</a>. Each code page includes definitions, symptom and cause lists, driving safety guidance, and estimated repair cost ranges where available. For more about who we are and how we work, see our <a href={`/${ROUTES[lang].about}/`}>About</a> page. Questions or feedback? Use our <a href={`/${ROUTES[lang].contact}/`}>Contact</a> page.
+          Use the search box above to find a specific code, or browse our <a href={`/${ROUTES[lang].codes}`}>full list of error codes</a>. Each code page includes definitions, symptom and cause lists, driving safety guidance, and estimated repair cost ranges where available. For more about who we are and how we work, see our <a href={`/${ROUTES[lang].about}`}>About</a> page. Questions or feedback? Use our <a href={`/${ROUTES[lang].contact}`}>Contact</a> page.
         </p>
         <p>
-          We cover P0xxx powertrain codes (P0100–P0999 and beyond) with clear explanations, common symptoms, possible causes, and fix suggestions. Content is for information only and is not a substitute for professional diagnosis. If your check engine light is on, have the codes read with an OBD-II scanner and, when in doubt, consult a qualified technician. Our <a href={`/${ROUTES[lang].codes}/`}>error code list</a> is searchable and filterable by category so you can find the code you need quickly.
+          We cover P0xxx powertrain codes (P0100–P0999 and beyond) with clear explanations, common symptoms, possible causes, and fix suggestions. Content is for information only and is not a substitute for professional diagnosis. If your check engine light is on, have the codes read with an OBD-II scanner and, when in doubt, consult a qualified technician. Our <a href={`/${ROUTES[lang].codes}`}>error code list</a> is searchable and filterable by category so you can find the code you need quickly.
         </p>
       </div>
     </section>
 
     <section class="home-code-list" aria-labelledby="codes-heading">
       <h2 id="codes-heading" class="home-code-list__title">{ui.home.codesTitle}</h2>
-      <p><a href={`/${ROUTES[lang].codes}/`}>{ui.home.viewAll}</a>. Sample codes below:</p>
+      <p><a href={`/${ROUTES[lang].codes}`}>{ui.home.viewAll}</a>. Sample codes below:</p>
       <div class="home-code-list__grid">
         {codes.map((fc) => (
-          <a href={`/${faultCodePath(fc.code, lang)}/`}>{fc.code}</a>
+          <a href={`/${faultCodePath(fc.code, lang)}`}>{fc.code}</a>
         ))}
       </div>
       {allCodes.length > codes.length && (
-        <p class="home-code-list__more"><a href={`/${ROUTES[lang].codes}/`}>+{allCodes.length - codes.length} {ui.home.moreCodes}</a></p>
+        <p class="home-code-list__more"><a href={`/${ROUTES[lang].codes}`}>+{allCodes.length - codes.length} {ui.home.moreCodes}</a></p>
       )}
     </section>
   </div>

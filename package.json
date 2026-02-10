@@ -19,7 +19,7 @@
     "add-fault-code": "node scripts/add-fault-code.js"
   },
   "dependencies": {
-    "astro": "^4.16.0",
+    "astro": "^5.17.1",
     "better-sqlite3": "^11.6.0"
   },
   "devDependencies": {

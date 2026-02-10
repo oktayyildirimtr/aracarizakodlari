@@ -33,19 +33,57 @@ const faqItems = lang === 'tr'
   : faq.filter((f) => f.question_en && f.answer_en).map((f) => ({ q: f.question_en!, a: f.answer_en! }));
 const showFaq = faqItems.length > 0;
 
-const totalContentLength = [
-  description,
-  driveSafeText,
-  expertText,
-  ...symptomItems,
-  ...causeItems,
-  ...solutionItems,
-  ...faqItems.flatMap((i) => [i.q, i.a]),
-].join(' ').length;
-const isThinPage = totalContentLength < 1200;
+// Quick Answer (Featured Snippet Target) - 2-3 sentences
+const quickAnswerEn = description_en 
+  ? `${code} means ${description_en.split('.')[0]}. ${description_en.split('.').slice(1).join('.').trim().split('.')[0] || 'This diagnostic trouble code indicates a powertrain-related issue that should be diagnosed by a qualified technician.'}.`
+  : `${code} is an OBD-II diagnostic trouble code indicating a powertrain-related issue. Have your vehicle checked by a qualified technician to identify the exact cause and prevent potential damage.`;
+const quickAnswerTr = description_tr 
+  ? `${code} kodu, ${description_tr.split('.')[0]}. ${description_tr.split('.').slice(1).join('.').trim().split('.')[0] || 'Bu tanılı arıza kodu, güç aktarım sistemiyle ilgili bir sorunu gösterir ve yetkili bir teknisyen tarafından teşhis edilmelidir.'}.`
+  : `${code} bir OBD-II tanılı arıza kodudur ve güç aktarım sistemiyle ilgili bir sorunu gösterir. Kesin nedeni belirlemek ve olası hasarı önlemek için aracınızı yetkili bir teknisyene kontrol ettirin.`;
 
-const thinPageParagraphEn = 'P0xxx diagnostic trouble codes (DTCs) are standardized OBD-II powertrain codes. While this page summarizes the meaning, symptoms, and possible fixes for this code, a definitive diagnosis often requires reading live data, checking wiring, and testing components. We recommend having your vehicle checked by a qualified technician or workshop when the check engine light is on, especially if you notice drivability issues.';
-const thinPageParagraphTr = 'P0xxx tanılı arıza kodları (DTC), standart OBD-II güç aktarım kodlarıdır. Bu sayfa kodun anlamı, belirtileri ve olası onarımlarını özetlese de kesin teşhis çoğu zaman canlı veri okuma, kablo kontrolü ve parça testi gerektirir. Motor arıza lambanız yanıyorsa, özellikle sürüşle ilgili sorun fark ediyorsanız, aracınızın yetkili bir teknisyen veya servis tarafından kontrol edilmesini öneririz.';
+// Determine severity based on code and symptoms
+const hasSeriousSymptoms = symptomItems.some(s => 
+  /stall|stop|won't start|won't run|severe|dangerous|unsafe|çalışmıyor|duruyor|tehlikeli/i.test(s)
+);
+const severityLevel = hasSeriousSymptoms ? (lang === 'tr' ? 'Yüksek' : 'High') : 
+  (symptomItems.length > 3 ? (lang === 'tr' ? 'Orta' : 'Medium') : (lang === 'tr' ? 'Düşük' : 'Low'));
+
+// Generate content helpers
+const getDiagnosisSteps = () => {
+  if (lang === 'tr') {
+    return [
+      'OBD-II okuyucu ile kodu okuyun ve kaydedin',
+      'Canlı veri akışını kontrol edin (sensor değerleri, voltajlar)',
+      'Görsel muayene yapın (kablo bağlantıları, hasar, korozyon)',
+      'Multimetre ile elektriksel testler yapın',
+      'İlgili sensörleri veya bileşenleri test edin',
+      'Gerekirse profesyonel teşhis ekipmanı kullanın'
+    ];
+  }
+  return [
+    'Read the code with an OBD-II scanner and save it',
+    'Check live data stream (sensor values, voltages)',
+    'Perform visual inspection (wiring connections, damage, corrosion)',
+    'Run electrical tests with a multimeter',
+    'Test the relevant sensors or components',
+    'Use professional diagnostic equipment if needed'
+  ];
+};
+
+const getDIYFixes = () => {
+  if (solutionItems.length === 0) return [];
+  // Filter solutions that are safe for DIY
+  return solutionItems.filter(s => 
+    /clean|reset|check|inspect|tighten|loosen|replace.*simple|basit|temizle|sıfırla|kontrol/i.test(s)
+  ).slice(0, 3);
+};
+
+const getRealWorldExample = () => {
+  if (lang === 'tr') {
+    return `Örnek senaryo: ${code} kodu genellikle sürücü aracı çalıştırdığında ve motor arıza lambası yandığında fark edilir. Araç normal çalışıyor gibi görünebilir, ancak performans düşüklüğü veya yakıt tüketiminde artış gibi belirtiler görülebilir. Bazı durumlarda araç rölantide titreyebilir veya hızlanma sırasında güç kaybı yaşanabilir.`;
+  }
+  return `Real-world scenario: The ${code} code typically appears when you start your vehicle and the check engine light comes on. Your car may seem to run normally, but you might notice performance issues or increased fuel consumption. In some cases, the vehicle may idle roughly or experience power loss during acceleration.`;
+};
 ---
 
 <article class="article">
@@ -56,8 +94,16 @@ const thinPageParagraphTr = 'P0xxx tanılı arıza kodları (DTC), standart OBD-
       <LastUpdated date={updated_at} lang={lang} />
     </div>
 
+    {/* 1. Quick Answer (Featured Snippet Target) */}
+    <section class="article__quick-answer">
+      <div class="article__prose">
+        <p><strong>{lang === 'tr' ? 'Kısa Cevap:' : 'Quick Answer:'}</strong> {lang === 'tr' ? quickAnswerTr : quickAnswerEn}</p>
+      </div>
+    </section>
+
+    {/* 2. What Does This Code Mean? */}
     <section>
-      <h2 id="meaning">{ui.faultCode.meaning}</h2>
+      <h2 id="meaning">{lang === 'tr' ? 'Bu Kod Ne Anlama Gelir?' : 'What Does This Code Mean?'}</h2>
       {description_en && lang === 'tr' && (
         <p class="article__official-def">
           <strong>{ui.faultCode.officialDef}</strong> <em>{description_en}</em>
@@ -67,6 +113,14 @@ const thinPageParagraphTr = 'P0xxx tanılı arıza kodları (DTC), standart OBD-
         {description.split(/\n\n+/).filter(Boolean).map((p) => (
           <p set:html={p.replace(/\n/g, '<br />')} />
         ))}
+        {description.split(/\n\n+/).length === 1 && (
+          <p>
+            {lang === 'tr' 
+              ? `${code} kodu, motor kontrol ünitesi (ECU) tarafından algılanan bir sorunu gösterir. Bu kod, aracın performansını, emisyonlarını veya yakıt verimliliğini etkileyebilir. Sorunun ciddiyeti, kodun türüne ve araçta görülen belirtilere bağlıdır.`
+              : `The ${code} code indicates an issue detected by your vehicle's engine control unit (ECU). This code can affect your car's performance, emissions, or fuel efficiency. The severity depends on the code type and symptoms you're experiencing.`
+            }
+          </p>
+        )}
       </div>
       {partInfo && (
         <figure class="article__part-figure" aria-label={partInfo.name_tr} data-part-figure>
@@ -87,85 +141,210 @@ const thinPageParagraphTr = 'P0xxx tanılı arıza kodları (DTC), standart OBD-
       )}
     </section>
 
-    {symptomItems.length > 0 && (
-      <section>
-        <h2 id="symptoms">{ui.faultCode.symptoms}</h2>
-        <ul class="article__list">
-          {symptomItems.map((t) => <li>{t}</li>)}
-        </ul>
-      </section>
-    )}
-
+    {/* 3. Common Causes */}
     {causeItems.length > 0 && (
       <section>
-        <h2 id="causes">{ui.faultCode.causes}</h2>
+        <h2 id="causes">{lang === 'tr' ? 'Yaygın Nedenler' : 'Common Causes'}</h2>
         <ul class="article__list">
           {causeItems.map((t) => <li>{t}</li>)}
         </ul>
       </section>
     )}
 
-    {solutionItems.length > 0 && (
+    {/* 4. Symptoms */}
+    {symptomItems.length > 0 && (
       <section>
-        <h2 id="fix">{ui.faultCode.fix}</h2>
+        <h2 id="symptoms">{lang === 'tr' ? 'Belirtiler' : 'Symptoms'}</h2>
+        <p>{lang === 'tr' ? 'Sürücünün fark edebileceği belirtiler:' : 'What the driver may notice:'}</p>
         <ul class="article__list">
-          {solutionItems.map((t) => <li>{t}</li>)}
+          {symptomItems.map((t) => <li>{t}</li>)}
         </ul>
       </section>
     )}
 
+    {/* 5. Can I Keep Driving? */}
     <section>
-      <h2 id="drive-safe">{ui.faultCode.driveSafe}</h2>
+      <h2 id="drive-safe">{lang === 'tr' ? 'Araç Kullanmaya Devam Edebilir miyim?' : 'Can I Keep Driving?'}</h2>
       <div class="article__prose">
         {driveSafeText.split(/\n\n+/).filter(Boolean).map((p) => (
           <p set:html={p.replace(/\n/g, '<br />')} />
         ))}
+        {driveSafeText.length < 100 && (
+          <>
+            <p>
+              {lang === 'tr' 
+                ? `Risk seviyesi: ${severityLevel === 'Yüksek' ? 'Yüksek' : severityLevel === 'Orta' ? 'Orta' : 'Düşük'}. ${severityLevel === 'Yüksek' ? 'Araç kullanımından kaçının veya en kısa sürede servise gidin.' : severityLevel === 'Orta' ? 'Kısa mesafeler için dikkatli kullanabilirsiniz, ancak sorunu çözmek için servise gidin.' : 'Kısa süreli kullanım genellikle güvenlidir, ancak sorunu çözmek için servise gidin.'}`
+                : `Risk level: ${severityLevel}. ${severityLevel === 'High' ? 'Avoid driving or get to a mechanic as soon as possible.' : severityLevel === 'Medium' ? 'You can drive short distances with caution, but get the issue fixed.' : 'Short-term driving is usually safe, but have the issue addressed.'}`
+              }
+            </p>
+            <p>
+              {lang === 'tr'
+                ? 'Uzun vadede, bu kodun görmezden gelinmesi motor hasarına, artan yakıt tüketimine veya emisyon sorunlarına yol açabilir. Bazı durumlarda araç emisyon testinden geçemeyebilir.'
+                : 'Long-term, ignoring this code can lead to engine damage, increased fuel consumption, or emission issues. In some cases, your vehicle may fail emissions testing.'
+              }
+            </p>
+          </>
+        )}
       </div>
     </section>
 
+    {/* 6. How to Diagnose */}
     <section>
-      <h2 id="cost">{ui.faultCode.cost}</h2>
-      {estimated_cost ? (
-        <p>
-          {lang === 'tr' ? (
-            <>Tahmini maliyet aralığı (işçilik ve parça dahil): <strong>{estimated_cost.min_try.toLocaleString('tr-TR')} – {estimated_cost.max_try.toLocaleString('tr-TR')} TL</strong>.{estimated_cost.notes_tr && ` ${estimated_cost.notes_tr}`}</>
-          ) : (
-            <>
-              {estimated_cost.min_usd != null && estimated_cost.max_usd != null ? (
-                <>Estimated cost range (labour and parts): <strong>${estimated_cost.min_usd} – ${estimated_cost.max_usd} USD</strong>.{estimated_cost.notes_en && ` ${estimated_cost.notes_en}`}</>
-              ) : (
-                <>Estimated cost range (labour and parts): <strong>{estimated_cost.min_try.toLocaleString('en-US')} – {estimated_cost.max_try.toLocaleString('en-US')} TL</strong>.{estimated_cost.notes_en && ` ${estimated_cost.notes_en}`}</>
-              )}
-            </>
-          )}
-        </p>
-      ) : (
-        <p>{ui.faultCode.costNote}</p>
-      )}
-    </section>
-
-    <section>
-      <h2 id="uzman">{ui.faultCode.expert}</h2>
-      <div class="article__prose">
-        {expertText.split(/\n\n+/).filter(Boolean).map((p) => (
-          <p set:html={p.replace(/\n/g, '<br />')} />
+      <h2 id="diagnosis">{lang === 'tr' ? 'Nasıl Teşhis Edilir?' : 'How to Diagnose'}</h2>
+      <p>{lang === 'tr' ? 'Adım adım kontrol listesi (kolaydan ileri seviyeye):' : 'Step-by-step diagnostic checks (from easy to advanced):'}</p>
+      <ol class="article__list">
+        {getDiagnosisSteps().map((step) => (
+          <li>{step}</li>
         ))}
-      </div>
+      </ol>
+      <p>
+        {lang === 'tr'
+          ? 'Basit kontroller için bir OBD-II okuyucu yeterli olabilir, ancak kesin teşhis için profesyonel ekipman ve deneyim gerekebilir. Canlı veri akışını okumak ve elektriksel testler yapmak, sorunun kaynağını belirlemede kritik öneme sahiptir.'
+          : 'A basic OBD-II scanner may be sufficient for simple checks, but professional equipment and experience may be needed for definitive diagnosis. Reading live data streams and performing electrical tests are crucial for identifying the root cause.'
+        }
+      </p>
     </section>
 
-    {isThinPage && (
+    {/* 7. How to Fix */}
+    {solutionItems.length > 0 && (
       <section>
-        <div class="article__prose">
-          <p>{lang === 'tr' ? thinPageParagraphTr : thinPageParagraphEn}</p>
-        </div>
+        <h2 id="fix">{lang === 'tr' ? 'Nasıl Giderilir?' : 'How to Fix'}</h2>
+        <p>{lang === 'tr' ? 'Olası onarım yöntemleri:' : 'Possible repair methods:'}</p>
+        <ul class="article__list">
+          {solutionItems.map((t) => <li>{t}</li>)}
+        </ul>
+        <p>
+          {lang === 'tr'
+            ? 'Onarım yöntemi, sorunun kaynağına bağlıdır. Bazı durumlarda temizlik veya kablo tamiri yeterli olabilirken, diğerlerinde sensör veya bileşen değişimi gerekebilir. İşçilik maliyetleri ve yedek parça fiyatları, araç modeline ve bölgeye göre değişiklik gösterebilir.'
+            : 'The repair method depends on the root cause. In some cases, cleaning or wiring repair may be sufficient, while others may require sensor or component replacement. Labor costs and parts prices can vary by vehicle model and location.'
+          }
+        </p>
       </section>
     )}
 
-    <Disclaimer lang={lang} />
+    {/* 8. Estimated Repair Cost */}
+    <section>
+      <h2 id="cost">{lang === 'tr' ? 'Tahmini Onarım Maliyeti' : 'Estimated Repair Cost'}</h2>
+      {estimated_cost ? (
+        <>
+          <p>
+            {lang === 'tr' ? (
+              <>Tahmini maliyet aralığı (işçilik ve parça dahil): <strong>{estimated_cost.min_try.toLocaleString('tr-TR')} – {estimated_cost.max_try.toLocaleString('tr-TR')} TL</strong>.{estimated_cost.notes_tr && ` ${estimated_cost.notes_tr}`}</>
+            ) : (
+              <>
+                {estimated_cost.min_usd != null && estimated_cost.max_usd != null ? (
+                  <>Estimated cost range (labour and parts): <strong>${estimated_cost.min_usd} – ${estimated_cost.max_usd} USD</strong>.{estimated_cost.notes_en && ` ${estimated_cost.notes_en}`}</>
+                ) : (
+                  <>Estimated cost range (labour and parts): <strong>${estimated_cost.min_try.toLocaleString('en-US')} – ${estimated_cost.max_try.toLocaleString('en-US')} TL</strong>.{estimated_cost.notes_en && ` ${estimated_cost.notes_en}`}</>
+                )}
+              </>
+            )}
+          </p>
+          <div class="article__prose">
+            <p>
+              {lang === 'tr'
+                ? 'Maliyet tahminleri araç modeline, yıl, bölge ve sorunun gerçek nedenine göre değişir. Sensör değişimi genellikle $50-200 USD arasında, işçilik ise saat başına $80-150 USD olabilir. Teşhis ücreti genellikle $50-100 USD civarındadır. Kompleks sorunlar veya nadir parçalar daha yüksek maliyetlere yol açabilir.'
+                : 'Cost estimates vary by vehicle model, year, location, and the actual root cause. Sensor replacement typically ranges from $50-200 USD, while labor can be $80-150 USD per hour. Diagnostic fees are usually around $50-100 USD. Complex issues or rare parts can lead to higher costs.'
+              }
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          <p>{ui.faultCode.costNote}</p>
+          <div class="article__prose">
+            <p>
+              {lang === 'tr'
+                ? 'Maliyet, sorunun kaynağına ve araç modeline göre değişir. Basit temizlik işlemleri $50-150 USD arasında olabilirken, sensör değişimi $100-300 USD, kompleks onarımlar ise $300-1000+ USD olabilir. Teşhis ücreti genellikle $50-100 USD civarındadır.'
+                : 'Costs vary by root cause and vehicle model. Simple cleaning procedures may range from $50-150 USD, while sensor replacement can be $100-300 USD, and complex repairs may cost $300-1000+ USD. Diagnostic fees are typically around $50-100 USD.'
+              }
+            </p>
+          </div>
+        </>
+      )}
+    </section>
 
+    {/* 9. DIY Fixes */}
+    {getDIYFixes().length > 0 && (
+      <section>
+        <h2 id="diy">{lang === 'tr' ? 'Kendi Başınıza Yapabileceğiniz Onarımlar' : 'DIY Fixes'}</h2>
+        <p>{lang === 'tr' ? 'Sahip olanların güvenle deneyebileceği basit işlemler:' : 'What owners can try safely:'}</p>
+        <ul class="article__list">
+          {getDIYFixes().map((fix) => <li>{fix}</li>)}
+        </ul>
+        <p>
+          {lang === 'tr'
+            ? 'Bu işlemler basit ve güvenlidir, ancak sorun devam ederse profesyonel yardım alın. Elektriksel sorunlar veya kompleks onarımlar için mutlaka yetkili bir teknisyene başvurun.'
+            : 'These procedures are simple and safe, but seek professional help if the issue persists. Always consult a qualified technician for electrical issues or complex repairs.'
+          }
+        </p>
+      </section>
+    )}
+
+    {/* 10. When Should You See a Mechanic? */}
+    <section>
+      <h2 id="mechanic">{lang === 'tr' ? 'Ne Zaman Bir Teknisyene Gitmelisiniz?' : 'When Should You See a Mechanic?'}</h2>
+      <div class="article__prose">
+        <p>
+          {lang === 'tr'
+            ? `Aşağıdaki durumlarda mutlaka bir teknisyene gidin:`
+            : `You should see a mechanic in the following situations:`
+          }
+        </p>
+        <ul class="article__list">
+          <li>
+            {lang === 'tr'
+              ? 'Motor arıza lambası yanıyorsa ve araçta performans sorunları varsa'
+              : 'The check engine light is on and you notice performance issues'
+            }
+          </li>
+          <li>
+            {lang === 'tr'
+              ? 'Araç çalışmıyor, duruyor veya güvenli bir şekilde sürülemiyorsa'
+              : 'The vehicle won\'t start, stalls, or cannot be driven safely'
+            }
+          </li>
+          <li>
+            {lang === 'tr'
+              ? 'Kodu temizledikten sonra tekrar görünüyorsa'
+              : 'The code returns after clearing it'
+            }
+          </li>
+          <li>
+            {lang === 'tr'
+              ? 'Elektriksel sorunlar veya kompleks onarımlar gerekiyorsa'
+              : 'Electrical issues or complex repairs are needed'
+            }
+          </li>
+          <li>
+            {lang === 'tr'
+              ? 'Emisyon testi yaklaşıyorsa ve kodun temizlenmesi gerekiyorsa'
+              : 'An emissions test is approaching and the code needs to be cleared'
+            }
+          </li>
+        </ul>
+        <p>
+          {lang === 'tr'
+            ? 'Profesyonel teşhis, sorunun gerçek nedenini belirlemenize ve gereksiz parça değişimlerinden kaçınmanıza yardımcı olur.'
+            : 'Professional diagnosis helps identify the true root cause and avoid unnecessary part replacements.'
+          }
+        </p>
+      </div>
+    </section>
+
+    {/* 11. Related Trouble Codes */}
+    {related_codes.length > 0 && (
+      <section>
+        <h2 id="related">{lang === 'tr' ? 'İlgili Arıza Kodları' : 'Related Trouble Codes'}</h2>
+        <p>{lang === 'tr' ? 'Benzer veya sıklıkla birlikte görülen kodlar:' : 'Similar or frequently paired codes:'}</p>
+        <RelatedCodes codes={related_codes} lang={lang} />
+      </section>
+    )}
+
+    {/* 12. Frequently Asked Questions */}
     {showFaq && (
       <section>
-        <h2 id="sss">{ui.faultCode.faq}</h2>
+        <h2 id="faq">{lang === 'tr' ? 'Sık Sorulan Sorular' : 'Frequently Asked Questions'}</h2>
         <dl class="faq-list">
           {faqItems.map((item) => (
             <>
@@ -174,9 +353,131 @@ const thinPageParagraphTr = 'P0xxx tanılı arıza kodları (DTC), standart OBD-
             </>
           ))}
         </dl>
+        {/* Add common FAQs if not already present */}
+        {faqItems.length < 4 && (
+          <>
+            {!faqItems.some(f => /what causes|neden|what.*cause/i.test(f.q)) && (
+              <>
+                <dt>{lang === 'tr' ? `${code} koduna ne neden olur?` : `What causes ${code}?`}</dt>
+                <dd>
+                  {lang === 'tr'
+                    ? causeItems.length > 0 
+                      ? causeItems.slice(0, 2).join(' veya ')
+                      : 'Bu kod genellikle sensör arızası, kablo sorunları veya sistem bileşenlerindeki problemlerden kaynaklanır.'
+                    : causeItems.length > 0
+                      ? causeItems.slice(0, 2).join(' or ')
+                      : 'This code is typically caused by sensor failure, wiring issues, or problems with system components.'
+                  }
+                </dd>
+              </>
+            )}
+            {!faqItems.some(f => /expensive|cost|maliyet|pahalı/i.test(f.q)) && (
+              <>
+                <dt>{lang === 'tr' ? 'Onarımı pahalı mı?' : 'Is it expensive to fix?'}</dt>
+                <dd>
+                  {lang === 'tr'
+                    ? estimated_cost 
+                      ? `Tahmini maliyet ${estimated_cost.min_usd || estimated_cost.min_try} - ${estimated_cost.max_usd || estimated_cost.max_try} ${estimated_cost.min_usd ? 'USD' : 'TL'} arasındadır. Maliyet, sorunun kaynağına ve araç modeline göre değişir.`
+                      : 'Maliyet sorunun kaynağına ve araç modeline göre değişir. Basit temizlik işlemleri $50-150 USD olabilirken, sensör değişimi $100-300 USD olabilir.'
+                    : estimated_cost
+                      ? `Estimated cost ranges from ${estimated_cost.min_usd || estimated_cost.min_try} - ${estimated_cost.max_usd || estimated_cost.max_try} ${estimated_cost.min_usd ? 'USD' : 'TL'}. Cost varies by root cause and vehicle model.`
+                      : 'Cost varies by root cause and vehicle model. Simple cleaning may be $50-150 USD, while sensor replacement can be $100-300 USD.'
+                  }
+                </dd>
+              </>
+            )}
+            {!faqItems.some(f => /fail.*inspection|test.*fail|test.*geç/i.test(f.q)) && (
+              <>
+                <dt>{lang === 'tr' ? 'Emisyon testinden geçemez miyim?' : 'Will it fail inspection?'}</dt>
+                <dd>
+                  {lang === 'tr'
+                    ? 'Aktif bir arıza kodu genellikle emisyon testinden geçmenizi engeller. Kodu temizlemeden önce sorunu çözmeniz gerekir. Bazı eyaletlerde/bölgelerde, kodu temizledikten sonra belirli bir mesafe (genellikle 50-100 mil) sürmeniz gerekebilir.'
+                    : 'An active fault code will typically prevent you from passing an emissions test. You need to fix the issue before clearing the code. In some states/regions, you may need to drive a certain distance (usually 50-100 miles) after clearing the code.'
+                  }
+                </dd>
+              </>
+            )}
+            {!faqItems.some(f => /dirty.*sensor|kirli.*sensör|clean.*sensor/i.test(f.q)) && (
+              <>
+                <dt>{lang === 'tr' ? 'Kirli bir sensör bu kodu tetikleyebilir mi?' : 'Can a dirty sensor trigger this code?'}</dt>
+                <dd>
+                  {lang === 'tr'
+                    ? 'Evet, kirli veya kirlenmiş sensörler yanlış okumalara neden olabilir ve bu kodun görünmesine yol açabilir. Sensör temizliği bazen sorunu çözebilir, ancak sensör hasarlıysa değiştirilmesi gerekebilir.'
+                    : 'Yes, dirty or contaminated sensors can cause incorrect readings and trigger this code. Sensor cleaning may sometimes resolve the issue, but replacement may be needed if the sensor is damaged.'
+                  }
+                </dd>
+              </>
+            )}
+          </>
+        )}
       </section>
     )}
 
-    <RelatedCodes codes={related_codes} lang={lang} />
+    {/* 13. Pro Tips From Mechanics */}
+    <section>
+      <h2 id="pro-tips">{lang === 'tr' ? 'Teknisyenlerden Profesyonel İpuçları' : 'Pro Tips From Mechanics'}</h2>
+      <div class="article__prose">
+        {expertText.split(/\n\n+/).filter(Boolean).map((p) => (
+          <p set:html={p.replace(/\n/g, '<br />')} />
+        ))}
+        {expertText.length < 100 && (
+          <>
+            <p>
+              {lang === 'tr'
+                ? 'Yaygın hatalar: Kodu temizlemek sorunu çözmez, sadece uyarıyı gizler. Sorunun gerçek nedenini bulmak için canlı veri akışını kontrol edin. Sensör değiştirmeden önce kabloları ve bağlantıları kontrol edin—çoğu zaman sorun sensörde değil, bağlantılardadır.'
+                : 'Common mistakes: Clearing the code doesn\'t fix the issue, it only hides the warning. Check live data streams to find the real cause. Inspect wiring and connections before replacing sensors—often the problem is in the connections, not the sensor itself.'
+              }
+            </p>
+            <p>
+              {lang === 'tr'
+                ? 'Pratik tavsiye: OBD-II okuyucu ile kodu okuduktan sonra, canlı veri akışını kontrol edin. Bu, sorunun gerçek zamanlı görüntüsünü verir ve teşhisi kolaylaştırır. Elektriksel testler yaparken, araç üreticisinin teknik şartnamelerine göre çalışın.'
+                : 'Practical advice: After reading the code with an OBD-II scanner, check the live data stream. This gives you a real-time picture of the issue and makes diagnosis easier. When performing electrical tests, work according to the vehicle manufacturer\'s technical specifications.'
+              }
+            </p>
+          </>
+        )}
+      </div>
+    </section>
+
+    {/* 14. Severity Level */}
+    <section>
+      <h2 id="severity">{lang === 'tr' ? 'Ciddiyet Seviyesi' : 'Severity Level'}</h2>
+      <div class="article__prose">
+        <p>
+          <strong>{lang === 'tr' ? 'Seviye:' : 'Level:'}</strong> {severityLevel}
+        </p>
+        <p>
+          {severityLevel === (lang === 'tr' ? 'Yüksek' : 'High') ? (
+            lang === 'tr'
+              ? 'Yüksek ciddiyet: Bu kod, aracın güvenli bir şekilde çalışmasını engelleyebilecek ciddi bir sorunu gösterir. Araç kullanımından kaçının veya en kısa sürede servise gidin. Motor hasarı veya güvenlik sorunları riski vardır.'
+              : 'High severity: This code indicates a serious issue that may prevent your vehicle from operating safely. Avoid driving or get to a mechanic as soon as possible. There is a risk of engine damage or safety issues.'
+          ) : severityLevel === (lang === 'tr' ? 'Orta' : 'Medium') ? (
+            lang === 'tr'
+              ? 'Orta ciddiyet: Bu kod, performansı veya yakıt verimliliğini etkileyebilecek bir sorunu gösterir. Kısa mesafeler için dikkatli kullanabilirsiniz, ancak sorunu çözmek için servise gidin. Uzun vadede hasar riski vardır.'
+              : 'Medium severity: This code indicates an issue that may affect performance or fuel efficiency. You can drive short distances with caution, but get the issue fixed. There is a risk of damage over time.'
+          ) : (
+            lang === 'tr'
+              ? 'Düşük ciddiyet: Bu kod genellikle küçük bir sorunu gösterir ve kısa süreli kullanım genellikle güvenlidir. Ancak sorunu çözmek için servise gidin. Emisyon testlerinden geçememe riski olabilir.'
+              : 'Low severity: This code typically indicates a minor issue and short-term driving is usually safe. However, get the issue fixed. There may be a risk of failing emissions tests.'
+          )}
+        </p>
+      </div>
+    </section>
+
+    {/* 15. Real World Example */}
+    <section>
+      <h2 id="example">{lang === 'tr' ? 'Gerçek Dünya Örneği' : 'Real World Example'}</h2>
+      <div class="article__prose">
+        <p>{getRealWorldExample()}</p>
+        <p>
+          {lang === 'tr'
+            ? 'Bu senaryoda, sürücü önce kodu okutmalı ve canlı veri akışını kontrol etmelidir. Sorunun kaynağını belirlemek için elektriksel testler yapılmalı ve gerekirse ilgili bileşenler değiştirilmelidir.'
+            : 'In this scenario, the driver should first read the code and check the live data stream. Electrical tests should be performed to identify the root cause, and relevant components should be replaced if necessary.'
+          }
+        </p>
+      </div>
+    </section>
+
+    <Disclaimer lang={lang} />
   </div>
 </article>

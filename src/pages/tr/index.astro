@@ -21,24 +21,24 @@ const codes = allCodes.slice(0, 36);
       <h1 class="home-hero__title">{ui.home.title}</h1>
       <p class="home-hero__lead">{ui.home.lead1}</p>
       <p class="home-hero__lead">{ui.home.lead2}</p>
-      <form class="home-search" action={`/${ROUTES[lang].codes}/`} method="get" role="search" aria-label={ui.home.searchLabel}>
+      <form class="home-search" action={`/${ROUTES[lang].codes}`} method="get" role="search" aria-label={ui.home.searchLabel}>
         <input type="search" name="q" placeholder={ui.home.searchPlaceholder} />
         <button type="submit">Ara</button>
       </form>
     </article>
     <section class="home-code-list">
       <h2 class="home-code-list__title">{ui.home.codesTitle}</h2>
-      <p><a href={`/${ROUTES[lang].codes}/`}>{ui.home.viewAll}</a> · Aşağıda örnekler:</p>
+      <p><a href={`/${ROUTES[lang].codes}`}>{ui.home.viewAll}</a> · Aşağıda örnekler:</p>
       <div class="home-code-list__grid">
         {codes.map((fc) => (
-          <a href={`/${faultCodePath(fc.code, lang)}/`}>{fc.code}</a>
+          <a href={`/${faultCodePath(fc.code, lang)}`}>{fc.code}</a>
         ))}
       </div>
       {allCodes.length > codes.length && (
-        <p class="home-code-list__more"><a href={`/${ROUTES[lang].codes}/`}>+{allCodes.length - codes.length} {ui.home.moreCodes}</a></p>
+        <p class="home-code-list__more"><a href={`/${ROUTES[lang].codes}`}>+{allCodes.length - codes.length} {ui.home.moreCodes}</a></p>
       )}
       <p>
-        P0xxx güç aktarım kodları (P0100–P0999 ve sonrası) için açıklamalar, yaygın belirtiler, olası nedenler ve onarım önerileri sunuyoruz. İçerik yalnızca bilgi amaçlıdır; profesyonel teşhis yerine geçmez. Motor arıza lambanız yanıyorsa OBD-II okuyucu ile kodları okutun ve gerekirse yetkili bir teknisyene danışın. <a href={`/${ROUTES[lang].codes}/`}>Arıza kodu listemiz</a> arama ve kategoriye göre filtreleme ile hızlı bulmanızı sağlar.
+        P0xxx güç aktarım kodları (P0100–P0999 ve sonrası) için açıklamalar, yaygın belirtiler, olası nedenler ve onarım önerileri sunuyoruz. İçerik yalnızca bilgi amaçlıdır; profesyonel teşhis yerine geçmez. Motor arıza lambanız yanıyorsa OBD-II okuyucu ile kodları okutun ve gerekirse yetkili bir teknisyene danışın. <a href={`/${ROUTES[lang].codes}`}>Arıza kodu listemiz</a> arama ve kategoriye göre filtreleme ile hızlı bulmanızı sağlar.
       </p>
     </section>
   </div>

@@ -1,26 +1,47 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import { normalizeRoutePath } from '@lib/i18n';
 
-const lang = 'tr';
-const currentPath = '404';
+// 404 page: Only triggered when route doesn't exist
+// Detect language and path from actual URL pathname
+const rawPathname = typeof Astro.url !== 'undefined' && Astro.url?.pathname != null
+  ? Astro.url.pathname
+  : '/404';
+const pathname = normalizeRoutePath(rawPathname);
+const lang = pathname.startsWith('en') ? 'en' : 'tr';
+// Use the actual normalized pathname to ensure Layout validation passes
+// pathFromRoute === currentPath must match exactly for validation
+const currentPath = pathname;
 ---
 
 <Layout
   lang={lang}
-  title="Sayfa bulunamadı"
-  description="Aradığınız sayfa mevcut değil."
+  title={lang === 'tr' ? 'Sayfa bulunamadı' : 'Page not found'}
+  description={lang === 'tr' ? 'Aradığınız sayfa mevcut değil.' : 'The page you are looking for does not exist.'}
   noindex={true}
   currentPath={currentPath}
 >
   <div class="wrap">
     <article class="article">
-      <h1 class="article__title">Sayfa bulunamadı</h1>
-      <p>
-        Aradığınız içerik kaldırılmış veya taşınmış olabilir. <a href="/tr">Ana sayfaya</a> dönebilir veya <a href="/tr/kodlar">arıza kodu listesinden</a> arama yapabilirsiniz.
-      </p>
-      <p>
-        <a href="/en">Home (English)</a> · <a href="/en/codes">All codes (English)</a>
-      </p>
+      <h1 class="article__title">{lang === 'tr' ? 'Sayfa bulunamadı' : 'Page not found'}</h1>
+      {lang === 'tr' ? (
+        <>
+          <p>
+            Aradığınız içerik kaldırılmış veya taşınmış olabilir. <a href="/tr">Ana sayfaya</a> dönebilir veya <a href="/tr/kodlar">arıza kodu listesinden</a> arama yapabilirsiniz.
+          </p>
+          <p>
+            <a href="/en">Home (English)</a> · <a href="/en/codes">All codes (English)</a>
+          </p>
+        </>
+      ) : (
+        <>
+          <p>The content you are looking for may have been removed or moved.</p>
+          <p><a href="/en">Home</a> · <a href="/en/codes">All codes</a></p>
+          <p>
+            <a href="/tr">Ana sayfa (Türkçe)</a> · <a href="/tr/kodlar">Tüm kodlar (Türkçe)</a>
+          </p>
+        </>
+      )}
     </article>
   </div>
 </Layout>

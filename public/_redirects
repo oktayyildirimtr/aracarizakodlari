@@ -1,2 +1,5 @@
+# Trailing slash: redirect to non-slash URLs (trailingSlash: never, SEO consistency)
+/*/  /:splat  301
+
 # Root: language chosen by client-side script (Accept-Language)
-# No server redirect so index.astro can run and redirect to /tr/ or /en/
+# No server redirect so index.astro can run and redirect to /tr or /en

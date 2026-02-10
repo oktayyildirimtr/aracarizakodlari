@@ -25,19 +25,16 @@ export function normalizeRoutePath(pathname: string): string {
 
 /**
  * Builds the canonical URL for a page. Single source of truth for canonical output.
- * Trailing-slash normalization is applied here: path is normalized (no leading/trailing slashes),
- * then the result is always output with exactly one trailing slash. Call this only for the
- * current page path; only Layout.astro may emit <link rel="canonical">.
+ * Path is normalized (no leading/trailing slashes). Output has NO trailing slash (trailingSlash: never).
+ * Only Layout.astro may emit <link rel="canonical">.
  * - Host: always CANONICAL_BASE (fixed; never from request/headers/env).
- * - Always https, never www, exactly one trailing slash in output.
+ * - Always https, never www, no trailing slash in output.
  * - path: current page's exact route path only (e.g. "tr/p0141-nedir", "en/p0174-meaning"). No query or hash.
  */
 export function getCanonicalUrl(path: string): string {
   const p = normalizeRoutePath(path);
   const base = CANONICAL_BASE.replace(/\/+$/, '');
-  const url = p === '' ? `${base}/` : `${base}/${p}/`;
-  if (!url.endsWith('/')) throw new Error('[getCanonicalUrl] Output must have trailing slash.');
-  return url;
+  return p === '' ? `${base}/` : `${base}/${p}`;
 }
 
 /** Contact email displayed on site and used in schema */
@@ -252,7 +249,7 @@ export function getAlternatePath(currentPath: string, targetLang: Lang): string 
   return routeMap[page] ?? ROUTES[targetLang].home;
 }
 
-/** Build hreflang alternate URLs for a page (canonical form with trailing slash) */
+/** Build hreflang alternate URLs for a page (canonical form, no trailing slash per trailingSlash: never) */
 export function getHreflangUrls(path: string, lang: Lang): { lang: string; url: string }[] {
   const trPath = lang === 'tr' ? path : getAlternatePath(path, 'tr');
   const enPath = lang === 'en' ? path : getAlternatePath(path, 'en');
