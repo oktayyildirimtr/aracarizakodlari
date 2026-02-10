@@ -1,5 +1,3 @@
-# Trailing slash: redirect to non-slash URLs (trailingSlash: never, SEO consistency)
-/*/  /:splat  301
-
-# Root: language chosen by client-side script (Accept-Language)
-# No server redirect so index.astro can run and redirect to /tr or /en
+# Root: language chosen by client-side script (Accept-Language).
+# Not: Trailing-slash yönlendirmesi (/*/ → /:splat) Cloudflare'da döngüye yol açabiliyor;
+# sayfalar /en ve /en/ ile açılır, canonical URL'ler sitede slash'sız.
