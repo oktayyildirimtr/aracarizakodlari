@@ -14,7 +14,7 @@ export function buildMeta(input: MetaInput) {
   return {
     title,
     description: input.description,
-    canonical: canonical ?? SITE_URL + '/',
+    canonical: canonical ?? SITE_URL + '/en',
     noindex: input.noindex ?? false,
   };
 }

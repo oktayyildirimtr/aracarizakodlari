@@ -1,55 +1,13 @@
 ---
 import Layout from '@layouts/Layout.astro';
 
-// Root: redirect by region (Turkey → tr, rest → en). Canonical is site root.
+// Root "/" is redirected to /en via host _redirects (301). This page is a fallback if redirect is not applied (e.g. local dev).
 ---
 <Layout
-  lang="tr"
+  lang="en"
   title="OBD-II Arıza Kodları"
   description="OBD-II arıza kodları Türkçe rehberi. P0xxx kodlarının anlamı, hangi araçlarda görüldüğü ve tahmini onarım maliyetleri."
   currentPath=""
 >
-  <script>
-    (function () {
-      var CACHE_KEY = 'obdfaultcode_region';
-      var CACHE_HOURS = 24;
-      var lang = 'en';
-
-      function setAndRedirect(l) {
-        try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ lang: l, at: Date.now() }));
-        } catch (e) {}
-        window.location.replace('/' + l);
-      }
-
-      try {
-        var raw = localStorage.getItem(CACHE_KEY);
-        if (raw) {
-          var cached = JSON.parse(raw);
-          if (cached && cached.lang && (Date.now() - (cached.at || 0)) < CACHE_HOURS * 3600 * 1000) {
-            setAndRedirect(cached.lang);
-            return;
-          }
-        }
-      } catch (e) {}
-
-      var controller = new AbortController();
-      var timeout = setTimeout(function () { controller.abort(); }, 4000);
-      fetch('https://ip-api.com/json/?fields=countryCode', { signal: controller.signal })
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          clearTimeout(timeout);
-          lang = (data && data.countryCode === 'TR') ? 'tr' : 'en';
-          setAndRedirect(lang);
-        })
-        .catch(function () {
-          clearTimeout(timeout);
-          setAndRedirect('en');
-        });
-    })();
-  </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0; url=/en" />
-  </noscript>
-  <p>Yönlendiriliyorsunuz… <a href="/tr">Türkçe</a> · <a href="/en">English</a></p>
+  <p>If you are not redirected, go to: <a href="/en">English</a> · <a href="/tr">Türkçe</a></p>
 </Layout>

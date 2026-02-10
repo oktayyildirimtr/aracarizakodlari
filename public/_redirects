@@ -1,3 +1,3 @@
-# Root: language chosen by client-side script (Accept-Language).
-# Not: Trailing-slash yönlendirmesi (/*/ → /:splat) Cloudflare'da döngüye yol açabiliyor;
-# sayfalar /en ve /en/ ile açılır, canonical URL'ler sitede slash'sız.
+# Root → /en (301). Do not change Cloudflare HTTP→HTTPS rules.
+# Trailing-slash redirects (/*/ → /:splat) can cause loops on Cloudflare; URLs are slash-free.
+/   /en   301
