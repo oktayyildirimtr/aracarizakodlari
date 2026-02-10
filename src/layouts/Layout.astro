@@ -107,7 +107,7 @@ const siteSchemaData = {
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={metaTitle} />
     <meta name="twitter:description" content={description} />
-    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
+    {isRoot ? <meta name="robots" content="noindex, follow" /> : noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow" />}
     <script type="application/ld+json" set:html={JSON.stringify(siteSchemaData)} />
     {faqSchemaData && <script type="application/ld+json" set:html={JSON.stringify(faqSchemaData)} />}
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}

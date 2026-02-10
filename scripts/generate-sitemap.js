@@ -39,10 +39,9 @@ function escapeXml(s) {
     .replace(/'/g, '&apos;');
 }
 
-/** Statik sayfalar (sitemap-pages.xml). lastmod kullanılmıyor — yanlış tarih SEO güvenini düşürür. */
+/** Statik sayfalar (sitemap-pages.xml). "/" dahil edilmez — root noindex; /en tek canonical homepage. */
 function getStaticPageUrls() {
   return [
-    url(''),
     url('en'),
     url('tr'),
     url('en/codes'),
