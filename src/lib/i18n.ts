@@ -255,10 +255,11 @@ export function getAlternatePath(currentPath: string, targetLang: Lang): string 
 /**
  * Build hreflang alternate URLs for a page. Canonical form, no trailing slash.
  * x-default always points to the EN URL (default language for SEO).
- * Root path ('') is special: alternates are /en and /tr only.
+ * Root path ('') is special: alternates are /en and /tr only (never point to /).
  */
 export function getHreflangUrls(path: string, lang: Lang): { lang: string; url: string }[] {
-  if (path === '') {
+  // Root "/" is language selector alias: only /en and /tr, never self (/)
+  if (path === '' || path === 'index') {
     return [
       { lang: 'en', url: getCanonicalUrl('en') },
       { lang: 'tr', url: getCanonicalUrl('tr') },

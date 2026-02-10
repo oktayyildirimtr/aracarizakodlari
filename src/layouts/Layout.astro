@@ -28,8 +28,9 @@ const pathFromRoute = typeof Astro.url !== 'undefined' && Astro.url?.pathname !=
 // Use pathFromRoute (actual route) as primary source, fallback to currentPathProp
 // Always prefer the actual route pathname over the prop to ensure canonical matches the URL
 const resolvedPath = pathFromRoute ?? (currentPathProp ?? '');
-// Root (/) canonical targets /en (default language) to avoid duplicate content with /en and /tr
-const canonicalUrl = resolvedPath === '' ? getCanonicalUrl('en') : getCanonicalUrl(resolvedPath);
+// Root "/" must NOT self-canonicalize: treat as language selector alias. Canonical always /en so Google indexes /en, not /
+const isRoot = resolvedPath === '' || resolvedPath === 'index';
+const canonicalUrl = isRoot ? getCanonicalUrl('en') : getCanonicalUrl(resolvedPath);
 // Validate canonical URL format (https, no www; non-root URLs have no trailing slash per trailingSlash: never)
 if (!canonicalUrl.startsWith('https://') || canonicalUrl.includes('www.')) {
   console.warn(`[Layout] Invalid canonical URL format: ${canonicalUrl}. Expected https://, no www.`);
@@ -39,7 +40,7 @@ const ui = UI[lang];
 const siteName = ui.siteName;
 const metaTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 
-const hreflangUrls = getHreflangUrls(resolvedPath, lang);
+const hreflangUrls = getHreflangUrls(isRoot ? '' : resolvedPath, lang);
 const altPath = lang === 'tr' ? getAlternatePath(resolvedPath, 'en') : getAlternatePath(resolvedPath, 'tr');
 
 const faqSchemaData = faq.length > 0 ? {
