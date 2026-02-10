@@ -10,6 +10,7 @@ export default defineConfig({
   trailingSlash: 'never',
   compressHTML: true,
   build: {
+    format: 'file',
     inlineStylesheets: 'always',
   },
   vite: {

@@ -19,8 +19,8 @@ interface Props {
 const { lang, title, description, noindex = false, faq = [], articleSchema, breadcrumbSchema, currentPath: currentPathProp } = Astro.props;
 
 // — Canonical: single authoritative layer. Runs once per page. No other layer may emit <link rel="canonical">.
-// 1. Resolve path: route pathname (or currentPath fallback). Normalize first (strip leading/trailing slashes).
-// 2. Build canonical URL from normalized path only; getCanonicalUrl always returns trailing-slash form.
+// 1. Resolve path: route pathname (or currentPath fallback). Normalize (strip slashes and .html when build.format is 'file').
+// 2. getCanonicalUrl returns https://obdfaultcode.com/<path> with no trailing slash (trailingSlash: never).
 // 3. Emit exactly one unconditional <link rel="canonical"> below. No conditional rendering — prevents duplicates.
 const pathFromRoute = typeof Astro.url !== 'undefined' && Astro.url?.pathname != null
   ? normalizeRoutePath(Astro.url.pathname)
@@ -91,7 +91,7 @@ const siteSchemaData = {
     <meta name="generator" content={Astro.generator} />
     <title>{metaTitle}</title>
     <meta name="description" content={description} />
-    <!-- Canonical: only output here. Normalized to trailing-slash in getCanonicalUrl. Pages/components must NOT inject canonical. -->
+    <!-- Canonical: only output here. No trailing slash (trailingSlash: never). Pages/components must NOT inject canonical. -->
     <link rel="canonical" href={canonicalUrl} />
     {hreflangUrls.map(({ lang: l, url }) => (
       <link rel="alternate" hreflang={l} href={url} />

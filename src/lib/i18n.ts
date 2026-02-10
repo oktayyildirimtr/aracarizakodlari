@@ -17,10 +17,13 @@ export const CANONICAL_BASE = 'https://obdfaultcode.com';
 
 /**
  * Normalizes a route path (pathname only) to a stable form without leading/trailing slashes.
+ * Strips .html when build.format is 'file' so canonicals stay slash-free and extension-free.
  * No query or hash. Use only the path segment of the URL, never the host.
  */
 export function normalizeRoutePath(pathname: string): string {
-  return pathname.replace(/^\//, '').trim().replace(/\/+$/, '');
+  let p = pathname.replace(/^\//, '').trim().replace(/\/+$/, '');
+  if (p.endsWith('.html')) p = p.slice(0, -5);
+  return p;
 }
 
 /**
