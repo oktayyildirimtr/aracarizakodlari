@@ -1,6 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
+import { CONTACT_EMAIL, ROUTES } from '@lib/i18n';
 
 const lang = 'tr';
 const currentPath = 'tr/hakkimizda';
@@ -9,27 +9,51 @@ const currentPath = 'tr/hakkimizda';
 <Layout
   lang={lang}
   title="Hakkımızda"
-  description="OBD-II Arıza Kodları sitesi hakkında. Türkçe arıza kodu rehberi, amaç ve bilgilendirme notları."
+  description="OBD-II Arıza Kodları sitesi hakkında. Türkçe arıza kodu rehberi, amacımız, içerik standartları ve bilgilendirme notları."
   currentPath={currentPath}
 >
   <div class="wrap">
     <article class="static-page">
-      <h1 class="static-page__title">Hakkımızda</h1>
+      <header class="static-page__header">
+        <h1 class="static-page__title">Hakkımızda</h1>
+        <p class="static-page__updated">Son güncelleme: Şubat 2025</p>
+      </header>
       <div class="static-page__prose">
         <p>
-          <strong>OBD-II Arıza Kodları</strong>, teşhis cihazı veya OBD-II okuyucuyla okunan arıza kodlarının Türkçe karşılığını ve kısa açıklamalarını sunan bir rehber sitedir.
+          <strong>OBD-II Arıza Kodları</strong> (obdfaultcode.com), motor arıza lambası yandığında aracın bilgisayarının kaydettiği tanılı arıza kodlarını (DTC) sade bir dille açıklayan, bağımsız ve içerik odaklı bir web sitesidir. Amacımız, bu kodların ne anlama geldiğini tanımlar, yaygın nedenler, belirtiler ve genel onarım maliyeti rehberliğiyle birlikte sunarak sürücülerin ve teknisyenlerin hızlıca neyin yanlış olabileceğini ve sonraki adımda ne yapılabileceğini anlamasına yardımcı olmaktır.
         </p>
-        <h2>Amacımız</h2>
+
+        <h2 id="biz-kimiz">Biz Kimiz?</h2>
         <p>
-          Sürücü ve tamirci adaylarının P0xxx vb. yaygın kodların neye işaret ettiğini hızlıca görmesini sağlamak. Metinler yalnızca bilgilendirme içindir; profesyonel teşhis, tamir veya muayenenin yerini almaz.
+          Otomotiv ve içerik alanında çalışan küçük bir ekip olarak bu siteyi, birçok sürücü ve meraklı tamircinin OBD-II okuyucu ve tarama cihazı sonuçlarını anlamakta zorlandığını gördüğümüz için kurduk. Onarım kılavuzlarındaki ve bazı sitelerdeki kod tanımları çoğu zaman teknik, kısa veya dağınık. Sizin için tek bir güvenilir adreste kodu (örneğin P0171 veya P0300) arayıp net bir açıklama okuyabilmenizi, olası nedenler ve tipik onarım maliyeti aralıkları hakkında fikir edinebilmenizi istedik. Herhangi bir araç üreticisi, parça markası veya servis zinciriyle bağlantılı değiliz. İçeriğimiz yalnızca eğitim ve referans amaçlı yazılmaktadır.
         </p>
-        <h2>İçerik</h2>
+
+        <h2 id="amacimiz">Amacımız</h2>
         <p>
-          Her kod için anlam ve Türkiye için tahmini onarım maliyeti var. Açıklamalar SAE/ISO uyumlu resmi tanımlarla destekleniyor. Kesin teşhis ve onarım için mutlaka yetkili servise gidin.
+          Amacımız OBD-II teşhis bilgisini daha erişilebilir kılmaktır. Bir kodun ne anlama geldiğini anlamanın, teknisyeninizle daha iyi iletişim kurmanıza, gereksiz onarımlardan kaçınmanıza ve bir sorunu ne zaman tamir ettireceğiniz veya ikinci görüş alacağınız konusunda bilinçli karar vermenize yardımcı olduğuna inanıyoruz. En yaygın güç aktarım kodlarına (özellikle P0xxx serisi) odaklanıyor ve bunları doğru, okunabilir ve gereksiz jargon olmadan anlatıyoruz. Mümkün olduğunda tahmini onarım maliyeti aralıkları da veriyoruz; böylece kabaca ne bekleyeceğinizi bilirsiniz—gerçek maliyetler her zaman aracınıza, konumunuza ve teknisyenin bulacağı asıl nedene bağlıdır.
         </p>
-        <h2>İletişim</h2>
+
+        <h2 id="neyi-sunuyoruz">Neyi Sunuyoruz?</h2>
         <p>
-          Öneri, düzeltme veya iş birliği için <a href="/tr/iletisim">İletişim</a> sayfasından bize yazabilirsiniz.
+          Sitede her biri tek bir DTC’ye ayrılmış sayfalar bulunur: örneğin P0171 – Bank 1 Sistem Çok Yalın. Her sayfada, uygulanabilir yerlerde resmi veya standart tanım (SAE J2012 ve benzeri standartlarla uyumlu), sade dilde açıklama, yaygın belirtiler, olası nedenler ve çözüm için önerilen adımlar yer alır. Kod varken sürüşün güvenli olup olmadığına dair rehberlik ve yeterli veri olduğunda tahmini onarım maliyeti aralıkları da ekliyoruz. Parça satmıyoruz, onarım randevusu vermiyoruz veya kişiye özel teşhis sunmuyoruz. Yalnızca referans kaynağıyız.
+        </p>
+
+        <h2 id="icerik-standartlari">İçerik Standartları</h2>
+        <p>
+          Doğruluğa önem veriyoruz. Kod açıklamalarımız kamuya açık standartlar, teknik dokümantasyon ve yerleşik otomotiv bilgisine dayanır. Spekülasyondan kaçınıyoruz; bilgi genel olduğunda, araca özel olmadığını açıkça belirtiyoruz. Düzeltme aldığımızda veya yeni bilgi çıktığında sayfaları güncelliyoruz. Bir hata görür veya öneriniz olursa <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamızdan veya <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> adresinden bize yazmanızı rica ederiz. Her mesaja yanıt vereceğimizi garanti edemiyoruz ancak tüm geri bildirimleri okuyup değerlendiriyoruz.
+        </p>
+        <p>
+          Sitede Türkçe ve İngilizce içerik sunuyoruz. Her iki dilde de aynı yapıyı koruyoruz: kod tanımı, belirtiler, nedenler, çözüm önerileri ve tahmini maliyet aralıkları. Amacımız, ister sürücü ister teknisyen olun, aradığınız kodu hızlıca bulup anlamanızdır. Verdiğimiz bilgileri teknisyeninizle paylaşarak teşhis sürecini daha verimli hale getirebilirsiniz.
+        </p>
+
+        <h2 id="onemli-uyari">Önemli Uyarı</h2>
+        <p>
+          Bu sitedeki bilgiler yalnızca genel rehber niteliğindedir. Profesyonel otomotiv teşhisi, onarımı veya muayenesinin yerini almaz. Araç sistemleri marka, model ve yıla göre değişir; yalnızca aracınıza erişimi olan yetkili bir teknisyen bir arızanın asıl nedenini doğru tespit edebilir ve doğru onarımı önerebilir. Yanan motor arıza lambasını görmezden gelmeyin—güvenlik, emisyon veya performansı etkileyen sorunlara işaret edebilir. Aracınızı kuşkulu durumlarda her zaman yetkili bir profesyonel tarafından teşhis ettirip onartın.
+        </p>
+
+        <h2 id="iletisim">İletişim</h2>
+        <p>
+          İçerik hakkında sorularınız, yeni kod veya iyileştirme önerileriniz veya site hakkında geri bildiriminiz için <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamızı kullanın veya <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> adresine yazın. Yasal bilgiler için <a href={`/${ROUTES.tr.privacy}`}>Gizlilik Politikamız</a>, <a href={`/${ROUTES.tr.cookieNotice}`}>Çerez Bildirimi</a> ve <a href={`/${ROUTES.tr.terms}`}>Kullanım Koşulları</a>na bakın. Size ulaşabilmemiz için iletişim sayfamızdaki formu veya e-posta adresimizi kullanabilirsiniz.
         </p>
       </div>
     </article>

@@ -101,6 +101,25 @@ const getRealWorldExample = () => {
       </div>
     </section>
 
+    {/* Understanding OBD-II (context for readers and AdSense) */}
+    <section>
+      <h2 id="obd-context">{lang === 'tr' ? 'OBD-II ve Arıza Kodları Hakkında' : 'Understanding OBD-II and Fault Codes'}</h2>
+      <div class="article__prose">
+        <p>
+          {lang === 'tr'
+            ? 'OBD-II (On-Board Diagnostics II), 1996 sonrası birçok binek aracın motor ve emisyon sistemlerini izleyen standart bir sistemdir. Motor arıza lambası yandığında, ECU (motor kontrol ünitesi) bir veya daha fazla arıza kodu kaydeder. P ile başlayan kodlar güç aktarımı (motor, şanzıman) ile ilgilidir; bu sayfada ele alınan kod da bu kategoridedir.'
+            : 'OBD-II (On-Board Diagnostics II) is the standard system in most cars from 1996 onward that monitors the engine and emissions. When the check engine light comes on, the ECU (engine control unit) stores one or more trouble codes. Codes starting with P relate to the powertrain (engine, transmission); the code discussed on this page falls into that category.'
+          }
+        </p>
+        <p>
+          {lang === 'tr'
+            ? 'Bu bilgiler yalnızca eğitim ve bilgilendirme amaçlıdır. Kesin teşhis ve onarım için her zaman yetkili bir teknisyene veya servise başvurmanız önerilir.'
+            : 'The information here is for education and reference only. For an accurate diagnosis and repair, always consult a qualified technician or service centre.'
+          }
+        </p>
+      </div>
+    </section>
+
     {/* 2. What Does This Code Mean? */}
     <section>
       <h2 id="meaning">{lang === 'tr' ? 'Bu Kod Ne Anlama Gelir?' : 'What Does This Code Mean?'}</h2>
@@ -139,12 +158,26 @@ const getRealWorldExample = () => {
           </figcaption>
         </figure>
       )}
+      <div class="article__prose">
+        <p>
+          {lang === 'tr'
+            ? `${code} gibi bir kodun görünmesi, mutlaka çok pahalı bir onarım anlamına gelmez. Önce kodu ve olası nedenleri anlamak, sonra güvenilir bir serviste teşhis yaptırmak, hem gereksiz harcamalardan hem de gecikmeden kaynaklanan hasarlardan korunmanıza yardımcı olur.`
+            : `Seeing a code like ${code} doesn't always mean an expensive repair. Understanding what the code and its possible causes mean, then getting a proper diagnosis at a trusted shop, helps you avoid both unnecessary spending and damage from leaving the issue unchecked.`
+          }
+        </p>
+      </div>
     </section>
 
     {/* 3. Common Causes */}
     {causeItems.length > 0 && (
       <section>
         <h2 id="causes">{lang === 'tr' ? 'Yaygın Nedenler' : 'Common Causes'}</h2>
+        <p class="article__prose">
+          {lang === 'tr'
+            ? 'Aşağıdaki nedenler, bu kodun kayıt edildiği araçlarda sık görülür. Gerçek sebep aracınızda farklı olabilir; bu yüzden canlı veri ve elektriksel kontrollerle teşhis önemlidir.'
+            : 'The causes listed below are often seen in vehicles that set this code. The actual cause on your car may differ, which is why a proper diagnosis with live data and electrical checks matters.'
+          }
+        </p>
         <ul class="article__list">
           {causeItems.map((t) => <li>{t}</li>)}
         </ul>
@@ -159,6 +192,12 @@ const getRealWorldExample = () => {
         <ul class="article__list">
           {symptomItems.map((t) => <li>{t}</li>)}
         </ul>
+        <p class="article__prose">
+          {lang === 'tr'
+            ? 'Bu belirtilerden bir veya birkaçını yaşıyorsanız, önce bir OBD-II okuyucu ile kodu okuyup kaydedin. Ardından mümkün olan en kısa sürede teşhis için bir servise başvurmanız iyi olur; böylece sorun büyümeden müdahale edilebilir.'
+            : 'If you notice one or more of these symptoms, read and record the code with an OBD-II scanner first. Then plan to have the car diagnosed at a shop as soon as you can so the issue can be addressed before it gets worse.'
+          }
+        </p>
       </section>
     )}
 
@@ -203,6 +242,12 @@ const getRealWorldExample = () => {
           : 'A basic OBD-II scanner may be sufficient for simple checks, but professional equipment and experience may be needed for definitive diagnosis. Reading live data streams and performing electrical tests are crucial for identifying the root cause.'
         }
       </p>
+      <p>
+        {lang === 'tr'
+          ? 'Kodu kendiniz okuyup anlamaya çalışmak faydalıdır; ancak tamir kararı vermeden önce, özellikle elektrik veya yakıt sistemiyle ilgili kodlarda, deneyimli bir teknisyenin canlı veriyi yorumlaması ve gerekli testleri yapması çoğu zaman daha doğru sonuç verir.'
+          : 'Reading and understanding the code yourself is useful, but before deciding on repairs, having an experienced technician interpret live data and run the right tests usually leads to a more accurate outcome, especially with electrical or fuel-system related codes.'
+        }
+      </p>
     </section>
 
     {/* 7. How to Fix */}
@@ -217,6 +262,12 @@ const getRealWorldExample = () => {
           {lang === 'tr'
             ? 'Onarım yöntemi, sorunun kaynağına bağlıdır. Bazı durumlarda temizlik veya kablo tamiri yeterli olabilirken, diğerlerinde sensör veya bileşen değişimi gerekebilir. İşçilik maliyetleri ve yedek parça fiyatları, araç modeline ve bölgeye göre değişiklik gösterebilir.'
             : 'The repair method depends on the root cause. In some cases, cleaning or wiring repair may be sufficient, while others may require sensor or component replacement. Labor costs and parts prices can vary by vehicle model and location.'
+          }
+        </p>
+        <p>
+          {lang === 'tr'
+            ? 'İşi yaptıracak servisi seçerken, teşhis ücreti alan ve önce nedeni açıklayıp sonra onarım öneren yerleri tercih edin. Sadece “kodu sildik” veya “parçayı değiştirdik” demek yerine, ne bulduklarını ve neden o parçayı önerdiklerini anlatan teknisyenler genelde daha güvenilir olur.'
+            : 'When choosing a shop, look for one that charges for diagnosis and explains the cause before recommending repairs. Technicians who explain what they found and why they recommend a part, rather than just saying they cleared the code or replaced something, are usually more reliable.'
           }
         </p>
       </section>
@@ -247,6 +298,12 @@ const getRealWorldExample = () => {
                 : 'Cost estimates vary by vehicle model, year, location, and the actual root cause. Sensor replacement typically ranges from $50-200 USD, while labor can be $80-150 USD per hour. Diagnostic fees are usually around $50-100 USD. Complex issues or rare parts can lead to higher costs.'
               }
             </p>
+            <p>
+              {lang === 'tr'
+                ? 'Birden fazla servisten fiyat almak ve yapılacak işi yazılı teklifte görmek faydalıdır. Garanti kapsamında veya uzatılmış garanti ile karşılanıp karşılanmadığını da yetkili bayi veya sigorta ile kontrol etmek mantıklı olabilir.'
+                : 'Getting quotes from more than one shop and seeing the work spelled out in writing can help. It is also worth checking with your dealer or warranty provider whether the repair might be covered under warranty or an extended plan.'
+              }
+            </p>
           </div>
         </>
       ) : (
@@ -257,6 +314,12 @@ const getRealWorldExample = () => {
               {lang === 'tr'
                 ? 'Maliyet, sorunun kaynağına ve araç modeline göre değişir. Basit temizlik işlemleri $50-150 USD arasında olabilirken, sensör değişimi $100-300 USD, kompleks onarımlar ise $300-1000+ USD olabilir. Teşhis ücreti genellikle $50-100 USD civarındadır.'
                 : 'Costs vary by root cause and vehicle model. Simple cleaning procedures may range from $50-150 USD, while sensor replacement can be $100-300 USD, and complex repairs may cost $300-1000+ USD. Diagnostic fees are typically around $50-100 USD.'
+              }
+            </p>
+            <p>
+              {lang === 'tr'
+                ? 'Birden fazla servisten fiyat almak ve yapılacak işi yazılı teklifte görmek faydalıdır.'
+                : 'Getting quotes from more than one shop and seeing the work in writing can help.'
               }
             </p>
           </div>
@@ -327,6 +390,12 @@ const getRealWorldExample = () => {
           {lang === 'tr'
             ? 'Profesyonel teşhis, sorunun gerçek nedenini belirlemenize ve gereksiz parça değişimlerinden kaçınmanıza yardımcı olur.'
             : 'Professional diagnosis helps identify the true root cause and avoid unnecessary part replacements.'
+          }
+        </p>
+        <p>
+          {lang === 'tr'
+            ? 'Birçok sürücü motor arıza lambası yanınca önce internette kodu arar; bu sayfa da tam bu amaçla hazırlandı. Okuduklarınızı teknisyeninizle paylaşarak, “Bu kod çıktı, sizce nedeni ne olabilir?” diye sormak teşhis sürecini hızlandırabilir.'
+            : 'Many drivers look up the code online when the check engine light comes on; this page is here for that purpose. Sharing what you have read with your technician and asking “This code came up—what do you think could be causing it?” can make the diagnostic process smoother.'
           }
         </p>
       </div>
@@ -473,6 +542,12 @@ const getRealWorldExample = () => {
           {lang === 'tr'
             ? 'Bu senaryoda, sürücü önce kodu okutmalı ve canlı veri akışını kontrol etmelidir. Sorunun kaynağını belirlemek için elektriksel testler yapılmalı ve gerekirse ilgili bileşenler değiştirilmelidir.'
             : 'In this scenario, the driver should first read the code and check the live data stream. Electrical tests should be performed to identify the root cause, and relevant components should be replaced if necessary.'
+          }
+        </p>
+        <p>
+          {lang === 'tr'
+            ? 'Özetle: OBD-II kodları aracınızın size verdiği ipuçlarıdır. Doğru yorumlandığında hem zaman hem paradan tasarruf edebilir, hem de güvenli sürüşe katkıda bulunursunuz. Bu sayfadaki bilgiler genel rehber niteliğindedir; aracınıza özel teşhis ve onarım için mutlaka yetkili bir servise danışın.'
+            : 'In short: OBD-II codes are clues your car gives you. When interpreted correctly, they can save you time and money and help you stay safe on the road. The information on this page is a general guide; for diagnosis and repair specific to your vehicle, always consult a qualified technician.'
           }
         </p>
       </div>

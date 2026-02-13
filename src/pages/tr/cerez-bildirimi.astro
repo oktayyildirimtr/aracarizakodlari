@@ -1,6 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
+import { CONTACT_EMAIL, ROUTES } from '@lib/i18n';
 
 const lang = 'tr';
 const currentPath = 'tr/cerez-bildirimi';
@@ -9,24 +9,62 @@ const currentPath = 'tr/cerez-bildirimi';
 <Layout
   lang={lang}
   title="Çerez Bildirimi"
-  description="OBD-II Arıza Kodları sitesi çerez politikası. Hangi çerezlerin kullanıldığı ve nasıl yönetebileceğiniz hakkında bilgi."
+  description="OBD-II Arıza Kodları sitesi çerez politikası. Hangi çerezlerin kullanıldığı, neden kullandığımız ve nasıl yönetebileceğiniz hakkında açık bilgi."
   currentPath={currentPath}
 >
   <div class="wrap">
     <article class="static-page">
-      <h1 class="static-page__title">Çerez Bildirimi</h1>
-      <p class="static-page__updated">Son güncelleme: Ocak 2025</p>
+      <header class="static-page__header">
+        <h1 class="static-page__title">Çerez Bildirimi</h1>
+        <p class="static-page__updated">Son güncelleme: Şubat 2025</p>
+      </header>
       <div class="static-page__prose">
-        <p><strong>OBD-II Arıza Kodları</strong> sitesinde çerez ve benzeri teknolojiler kullanılıyor olabilir.</p>
-        <h2>Çerez nedir?</h2>
-        <p>Çerezler, tarayıcı aracılığıyla cihazınıza kaydedilen küçük metin dosyalarıdır.</p>
-        <h2>Kullandığımız çerez türleri</h2>
+        <p>
+          Bu Çerez Bildirimi, <strong>OBD-II Arıza Kodları</strong> (obdfaultcode.com) sitesini ziyaret ettiğinizde çerezler ve benzeri teknolojilerin nasıl kullanıldığını açıklar. Metni, kişisel verilerin genel olarak nasıl toplandığını ve korunduğunu anlatan <a href="/tr/gizlilik-politikasi">Gizlilik Politikamız</a> ile birlikte okumanızı öneririz. Siteyi kullanarak, aşağıda anlatıldığı şekilde çerez kullanımını kabul etmiş sayılırsınız; tarayıcı veya cihaz ayarlarınızdan çerezleri reddedebilir veya sınırlayabilirsiniz.
+        </p>
+
+        <h2 id="cerez-nedir">Çerez Nedir?</h2>
+        <p>
+          Çerezler, bir web sitesini ziyaret ettiğinizde cihazınıza (bilgisayar, tablet veya akıllı telefon) kaydedilen küçük metin dosyalarıdır. Web sitelerinin daha verimli çalışması, tercihlerinizin hatırlanması ve site sahibi veya üçüncü taraflara (örneğin analitik veya reklam hizmetleri) bilgi sağlanması için yaygın olarak kullanılırlar. Çerezler “birinci taraf” (bizim sitemiz tarafından koyulan) veya “üçüncü taraf” (Google gibi kullandığımız bir hizmet tarafından koyulan) olabilir. Benzer amaçlarla kullanılan yerel depolama, oturum depolaması ve piksel veya etiketler de benzer teknolojiler arasındadır.
+        </p>
+
+        <h2 id="neden-kullaniyoruz">Neden Çerez Kullanıyoruz?</h2>
+        <p>
+          Çerezleri ve benzer teknolojileri şu amaçlarla kullanıyoruz: (1) <strong>Zorunlu işleyiş:</strong> gezinme, yük dengeleme ve çerez onay tercihinizi hatırlama gibi temel işlevleri sağlamak; (2) <strong>Analitik ve performans:</strong> ziyaretçilerin siteyi nasıl kullandığını anlamak (hangi sayfaların görüntülendiği, sitede kalma süresi vb.) ve böylece içeriği ve performansı iyileştirmek; (3) <strong>Reklam:</strong> sitede reklam gösteriyorsak (örneğin Google AdSense ile), reklam ortaklarımız ilgili reklamları göstermek, bir reklamın kaç kez gösterileceğini sınırlamak ve kampanya etkinliğini ölçmek için çerez kullanabilir. Bu amaçlar hem birinci hem üçüncü taraf çerezleri içerebilir.
+        </p>
+
+        <h2 id="turler">Kullandığımız Çerez Türleri</h2>
         <ul>
-          <li><strong>Zorunlu:</strong> Sitenin temel işlevleri için gerekli.</li>
-          <li><strong>Reklam:</strong> Google AdSense reklam çerezleri (DoubleClick DART dahil). Gösterilen reklamları kişiselleştirmek ve etkinliğini ölçmek için kullanılır. Kişiselleştirilmiş reklamları kapatmak için <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Reklam Ayarları</a>nı kullanın.</li>
+          <li><strong>Zorunlu çerezler:</strong> Sitenin çalışması için gereklidir. Oturum veya güvenlikle ilgili çerezleri içerebilir. Genelde sizi tanımlayacak şekilde kişisel veri saklamazlar. Siteyi kullanmak istiyorsanız bu çerezleri kapatamazsınız.</li>
+          <li><strong>İşlevsel çerezler:</strong> Dil tercihi veya çerez onayı gibi yaptığınız seçimleri hatırlar ve size daha iyi bir deneyim sunar. Bunları genelde tarayıcınız veya sitemizdeki çerez bildirimi üzerinden yönetebilirsiniz.</li>
+          <li><strong>Analitik çerezler:</strong> Ziyaret sayısı, kullanıcıların sitede nasıl gezindiği ve trendlerin belirlenmesi için kullanılır. Veriler çoğu zaman toplu ve anonimdir. Birinci veya üçüncü taraf analitik hizmetleri kullanıyor olabiliriz.</li>
+          <li><strong>Reklam çerezleri:</strong> Google AdSense gibi reklam ağları kullanıyorsak, reklam göstermek, reklam performansını ölçmek ve ilgi alanına dayalı reklam profilleri oluşturmak için çerez koyabilirler. Google, DoubleClick çerezi dahil kendi çerezlerini kullanabilir. Kişiselleştirilmiş reklamları <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Reklam Ayarları</a> ve (AB için) <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener noreferrer">Your Online Choices</a> üzerinden yönetebilir veya kapatabilirsiniz. Ayrıntılar için <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google’ın reklamda çerez kullanımı</a> ve <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Gizlilik Politikası</a>na bakın.</li>
         </ul>
-        <h2>Daha fazla bilgi</h2>
-        <p><a href="/tr/gizlilik-politikasi">Gizlilik Politikası</a>na bakın. Sorularınızı <a href="/tr/iletisim">İletişim</a> sayfasından iletebilirsiniz.</p>
+
+        <h2 id="sure">Çerez Süresi</h2>
+        <p>
+          Çerezler “oturum” çerezleri (tarayıcıyı kapattığınızda silinir) veya “kalıcı” çerezler (belirli bir süre veya siz silene kadar cihazda kalır) olabilir. Süre, çereze ve hizmete göre değişir. Reklam ve analitik çerezleri çoğu zaman kalıcıdır; böylece tercihler ve istatistikler ziyaretler arasında korunabilir.
+        </p>
+
+        <h2 id="yonetim">Çerezleri Nasıl Yönetirsiniz?</h2>
+        <p>
+          Çerezleri tarayıcı ayarlarınızdan kontrol edebilir veya silebilirsiniz. Çoğu tarayıcıda hangi çerezlerin saklandığını görüntüleyebilir, tüm çerezleri engelleyebilir, yalnızca üçüncü taraf çerezlerini engelleyebilir veya tarayıcıyı kapattığınızda çerezleri silmeyi seçebilirsiniz. Çerezleri engellemek veya silmek sitenin işleyişini etkileyebilir (tercihleri tekrar ayarlamanız gerekebilir veya bazı özellikler çalışmayabilir). Daha fazla bilgi için tarayıcınızın yardım bölümüne veya <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer">aboutcookies.org</a> adresine bakın. Sitede bir çerez onay çubuğu gösteriyorsak, zorunlu olmayan çerezleri oradan kabul edebilir veya reddedebilirsiniz.
+        </p>
+
+        <h2 id="haklar">Haklarınız (KVKK / GDPR)</h2>
+        <p>
+          Avrupa Ekonomik Alanı veya benzer haklar tanıyan bir ülkede yaşıyorsanız, zorunlu olmayan çerezler için onayınızı geri çekme, belirli işlemelere itiraz etme ve verilerinize erişim, düzeltme veya silme talep etme hakkınız olabilir. Bu haklar ve nasıl kullanacağınız hakkında daha fazla bilgi için <a href="/tr/gizlilik-politikasi">Gizlilik Politikamız</a>na bakın ve <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> veya <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamız üzerinden bize yazın.
+        </p>
+
+        <h2 id="degisiklikler">Değişiklikler</h2>
+        <p>
+          Bu Çerez Bildirimi’ni uygulamalarımız veya mevzuattaki değişikliklere uyum için zaman zaman güncelleyebiliriz. Bu sayfanın başındaki “Son güncelleme” tarihi buna göre değiştirilir. Sayfayı düzenli aralıklarla incelemenizi öneririz.
+        </p>
+
+        <h2 id="iletisim">İletişim</h2>
+        <p>
+          Çerez kullanımımız hakkında sorularınız için <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> adresinden veya <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamızdan bize ulaşabilirsiniz. Gizlilik ve veri işleme hakkında daha fazla bilgi için <a href="/tr/gizlilik-politikasi">Gizlilik Politikamız</a>na bakın.
+        </p>
       </div>
     </article>
   </div>

@@ -1,6 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { SITE_URL } from '@lib/i18n';
+import { CONTACT_EMAIL, ROUTES } from '@lib/i18n';
 
 const lang = 'tr';
 const currentPath = 'tr/gizlilik-politikasi';
@@ -9,32 +9,79 @@ const currentPath = 'tr/gizlilik-politikasi';
 <Layout
   lang={lang}
   title="Gizlilik Politikası"
-  description="OBD-II Arıza Kodları sitesi gizlilik politikası. Kişisel verilerin işlenmesi ve çerez kullanımı hakkında bilgi."
+  description="OBD-II Arıza Kodları sitesi gizlilik politikası. Kişisel verilerin nasıl toplandığı, kullanıldığı ve korunduğu; KVKK ve GDPR uyumu."
   currentPath={currentPath}
 >
   <div class="wrap">
     <article class="static-page">
-      <h1 class="static-page__title">Gizlilik Politikası</h1>
-      <p class="static-page__updated">Son güncelleme: Ocak 2025</p>
+      <header class="static-page__header">
+        <h1 class="static-page__title">Gizlilik Politikası</h1>
+        <p class="static-page__updated">Son güncelleme: Şubat 2025</p>
+      </header>
       <div class="static-page__prose">
-        <p>Bu metin, <strong>OBD-II Arıza Kodları</strong> sitesinde hangi bilgilerin toplandığını, nasıl kullanıldığını ve sizin haklarınızı özetler.</p>
-        <h2>Veri sorumlusu</h2>
-        <p>Site sahibi, kişisel veri işleme faaliyetlerinde veri sorumlusudur. İletişim bilgileri <a href="/tr/iletisim">İletişim</a> sayfasında.</p>
-        <h2>Toplanan bilgiler</h2>
-        <p>Site ağırlıklı olarak statik içerik sunar. Ziyaret sırasında şu tür veriler toplanabilir:</p>
+        <p>
+          Bu Gizlilik Politikası, <strong>OBD-II Arıza Kodları</strong> (“biz”, “sitemiz” veya “site”) obdfaultcode.com adresinde web sitemizi kullandığınızda bilgilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu açıklar. Şeffaflığa ve geçerli veri koruma yasalarına (uygulandığı yerlerde Genel Veri Koruma Tüzüğü – GDPR dahil) uyuma özen gösteriyoruz. Siteyi kullanarak aşağıda açıklanan uygulamaları kabul etmiş sayılırsınız. Kabul etmiyorsanız lütfen siteyi kullanmayın.
+        </p>
+
+        <h2 id="sorumlu">Veri Sorumlusu</h2>
+        <p>
+          Bu web sitesi kapsamında kişisel verilerin işlenmesinden sorumlu veri sorumlusu, OBD-II Arıza Kodları sitesinin işletmecisidir. Bu politika veya verileriniz hakkında sorularınız için <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> veya <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamız üzerinden bize ulaşabilirsiniz.
+        </p>
+
+        <h2 id="toplanan-bilgiler">Topladığımız Bilgiler</h2>
+        <p>
+          Site ağırlıklı olarak statik ve bilgilendirme amaçlı içerik sunar. Hesap oluşturmanız veya giriş yapmanız gerekmez. Siteyi ziyaret ettiğinizde biz veya hizmet sağlayıcılarımız şu tür bilgileri toplayabilir:
+        </p>
         <ul>
-          <li><strong>Teknik veriler:</strong> IP, tarayıcı, cihaz, ziyaret edilen sayfalar.</li>
-          <li><strong>Çerezler:</strong> İşlevsellik veya tercihleriniz için kullanılan çerezler. Detay için <a href="/tr/cerez-bildirimi">Çerez Bildirimi</a>ne bakın.</li>
+          <li><strong>Teknik ve kullanım verileri:</strong> IP adresiniz, tarayıcı türü ve sürümü, cihaz türü, işletim sistemi, yönlendiren adres, ziyaret edilen sayfalar ve sitede yaklaşık geçirilen süre. Bu veriler sitenin nasıl kullanıldığını anlamamıza, teknik sorunları gidermemize ve performansı iyileştirmemize yardımcı olur.</li>
+          <li><strong>Çerezler ve benzer teknolojiler:</strong> Zorunlu işlevler (tercihlerinizi hatırlama vb.), analitik (ziyaret sayımı vb.) ve reklam ağları (ör. Google AdSense) kullanıyorsak reklam amaçlı çerezler kullanılabilir. Ayrıntılar için <a href={`/${ROUTES.tr.cookieNotice}`}>Çerez Bildirimi</a>mize bakın.</li>
+          <li><strong>İletişim formu ve e-posta:</strong> İletişim formu veya e-posta ile bize mesaj gönderirseniz, yalnızca talebinize yanıt vermek için verdiğiniz bilgileri (ad, e-posta, konu, mesaj) toplarız. Açık onayınız olmadan bu bilgiyi pazarlama için kullanmayız.</li>
         </ul>
-        <h2>İşleme amaçları</h2>
-        <p>Veriler sitenin sunulması, güvenlik, trafik analizi ve yasal yükümlülükler için işlenebilir.</p>
-        <h2>Üçüncü taraflar ve reklamlar</h2>
-        <p>Sitede Google AdSense reklam hizmeti kullanılmaktadır. Google, DoubleClick DART çerezi dahil kendi çerezleriyle reklamları kişiselleştirebilir, siteler arası gezinmeyi ölçebilir ve ilgi alanlarına göre reklam gösterebilir.</p>
-        <p>Kişiselleştirilmiş reklamları kapatmak veya tercihlerinizi yönetmek için <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Reklam Ayarları</a>nı kullanın. Daha fazla bilgi için <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">Google Reklam Ortakları Gizlilik Politikası</a>na bakın. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Gizlilik Politikası</a>.</p>
-        <h2>Haklarınız</h2>
-        <p>KVKK ve GDPR kapsamında erişim, düzeltme, silme haklarınız var. <a href="/tr/iletisim">İletişim</a> sayfasından bize yazın.</p>
-        <h2>Değişiklikler</h2>
-        <p>Politika güncellendiğinde bu sayfada yayımlanır.</p>
+
+        <h2 id="hukuki-dayanak">İşlemenin Hukuki Dayanağı (GDPR)</h2>
+        <p>
+          GDPR’ın uygulandığı yerlerde verilerinizi şu dayanaklarla işliyoruz: (1) <strong>Meşru menfaat:</strong> siteyi işletmek, iyileştirmek, güvenliği sağlamak ve kullanımı analiz etmek (ör. analitik); (2) <strong>Onay:</strong> zorunlu olmayan çerezler veya pazarlama iletişimleri kullandığımızda, yasada öngörüldüğü yerde onayınıza dayanıyoruz; (3) <strong>Sözleşme:</strong> bize ulaştığınızda talebinizi yanıtlamak için verilerinizi işliyoruz; (4) <strong>Yasal yükümlülük:</strong> yasaya uyum için veri saklamamız veya açıklamamız gereken durumlar.
+        </p>
+
+        <h2 id="amac">İşleme Amaçları</h2>
+        <p>
+          Topladığımız bilgileri şunlar için kullanıyoruz: web sitesini sunmak ve sürdürmek; içeriği ve kullanıcı deneyimini iyileştirmek; trafik ve kullanım kalıplarını analiz etmek; güvenliği sağlamak ve kötüye kullanımı önlemek; mesajlarınıza yanıt vermek; yasal yükümlülüklere uymak. Kişisel verilerinizi üçüncü taraflara satmıyoruz. Verileri yalnızca hizmet sağlayıcılarımızın (barındırma, analitik veya reklam ortakları) bizim adımıza hizmet sunması için gerekli ölçüde ve uygun sözleşmelerle, gerektiğinde onayınızla paylaşabiliriz.
+        </p>
+
+        <h2 id="reklam">Reklam ve Üçüncü Taraf Hizmetler</h2>
+        <p>
+          Sitede reklam göstermek için Google AdSense gibi üçüncü taraf reklam hizmetleri kullanıyor olabiliriz. Bu hizmetler ilgili reklamları göstermek, reklam performansını ölçmek ve ilgi alanına dayalı profiller oluşturmak için çerez ve benzer teknolojiler kullanabilir. Google, kendi politikalarında açıklandığı şekilde veri toplayıp işleyebilir. Kişiselleştirilmiş reklamları ve çerez tercihlerinizi <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Reklam Ayarları</a> üzerinden yönetebilirsiniz. Daha fazla bilgi için <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">Google’ın ortak sitelerde veri kullanımı</a> ve <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Gizlilik Politikası</a>na bakın. Bu üçüncü tarafların veri uygulamaları üzerinde kontrolümüz yoktur; politikalarını okumanızı öneririz.
+        </p>
+
+        <h2 id="saklama">Veri Saklama Süresi</h2>
+        <p>
+          Kişisel verileri yalnızca bu politikada açıklanan amaçları gerçekleştirmek veya yasa gereği gerekli olduğu sürece saklarız. Örneğin iletişim formu gönderileri takip için sınırlı bir süre tutulabilir; sunucu günlükleri ve analitik veriler trend analizi ve güvenlik için makul bir süre saklanabilir. Sonrasında verileri siler veya anonimleştiririz.
+        </p>
+
+        <h2 id="haklar">Haklarınız</h2>
+        <p>
+          Konumunuza bağlı olarak şu haklara sahip olabilirsiniz: kişisel verilerinize <strong>erişim</strong>; yanlış verilerin <strong>düzeltilmesi</strong>; belirli durumlarda <strong>silme</strong> (“unutulma hakkı”); işlemenin <strong>kısıtlanması</strong>; <strong>veri taşınabilirliği</strong>; meşru menfaate veya doğrudan pazarlamaya dayalı işlemelere <strong>itiraz</strong>; onaya dayalı işlemelerde <strong>onayı geri çekme</strong>. Ayrıca bir denetim otoritesine şikayette bulunma hakkınız olabilir. Bu hakları kullanmak için <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> veya <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamız üzerinden bize yazın. Geçerli yasada öngörülen süre içinde yanıt vereceğiz.
+        </p>
+
+        <h2 id="guvenlik">Güvenlik</h2>
+        <p>
+          Verilerinizi yetkisiz erişime, kayba veya değişikliğe karşı korumak için makul teknik ve örgütsel önlemler alıyoruz. Site HTTPS üzerinden sunulmaktadır. Mutlak güvenliği garanti etmiyoruz; siteyi kendi riskinize kullanırsınız.
+        </p>
+
+        <h2 id="cocuklar">Çocuklar</h2>
+        <p>
+          Site 16 yaşın altındaki çocuklara yönelik değildir. Bilerek çocuklardan kişisel veri toplamıyoruz. Bir çocuktan veri toplandığını düşünüyorsanız lütfen bize yazın; silmek için gerekli adımları atacağız.
+        </p>
+
+        <h2 id="degisiklikler">Politikada Değişiklikler</h2>
+        <p>
+          Bu Gizlilik Politikası’nı zaman zaman güncelleyebiliriz. Değişiklik yapıldığında bu sayfanın başındaki “Son güncelleme” tarihi güncellenir. Sayfayı düzenli aralıklarla incelemenizi öneririz. Değişikliklerden sonra siteyi kullanmaya devam etmeniz güncel politikayı kabul ettiğiniz anlamına gelir.
+        </p>
+
+        <h2 id="iletisim">İletişim</h2>
+        <p>
+          Bu Gizlilik Politikası veya kişisel verileriniz hakkında sorularınız için <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> veya <a href={`/${ROUTES.tr.contact}`}>İletişim</a> sayfamız üzerinden bize ulaşın. Çerez kullanımı için <a href={`/${ROUTES.tr.cookieNotice}`}>Çerez Bildirimi</a>mize bakın.
+        </p>
       </div>
     </article>
   </div>
