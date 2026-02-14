@@ -113,6 +113,8 @@ const siteSchemaData = {
     {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
     {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3449430023128334" crossorigin="anonymous"></script>
     <script is:inline>
       var c = localStorage.getItem('obdfaultcode_cookie_consent');
       if (c === 'accepted' || c === 'rejected') document.documentElement.classList.add('cookie-consent-accepted');
